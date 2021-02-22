@@ -66,22 +66,27 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
       );
     }
 
-    let classDeclaration = parentPath.parentPath.parentPath;
+    let classPath = parentPath.parentPath.parentPath;
 
-    if (classDeclaration.node.type !== 'ClassDeclaration') {
-      throw path.buildCodeFrameError(
-        `Attempted to use \`${options.originalName}\` to define a template for an anonymous class. Templates declared with this helper must be assigned to classes which have a name.`
+    if (classPath.node.type === 'ClassDeclaration') {
+      classPath.insertAfter(
+        t.expressionStatement(
+          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+            compiled,
+            classPath.node.id,
+          ])
+        )
+      );
+    } else {
+      classPath.replaceWith(
+        t.expressionStatement(
+          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+            compiled,
+            classPath.node,
+          ])
+        )
       );
     }
-
-    classDeclaration.insertAfter(
-      t.expressionStatement(
-        t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-          compiled,
-          classDeclaration.node.id,
-        ])
-      )
-    );
 
     parentPath.remove();
   } else {
