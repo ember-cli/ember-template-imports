@@ -1,4 +1,5 @@
 const filePath = require('path');
+const { registerRefs } = require('./util');
 
 /**
  * Supports the following syntaxes:
@@ -32,69 +33,101 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
       let varId = arrayParentPath.node.id;
       let varDeclaration = arrayParentPath.parentPath;
 
-      varDeclaration.insertAfter(
-        t.expressionStatement(
-          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-            compiled,
-            varId,
-          ])
-        )
+      registerRefs(
+        varDeclaration.insertAfter(
+          t.expressionStatement(
+            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+              compiled,
+              varId,
+            ])
+          )
+        ),
+        (newPath) => [
+          newPath.get('expression.callee'),
+          newPath.get('expression.arguments.0.callee'),
+        ]
       );
-      path.replaceWith(
-        t.callExpression(state.ensureImport('templateOnly', '@ember/component/template-only'), [
-          t.stringLiteral(filename),
-          t.stringLiteral(varId.name),
-        ])
+
+      registerRefs(
+        path.replaceWith(
+          t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
+            t.stringLiteral(filename),
+            t.stringLiteral(varId.name),
+          ])
+        ),
+        (newPath) => [newPath.get('callee')]
       );
 
       return;
     } else if (arrayParentPath.type === 'ExportDefaultDeclaration') {
       let varId = path.scope.generateUidIdentifier(filename);
 
-      arrayParentPath.insertBefore(
-        t.variableDeclaration('const', [
-          t.variableDeclarator(
-            varId,
-            t.callExpression(state.ensureImport('templateOnly', '@ember/component/template-only'), [
-              t.stringLiteral(filename),
-              t.stringLiteral(varId.name),
-            ])
-          ),
-        ])
-      );
-      arrayParentPath.insertBefore(
-        t.expressionStatement(
-          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-            compiled,
-            varId,
+      registerRefs(
+        arrayParentPath.insertBefore(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(
+              varId,
+              t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
+                t.stringLiteral(filename),
+                t.stringLiteral(varId.name),
+              ])
+            ),
           ])
-        )
+        ),
+        (newPath) => [newPath.get('declarations.0.init.callee')]
       );
+
+      registerRefs(
+        arrayParentPath.insertBefore(
+          t.expressionStatement(
+            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+              compiled,
+              varId,
+            ])
+          )
+        ),
+        (newPath) => [
+          newPath.get('expression.callee'),
+          newPath.get('expression.arguments.0.callee'),
+        ]
+      );
+
       path.replaceWith(varId);
 
       return;
     } else if (arrayParentPath.parentPath.type === 'Program') {
       let varId = path.scope.generateUidIdentifier(filename);
 
-      arrayParentPath.insertBefore(
-        t.variableDeclaration('const', [
-          t.variableDeclarator(
-            varId,
-            t.callExpression(state.ensureImport('templateOnly', '@ember/component/template-only'), [
-              t.stringLiteral(filename),
-              t.stringLiteral(varId.name),
-            ])
-          ),
-        ])
-      );
-      arrayParentPath.insertBefore(
-        t.expressionStatement(
-          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-            compiled,
-            varId,
+      registerRefs(
+        arrayParentPath.insertBefore(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(
+              varId,
+              t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
+                t.stringLiteral(filename),
+                t.stringLiteral(varId.name),
+              ])
+            ),
           ])
-        )
+        ),
+        (newPath) => [newPath.get('declarations.0.init.callee')]
       );
+
+      registerRefs(
+        arrayParentPath.insertBefore(
+          t.expressionStatement(
+            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+              compiled,
+              varId,
+            ])
+          )
+        ),
+        (newPath) => [
+          newPath.get('expression.callee'),
+          newPath.get('expression.arguments.0.callee'),
+        ]
+      );
+
       arrayParentPath.replaceWith(t.exportDefaultDeclaration(varId));
 
       return;
@@ -105,22 +138,34 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
     let classPath = path.parentPath.parentPath;
 
     if (classPath.node.type === 'ClassDeclaration') {
-      classPath.insertAfter(
-        t.expressionStatement(
-          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-            compiled,
-            classPath.node.id,
-          ])
-        )
+      registerRefs(
+        classPath.insertAfter(
+          t.expressionStatement(
+            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+              compiled,
+              classPath.node.id,
+            ])
+          )
+        ),
+        (newPath) => [
+          newPath.get('expression.callee'),
+          newPath.get('expression.arguments.0.callee'),
+        ]
       );
     } else {
-      classPath.replaceWith(
-        t.expressionStatement(
-          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-            compiled,
-            classPath.node,
-          ])
-        )
+      registerRefs(
+        classPath.replaceWith(
+          t.expressionStatement(
+            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+              compiled,
+              classPath.node,
+            ])
+          )
+        ),
+        (newPath) => [
+          newPath.parentPath.get('callee'),
+          newPath.parentPath.get('arguments.0.callee'),
+        ]
       );
     }
 
