@@ -41,6 +41,9 @@ So far, this addon supports two different potential formats:
     <MyComponent/>
   `;
   ```
+  
+For the previous version of this addon, see [this repository](https://github.com/patricklx/ember-template-imports).
+And huge thanks to @patricklx for his contributions here!
 
 ## Using Template Tags and `.gjs` Files
 
