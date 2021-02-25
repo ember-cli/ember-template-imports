@@ -49,7 +49,7 @@ a superset of standard JavaScript. In this syntax, templates are defined in
 JavaScript files directly.
 
 ```js
-// components/hello.js
+// components/hello.gjs
 <template>
   <span>Hello, {{@name}}!</span>
 </template>
@@ -60,7 +60,7 @@ This example defines a template-only component, which is the default export of
 like so:
 
 ```js
-// components/hello-world.js
+// components/hello-world.gjs
 import Hello from './hello';
 
 <template>
@@ -71,7 +71,7 @@ import Hello from './hello';
 You can also export the component explicitly:
 
 ```js
-// components/hello.js
+// components/hello.gjs
 export default <template>
   <span>Hello, {{@name}}!</span>
 </template>
@@ -137,7 +137,7 @@ Finally, to associate a template with a class-based component, you can use the
 template syntax directly in the class body:
 
 ```js
-// components/hello.js
+// components/hello.gjs
 export default class Hello {
   name = 'world';
 
