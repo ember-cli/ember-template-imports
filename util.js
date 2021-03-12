@@ -13,6 +13,8 @@ module.exports.registerRefs = (newPath, getRefPaths) => {
 
   for (let ref of refPaths) {
     let binding = ref.scope.getBinding(ref.node.name);
-    binding.reference(ref);
+    if (binding !== undefined) {
+      binding.reference(ref);
+    }
   }
 };
