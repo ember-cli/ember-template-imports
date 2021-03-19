@@ -243,9 +243,10 @@ the template to the `static template` property of the class:
 
 ```js
 // components/hello.js
+import Component from '@glimmer/component';
 import { hbs } from 'ember-template-imports';
 
-export default class Hello {
+export default class Hello extends Component {
   name = 'world';
 
   static template = hbs`
