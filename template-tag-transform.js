@@ -28,113 +28,39 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
 
   if (path.type === 'ArrayExpression') {
     let arrayParentPath = path.parentPath;
+    let varId = arrayParentPath.node.id || path.scope.generateUidIdentifier(filename);
 
-    if (arrayParentPath.type === 'VariableDeclarator') {
-      let varId = arrayParentPath.node.id;
-      let varDeclaration = arrayParentPath.parentPath;
+    const templateOnlyComponentExpression = t.callExpression(
+      state.ensureImport('setComponentTemplate', '@ember/component'),
+      [
+        compiled,
+        t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
+          t.stringLiteral(filename),
+          t.stringLiteral(varId.name),
+        ]),
+      ]
+    );
 
+    if (
+      arrayParentPath.type === 'ExpressionStatement' &&
+      arrayParentPath.parentPath.type === 'Program'
+    ) {
       registerRefs(
-        varDeclaration.insertAfter(
-          t.expressionStatement(
-            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-              compiled,
-              varId,
-            ])
-          )
-        ),
+        arrayParentPath.replaceWith(t.exportDefaultDeclaration(templateOnlyComponentExpression)),
         (newPath) => [
-          newPath.get('expression.callee'),
-          newPath.get('expression.arguments.0.callee'),
+          newPath.get('declaration.callee'),
+          newPath.get('declaration.arguments.0.callee'),
+          newPath.get('declaration.arguments.1.callee'),
         ]
       );
-
-      registerRefs(
-        path.replaceWith(
-          t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
-            t.stringLiteral(filename),
-            t.stringLiteral(varId.name),
-          ])
-        ),
-        (newPath) => [newPath.get('callee')]
-      );
-
-      return;
-    } else if (arrayParentPath.type === 'ExportDefaultDeclaration') {
-      let varId = path.scope.generateUidIdentifier(filename);
-
-      registerRefs(
-        arrayParentPath.insertBefore(
-          t.variableDeclaration('const', [
-            t.variableDeclarator(
-              varId,
-              t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
-                t.stringLiteral(filename),
-                t.stringLiteral(varId.name),
-              ])
-            ),
-          ])
-        ),
-        (newPath) => [newPath.get('declarations.0.init.callee')]
-      );
-
-      registerRefs(
-        arrayParentPath.insertBefore(
-          t.expressionStatement(
-            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-              compiled,
-              varId,
-            ])
-          )
-        ),
-        (newPath) => [
-          newPath.get('expression.callee'),
-          newPath.get('expression.arguments.0.callee'),
-        ]
-      );
-
-      path.replaceWith(varId);
-
-      return;
-    } else if (arrayParentPath.parentPath.type === 'Program') {
-      let varId = path.scope.generateUidIdentifier(filename);
-
-      registerRefs(
-        arrayParentPath.insertBefore(
-          t.variableDeclaration('const', [
-            t.variableDeclarator(
-              varId,
-              t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
-                t.stringLiteral(filename),
-                t.stringLiteral(varId.name),
-              ])
-            ),
-          ])
-        ),
-        (newPath) => [newPath.get('declarations.0.init.callee')]
-      );
-
-      registerRefs(
-        arrayParentPath.insertBefore(
-          t.expressionStatement(
-            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-              compiled,
-              varId,
-            ])
-          )
-        ),
-        (newPath) => [
-          newPath.get('expression.callee'),
-          newPath.get('expression.arguments.0.callee'),
-        ]
-      );
-
-      arrayParentPath.replaceWith(t.exportDefaultDeclaration(varId));
-
-      return;
+    } else {
+      registerRefs(path.replaceWith(templateOnlyComponentExpression), (newPath) => [
+        newPath.get('callee'),
+        newPath.get('arguments.0.callee'),
+        newPath.get('arguments.1.callee'),
+      ]);
     }
-  }
-
-  if (path.type === 'ClassProperty') {
+  } else if (path.type === 'ClassProperty') {
     let classPath = path.parentPath.parentPath;
 
     if (classPath.node.type === 'ClassDeclaration') {
@@ -172,11 +98,11 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
     path.remove();
 
     return;
+  } else {
+    throw path.buildCodeFrameError(
+      `Attempted to use \`${
+        options.debugName || options.originalName
+      }\` to define a template in an unsupported way. Templates defined using this syntax must be:\n\n1. Assigned to a variable declaration OR\n2. The default export of a file OR\n2. In the top level of the file on their own (sugar for \`export default\`) OR\n4. Used directly within a named class body`
+    );
   }
-
-  throw path.buildCodeFrameError(
-    `Attempted to use \`${
-      options.debugName || options.originalName
-    }\` to define a template in an unsupported way. Templates defined using this syntax must be:\n\n1. Assigned to a variable declaration OR\n2. The default export of a file OR\n2. In the top level of the file on their own (sugar for \`export default\`) OR\n4. Used directly within a named class body`
-  );
 };

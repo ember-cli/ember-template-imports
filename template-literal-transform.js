@@ -13,63 +13,7 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
   let { parentPath } = path;
   let filename = filePath.parse(state.file.opts.filename).name;
 
-  if (parentPath.type === 'VariableDeclarator') {
-    let varId = parentPath.node.id;
-    let varDeclaration = parentPath.parentPath;
-
-    registerRefs(
-      varDeclaration.insertAfter(
-        t.expressionStatement(
-          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-            compiled,
-            varId,
-          ])
-        )
-      ),
-      (newPath) => [newPath.get('expression.callee'), newPath.get('expression.arguments.0.callee')]
-    );
-
-    registerRefs(
-      path.replaceWith(
-        t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
-          t.stringLiteral(filename),
-          t.stringLiteral(varId.name),
-        ])
-      ),
-      (newPath) => [newPath.get('callee')]
-    );
-  } else if (parentPath.node.type === 'ExportDefaultDeclaration') {
-    let varId = path.scope.generateUidIdentifier(filename);
-
-    registerRefs(
-      parentPath.insertBefore(
-        t.variableDeclaration('const', [
-          t.variableDeclarator(
-            varId,
-            t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
-              t.stringLiteral(filename),
-              t.stringLiteral(varId.name),
-            ])
-          ),
-        ])
-      ),
-      (newPath) => [newPath.get('declarations.0.init.callee')]
-    );
-
-    registerRefs(
-      parentPath.insertBefore(
-        t.expressionStatement(
-          t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-            compiled,
-            varId,
-          ])
-        )
-      ),
-      (newPath) => [newPath.get('expression.callee'), newPath.get('expression.arguments.0.callee')]
-    );
-
-    path.replaceWith(varId);
-  } else if (parentPath.node.type === 'ClassProperty') {
+  if (parentPath.node.type === 'ClassProperty') {
     if (parentPath.node.static !== true) {
       throw path.buildCodeFrameError(
         `Attempted to use \`${options.originalName}\` with a non-static class field. Templates declared with this helper must be assigned to the \`static template\` class field`
@@ -118,8 +62,23 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
 
     parentPath.remove();
   } else {
-    throw path.buildCodeFrameError(
-      `Attempted to use \`${options.originalName}\` to define a template in an unsupported way. Templates defined using this helper must be:\n\n1. Assigned to a variable declaration OR\n2. The default export of a file OR\n3. Assigned to the \`static template\` field of a named class`
+    let varId = parentPath.node.id || path.scope.generateUidIdentifier(filename);
+
+    registerRefs(
+      path.replaceWith(
+        t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+          compiled,
+          t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
+            t.stringLiteral(filename),
+            t.stringLiteral(varId.name),
+          ]),
+        ])
+      ),
+      (newPath) => [
+        newPath.get('callee'),
+        newPath.get('arguments.0.callee'),
+        newPath.get('arguments.1.callee'),
+      ]
     );
   }
 };
