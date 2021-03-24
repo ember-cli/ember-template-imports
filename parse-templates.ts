@@ -19,6 +19,11 @@ export interface TemplateLiteralMatch {
 const escapeChar = '\\';
 const stringOrRegexDelimiter = /['"/]/;
 
+const singleLineCommentStart = /\/\//;
+const newLine = /\n/;
+const multiLineCommentStart = /\/\*/;
+const multiLineCommentEnd = /\*\//;
+
 const templateLiteralStart = /([$a-zA-Z_][0-9a-zA-Z_$]*)?`/;
 const templateLiteralEnd = /`/;
 
@@ -70,7 +75,20 @@ export function parseTemplates(
   const argumentsMatchRegex = new RegExp(`<${templateTag}[^<]*\\S[^<]*>`);
 
   const allTokens = new RegExp(
-    `["'\`/]|([$a-zA-Z_][0-9a-zA-Z_$]*)\`|\\\${|{|}|<${templateTag}[^<]*?>|<\\/${templateTag}>`,
+    [
+      singleLineCommentStart.source,
+      newLine.source,
+      multiLineCommentStart.source,
+      multiLineCommentEnd.source,
+      stringOrRegexDelimiter.source,
+      templateLiteralStart.source,
+      templateLiteralEnd.source,
+      dynamicSegmentStart.source,
+      dynamicSegmentEnd.source,
+      blockStart.source,
+      templateTagStart.source,
+      templateTagEnd.source,
+    ].join('|'),
     'g'
   );
 
@@ -93,21 +111,21 @@ export function parseTemplates(
     tokens: RegExpMatchArray[],
     isTopLevel = false
   ) {
-    if (token[0].match(stringOrRegexDelimiter)) {
-      parseStringOrRegex(results, template, token, tokens);
-    }
-
-    if (token[0].match(templateLiteralStart)) {
+    if (token[0].match(multiLineCommentStart)) {
+      parseMultiLineComment(results, template, token, tokens);
+    } else if (token[0].match(singleLineCommentStart)) {
+      parseSingleLineComment(results, template, token, tokens);
+    } else if (token[0].match(templateLiteralStart)) {
       parseTemplateLiteral(results, template, token, tokens, isTopLevel);
-    }
-
-    if (
+    } else if (
       isTopLevel &&
       templateTag !== undefined &&
       templateTagStart &&
       token[0].match(templateTagStart)
     ) {
       parseTemplateTag(results, template, token, tokens);
+    } else if (token[0].match(stringOrRegexDelimiter)) {
+      parseStringOrRegex(results, template, token, tokens);
     }
   }
 
@@ -125,6 +143,44 @@ export function parseTemplates(
       const currentToken = expect(tokens.shift(), 'expected token');
 
       if (currentToken[0] === startToken[0] && !isEscaped(template, currentToken.index)) {
+        return;
+      }
+    }
+  }
+
+  /**
+   * Parse a string or a regex. All tokens within a string or regex are ignored
+   * since there are no dynamic segments within these.
+   */
+  function parseSingleLineComment(
+    _results: TemplateMatch[],
+    _template: string,
+    _startToken: RegExpMatchArray,
+    tokens: RegExpMatchArray[]
+  ) {
+    while (tokens.length > 0) {
+      const currentToken = expect(tokens.shift(), 'expected token');
+
+      if (currentToken[0] === '\n') {
+        return;
+      }
+    }
+  }
+
+  /**
+   * Parse a string or a regex. All tokens within a string or regex are ignored
+   * since there are no dynamic segments within these.
+   */
+  function parseMultiLineComment(
+    _results: TemplateMatch[],
+    _template: string,
+    _startToken: RegExpMatchArray,
+    tokens: RegExpMatchArray[]
+  ) {
+    while (tokens.length > 0) {
+      const currentToken = expect(tokens.shift(), 'expected token');
+
+      if (currentToken[0] === '*/') {
         return;
       }
     }
