@@ -1,3 +1,12 @@
+## v1.1.1 (2021-03-25)
+
+#### :bug: Bug Fix
+* [#16](https://github.com/ember-template-imports/ember-template-imports/pull/16) Make getting the template compiler path lazy ([@pzuraq](https://github.com/pzuraq))
+
+#### Committers: 1
+- Chris Garrett ([@pzuraq](https://github.com/pzuraq))
+
+
 ## v1.1.0 (2021-03-25)
 
 #### :rocket: Enhancement
