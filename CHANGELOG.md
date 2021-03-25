@@ -1,3 +1,13 @@
+## v1.1.0 (2021-03-25)
+
+#### :rocket: Enhancement
+* [#15](https://github.com/ember-template-imports/ember-template-imports/pull/15) Update to using babel-plugin-htmlbars-inline-precompile preprocessor ([@pzuraq](https://github.com/pzuraq))
+
+#### Committers: 2
+- Chris Garrett ([@pzuraq](https://github.com/pzuraq))
+- Eric Kelly ([@HeroicEric](https://github.com/HeroicEric))
+
+
 ## v1.0.1 (2021-02-25)
 
 #### :bug: Bug Fix
