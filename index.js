@@ -1,4 +1,5 @@
 'use strict';
+require('validate-peer-dependencies')(__dirname);
 let VersionChecker = require('ember-cli-version-checker');
 
 module.exports = {
@@ -53,8 +54,12 @@ module.exports = {
 
   setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
-      let GjsCompiler = require('./lib/gjs-compiler');
-      registry.add('js', new GjsCompiler());
+      let templateCompilerPath = this.parent.addons
+        .find((a) => a.name === 'ember-cli-htmlbars')
+        .templateCompilerPath();
+
+      let TemplateImportPreprocessor = require('./lib/preprocessor-plugin');
+      registry.add('js', new TemplateImportPreprocessor(templateCompilerPath));
     }
   },
 };
