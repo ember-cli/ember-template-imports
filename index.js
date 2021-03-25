@@ -42,6 +42,10 @@ module.exports = {
         useTemplateTagProposalSemantics: 1,
       },
     };
+
+    this.templateCompilerPath = this.parent.addons
+      .find((a) => a.name === 'ember-cli-htmlbars')
+      .templateCompilerPath();
   },
 
   _getAddonOptions() {
@@ -54,12 +58,11 @@ module.exports = {
 
   setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
-      let templateCompilerPath = this.parent.addons
-        .find((a) => a.name === 'ember-cli-htmlbars')
-        .templateCompilerPath();
-
       let TemplateImportPreprocessor = require('./lib/preprocessor-plugin');
-      registry.add('js', new TemplateImportPreprocessor(templateCompilerPath));
+      registry.add(
+        'js',
+        new TemplateImportPreprocessor(() => this.templateCompilerPath)
+      );
     }
   },
 };
