@@ -5,7 +5,20 @@ import lineColumn from 'line-column';
 import { expect } from './debug';
 import { parseTemplates, TemplateMatch } from './parse-templates';
 
-interface PreprocessOptions {
+interface PreprocessOptionsEager {
+  getTemplateLocals: GetTemplateLocals;
+
+  importIdentifier?: string;
+  importPath?: string;
+  templateTag?: string;
+  templateTagReplacement?: string;
+
+  relativePath: string;
+  includeSourceMaps: boolean;
+  includeTemplateTokens: boolean;
+}
+
+interface PreprocessOptionsLazy {
   getTemplateLocalsRequirePath: string;
   getTemplateLocalsExportPath: string;
 
@@ -18,6 +31,8 @@ interface PreprocessOptions {
   includeSourceMaps: boolean;
   includeTemplateTokens: boolean;
 }
+
+type PreprocessOptions = PreprocessOptionsLazy | PreprocessOptionsEager;
 
 interface PreprocessedOutput {
   output: string;
@@ -156,24 +171,29 @@ function replaceMatch(
  */
 export default function preprocessEmbeddedTemplates(
   template: string,
-  {
-    getTemplateLocalsRequirePath,
-    getTemplateLocalsExportPath,
+  options: PreprocessOptions
+): PreprocessedOutput {
+  let getTemplateLocals: GetTemplateLocals;
 
+  const {
     importPath,
-    importIdentifier,
     templateTag,
     templateTagReplacement,
-
     includeSourceMaps,
     includeTemplateTokens,
     relativePath,
-  }: PreprocessOptions
-): PreprocessedOutput {
-  const getTemplateLocals = loadGetTemplateLocals(
-    getTemplateLocalsRequirePath,
-    getTemplateLocalsExportPath
-  );
+  } = options;
+
+  let { importIdentifier } = options;
+
+  if ('getTemplateLocals' in options) {
+    getTemplateLocals = options.getTemplateLocals;
+  } else {
+    getTemplateLocals = loadGetTemplateLocals(
+      options.getTemplateLocalsRequirePath,
+      options.getTemplateLocalsExportPath
+    );
+  }
 
   if (importPath && importIdentifier) {
     importIdentifier = findImportedName(template, importPath, importIdentifier);
