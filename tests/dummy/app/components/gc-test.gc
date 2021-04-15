@@ -1,0 +1,39 @@
+<script>
+  import { helper } from '@ember/component/helper';
+  import Component from '@glimmer/component';
+  import {action} from '@ember/object';
+  import {tracked} from '@glimmer/tracking';
+  import {on} from '@ember/modifier';
+
+  const plusOne = helper(([num]) => num + 1);
+
+  export default class Foo extends Component {
+    @tracked counter;
+
+    @action
+    inc() {
+      this.counter++;
+    }
+
+    @action
+    dec() {
+      this.counter--;
+    }
+  }
+</script>
+
+Hello, I am
+<b>
+  bold
+</b>
+!
+
+2 + 1 = {{plusOne 2}}
+
+Counter: {{this.counter}}
+<button {{on 'click' this.inc}}>
+  +
+</button>
+<button {{on 'click' this.dec}}>
+  -
+</button>

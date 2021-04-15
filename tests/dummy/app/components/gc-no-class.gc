@@ -1,0 +1,13 @@
+<script>
+  import { helper } from '@ember/component/helper';
+
+  const plusOne = helper(([num]) => num + 1);
+</script>
+
+Hello, I am
+<b>
+  bold
+</b>
+
+2 + 1 = {{plusOne 2}}
+!

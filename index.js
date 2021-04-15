@@ -58,6 +58,9 @@ module.exports = {
 
   setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
+      let GlimmerComponentPreprocessor = require('./lib/gc-preprocessor-plugin');
+      registry.add('js', new GlimmerComponentPreprocessor());
+
       let TemplateImportPreprocessor = require('./lib/preprocessor-plugin');
       registry.add(
         'js',
