@@ -1,9 +1,9 @@
 <script>
   import { helper } from '@ember/component/helper';
+  import { on } from '@ember/modifier';
+  import { action } from '@ember/object';
   import Component from '@glimmer/component';
-  import {action} from '@ember/object';
-  import {tracked} from '@glimmer/tracking';
-  import {on} from '@ember/modifier';
+  import { tracked } from '@glimmer/tracking';
 
   const plusOne = helper(([num]) => num + 1);
 
@@ -21,12 +21,6 @@
     }
   }
 </script>
-
-Hello, I am
-<b>
-  bold
-</b>
-!
 
 2 + 1 = {{plusOne 2}}
 
