@@ -29,20 +29,27 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
     let classPath = parentPath.parentPath.parentPath;
 
     if (classPath.node.type === 'ClassDeclaration') {
-      registerRefs(
-        classPath.insertAfter(
-          t.expressionStatement(
-            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-              compiled,
-              classPath.node.id,
-            ])
-          )
-        ),
-        (newPath) => [
-          newPath.get('expression.callee'),
-          newPath.get('expression.arguments.0.callee'),
-        ]
-      );
+      if (classPath.node.id === null) {
+        registerRefs(
+          classPath.replaceWith(buildClassExpression(t, state, classPath, compiled)),
+          (newPath) => [newPath.parentPath.get('declaration')]
+        );
+      } else {
+        registerRefs(
+          classPath.insertAfter(
+            t.expressionStatement(
+              t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+                compiled,
+                classPath.node.id,
+              ])
+            )
+          ),
+          (newPath) => [
+            newPath.get('expression.callee'),
+            newPath.get('expression.arguments.0.callee'),
+          ]
+        );
+      }
     } else {
       registerRefs(
         classPath.replaceWith(
@@ -82,3 +89,15 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
     );
   }
 };
+
+function buildClassExpression(t, state, classPath, compiled) {
+  return t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
+    compiled,
+    t.classExpression(
+      classPath.node.id,
+      classPath.node.superClass,
+      classPath.node.body,
+      classPath.node.decorators
+    ),
+  ]);
+}
