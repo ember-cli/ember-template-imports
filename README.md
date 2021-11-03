@@ -41,7 +41,7 @@ So far, this addon supports two different potential formats:
     <MyComponent/>
   `;
   ```
-  
+
 For the previous version of this addon, see [this repository](https://github.com/patricklx/ember-template-imports).
 And huge thanks to @patricklx for his contributions here!
 
@@ -282,6 +282,16 @@ Installation
 ```
 ember install ember-template-imports
 ```
+
+Editor Integrations
+------------------------------------------------------------------------------
+
+To get syntax highlighting inside embedded templates and support for the GJS
+file extension, you may need to configure your editor.
+
+### Visual Studio Code
+The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragpat.vscode-glimmer) plugin handles syntax highlighting for both proposed formats.
+
 
 Contributing
 ------------------------------------------------------------------------------
