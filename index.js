@@ -58,7 +58,7 @@ module.exports = {
 
   setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
-      let TemplateImportPreprocessor = require('./lib/preprocessor-plugin');
+      let TemplateImportPreprocessor = require('./src/preprocessor-plugin');
       registry.add(
         'js',
         new TemplateImportPreprocessor(() => this.templateCompilerPath)
