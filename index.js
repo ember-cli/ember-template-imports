@@ -10,9 +10,9 @@ module.exports = {
 
     let emberChecker = new VersionChecker(this.project).for('ember-source');
 
-    if (!emberChecker.gte('3.25.0')) {
+    if (!emberChecker.gte('3.27.0')) {
       throw new Error(
-        'ember-template-imports requires ember-source 3.25.0 or higher'
+        'ember-template-imports requires ember-source 3.27.0 or higher'
       );
     }
 

@@ -17,7 +17,7 @@ module('tests/integration/components/hbs', function (hooks) {
     await render(
       precompileTemplate(`<Foo @name="world" />`, {
         strictMode: true,
-        scope: { Foo },
+        scope: () => ({ Foo }),
       })
     );
 
@@ -34,7 +34,7 @@ module('tests/integration/components/hbs', function (hooks) {
     await render(
       precompileTemplate(`<Foo @name="world" />`, {
         strictMode: true,
-        scope: { Foo },
+        scope: () => ({ Foo }),
       })
     );
 
@@ -45,7 +45,7 @@ module('tests/integration/components/hbs', function (hooks) {
     await render(
       precompileTemplate(`<HbsTest />`, {
         strictMode: true,
-        scope: { HbsTest },
+        scope: () => ({ HbsTest }),
       })
     );
 
