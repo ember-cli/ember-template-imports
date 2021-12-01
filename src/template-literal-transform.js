@@ -1,7 +1,13 @@
 const filePath = require('path');
 const { registerRefs } = require('./util');
 
-module.exports.replaceTemplateLiteralProposal = function (t, path, state, compiled, options) {
+module.exports.replaceTemplateLiteralProposal = function (
+  t,
+  path,
+  state,
+  compiled,
+  options
+) {
   let version = options.useTemplateLiteralProposalSemantics;
 
   if (typeof version !== 'number' || version !== 1) {
@@ -31,17 +37,19 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
     if (classPath.node.type === 'ClassDeclaration') {
       if (classPath.node.id === null) {
         registerRefs(
-          classPath.replaceWith(buildClassExpression(t, state, classPath, compiled)),
+          classPath.replaceWith(
+            buildClassExpression(t, state, classPath, compiled)
+          ),
           (newPath) => [newPath.parentPath.get('declaration')]
         );
       } else {
         registerRefs(
           classPath.insertAfter(
             t.expressionStatement(
-              t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-                compiled,
-                classPath.node.id,
-              ])
+              t.callExpression(
+                state.ensureImport('setComponentTemplate', '@ember/component'),
+                [compiled, classPath.node.id]
+              )
             )
           ),
           (newPath) => [
@@ -54,10 +62,10 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
       registerRefs(
         classPath.replaceWith(
           t.expressionStatement(
-            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-              compiled,
-              classPath.node,
-            ])
+            t.callExpression(
+              state.ensureImport('setComponentTemplate', '@ember/component'),
+              [compiled, classPath.node]
+            )
           )
         ),
         (newPath) => [
@@ -69,17 +77,21 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
 
     parentPath.remove();
   } else {
-    let varId = parentPath.node.id || path.scope.generateUidIdentifier(filename);
+    let varId =
+      parentPath.node.id || path.scope.generateUidIdentifier(filename);
 
     registerRefs(
       path.replaceWith(
-        t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-          compiled,
-          t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
-            t.stringLiteral(filename),
-            t.stringLiteral(varId.name),
-          ]),
-        ])
+        t.callExpression(
+          state.ensureImport('setComponentTemplate', '@ember/component'),
+          [
+            compiled,
+            t.callExpression(
+              state.ensureImport('default', '@ember/component/template-only'),
+              [t.stringLiteral(filename), t.stringLiteral(varId.name)]
+            ),
+          ]
+        )
       ),
       (newPath) => [
         newPath.get('callee'),
@@ -91,13 +103,16 @@ module.exports.replaceTemplateLiteralProposal = function (t, path, state, compil
 };
 
 function buildClassExpression(t, state, classPath, compiled) {
-  return t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-    compiled,
-    t.classExpression(
-      classPath.node.id,
-      classPath.node.superClass,
-      classPath.node.body,
-      classPath.node.decorators
-    ),
-  ]);
+  return t.callExpression(
+    state.ensureImport('setComponentTemplate', '@ember/component'),
+    [
+      compiled,
+      t.classExpression(
+        classPath.node.id,
+        classPath.node.superClass,
+        classPath.node.body,
+        classPath.node.decorators
+      ),
+    ]
+  );
 }

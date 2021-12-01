@@ -52,9 +52,15 @@ type GetTemplateLocals = (template: string) => string[];
 
 function getMatchStartAndEnd(match: RegExpMatchArray) {
   return {
-    start: expect(match.index, 'Expected regular expression match to have an index'),
+    start: expect(
+      match.index,
+      'Expected regular expression match to have an index'
+    ),
     end:
-      expect(match.index, 'Expected regular expression match to have an index') + match[0].length,
+      expect(
+        match.index,
+        'Expected regular expression match to have an index'
+      ) + match[0].length,
   };
 }
 
@@ -65,7 +71,9 @@ function findImportedName(
 ): string | undefined {
   for (const $import of parseStaticImports(template)) {
     if ($import.moduleName === importPath) {
-      const match = $import.namedImports.find(({ name }) => name === importIdentifier);
+      const match = $import.namedImports.find(
+        ({ name }) => name === importIdentifier
+      );
 
       return match?.alias || match?.name;
     }
@@ -96,7 +104,10 @@ function replacementFrom(
   };
 }
 
-function loadGetTemplateLocals(path: string, exportPath: string): GetTemplateLocals {
+function loadGetTemplateLocals(
+  path: string,
+  exportPath: string
+): GetTemplateLocals {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const templateLocals = require(path);
 
@@ -140,8 +151,20 @@ function replaceMatch(
   s.overwrite(closeStart, closeEnd, newEnd);
 
   return [
-    replacementFrom(template, openStart, openEnd - openStart, newStart.length, 'start'),
-    replacementFrom(template, closeStart, closeEnd - closeStart, newEnd.length, 'end'),
+    replacementFrom(
+      template,
+      openStart,
+      openEnd - openStart,
+      newStart.length,
+      'start'
+    ),
+    replacementFrom(
+      template,
+      closeStart,
+      closeEnd - closeStart,
+      newEnd.length,
+      'end'
+    ),
   ];
 }
 
@@ -211,7 +234,10 @@ export default function preprocessEmbeddedTemplates(
   const s = new MagicString(template);
 
   for (const match of matches) {
-    if (match.type === 'template-literal' && match.tagName === importIdentifier) {
+    if (
+      match.type === 'template-literal' &&
+      match.tagName === importIdentifier
+    ) {
       replacements.push(
         ...replaceMatch(
           s,

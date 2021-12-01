@@ -95,7 +95,7 @@ export function parseTemplates(
   const tokens = Array.from(matchAll(template, allTokens));
 
   while (tokens.length > 0) {
-    const currentToken = tokens.shift()!;
+    const currentToken = tokens.shift()!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
     parseToken(results, template, currentToken, tokens, true);
   }
@@ -142,7 +142,10 @@ export function parseTemplates(
     while (tokens.length > 0) {
       const currentToken = expect(tokens.shift(), 'expected token');
 
-      if (currentToken[0] === startToken[0] && !isEscaped(template, currentToken.index)) {
+      if (
+        currentToken[0] === startToken[0] &&
+        !isEscaped(template, currentToken.index)
+      ) {
         return;
       }
     }
@@ -292,7 +295,11 @@ export function parseTemplates(
       }
 
       if (stack === 0) {
-        results.push({ type: 'template-tag', start: startToken, end: currentToken });
+        results.push({
+          type: 'template-tag',
+          start: startToken,
+          end: currentToken,
+        });
 
         return;
       }

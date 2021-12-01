@@ -14,7 +14,13 @@ const { registerRefs } = require('./util');
  *   [GLIMMER_TEMPLATE('hello')];
  * }
  */
-module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, options) {
+module.exports.replaceTemplateTagProposal = function (
+  t,
+  path,
+  state,
+  compiled,
+  options
+) {
   let version = options.useTemplateTagProposalSemantics;
 
   if (typeof version !== 'number' || version !== 1) {
@@ -28,16 +34,17 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
 
   if (path.type === 'ArrayExpression') {
     let arrayParentPath = path.parentPath;
-    let varId = arrayParentPath.node.id || path.scope.generateUidIdentifier(filename);
+    let varId =
+      arrayParentPath.node.id || path.scope.generateUidIdentifier(filename);
 
     const templateOnlyComponentExpression = t.callExpression(
       state.ensureImport('setComponentTemplate', '@ember/component'),
       [
         compiled,
-        t.callExpression(state.ensureImport('default', '@ember/component/template-only'), [
-          t.stringLiteral(filename),
-          t.stringLiteral(varId.name),
-        ]),
+        t.callExpression(
+          state.ensureImport('default', '@ember/component/template-only'),
+          [t.stringLiteral(filename), t.stringLiteral(varId.name)]
+        ),
       ]
     );
 
@@ -46,7 +53,9 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
       arrayParentPath.parentPath.type === 'Program'
     ) {
       registerRefs(
-        arrayParentPath.replaceWith(t.exportDefaultDeclaration(templateOnlyComponentExpression)),
+        arrayParentPath.replaceWith(
+          t.exportDefaultDeclaration(templateOnlyComponentExpression)
+        ),
         (newPath) => [
           newPath.get('declaration.callee'),
           newPath.get('declaration.arguments.0.callee'),
@@ -54,11 +63,14 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
         ]
       );
     } else {
-      registerRefs(path.replaceWith(templateOnlyComponentExpression), (newPath) => [
-        newPath.get('callee'),
-        newPath.get('arguments.0.callee'),
-        newPath.get('arguments.1.callee'),
-      ]);
+      registerRefs(
+        path.replaceWith(templateOnlyComponentExpression),
+        (newPath) => [
+          newPath.get('callee'),
+          newPath.get('arguments.0.callee'),
+          newPath.get('arguments.1.callee'),
+        ]
+      );
     }
   } else if (path.type === 'ClassProperty') {
     let classPath = path.parentPath.parentPath;
@@ -67,10 +79,10 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
       registerRefs(
         classPath.insertAfter(
           t.expressionStatement(
-            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-              compiled,
-              classPath.node.id,
-            ])
+            t.callExpression(
+              state.ensureImport('setComponentTemplate', '@ember/component'),
+              [compiled, classPath.node.id]
+            )
           )
         ),
         (newPath) => [
@@ -82,10 +94,10 @@ module.exports.replaceTemplateTagProposal = function (t, path, state, compiled, 
       registerRefs(
         classPath.replaceWith(
           t.expressionStatement(
-            t.callExpression(state.ensureImport('setComponentTemplate', '@ember/component'), [
-              compiled,
-              classPath.node,
-            ])
+            t.callExpression(
+              state.ensureImport('setComponentTemplate', '@ember/component'),
+              [compiled, classPath.node]
+            )
           )
         ),
         (newPath) => [
