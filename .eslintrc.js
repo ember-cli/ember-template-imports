@@ -34,6 +34,7 @@ module.exports = {
         'config/**/*.js',
         'tests/dummy/config/**/*.js',
         'lib/**/*.js',
+        'src/**/*.js',
       ],
       excludedFiles: [
         'addon/**',
@@ -50,6 +51,12 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+    },
+    {
+      files: ['*.ts'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: ['plugin:@typescript-eslint/recommended'],
     },
   ],
 };
