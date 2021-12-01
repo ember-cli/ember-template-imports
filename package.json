@@ -31,6 +31,9 @@
   "dependencies": {
     "broccoli-stew": "^3.0.0",
     "ember-cli-version-checker": "^5.1.2",
+    "line-column": "^1.0.2",
+    "parse-static-imports": "^1.1.0",
+    "string.prototype.matchall": "^4.0.6",
     "validate-peer-dependencies": "^1.1.0"
   },
   "peerDependencies": {
