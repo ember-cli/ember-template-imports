@@ -1,5 +1,5 @@
 const filePath = require('path');
-const { registerRefs } = require('./util');
+const { registerRefs, TEMPLATE_TAG_NAME } = require('./util');
 
 /**
  * Supports the following syntaxes:
@@ -14,21 +14,12 @@ const { registerRefs } = require('./util');
  *   [GLIMMER_TEMPLATE('hello')];
  * }
  */
-module.exports.replaceTemplateTagProposal = function (
+module.exports.transformTemplateTag = function (
   t,
   path,
-  state,
   compiled,
-  options
+  state
 ) {
-  let version = options.useTemplateTagProposalSemantics;
-
-  if (typeof version !== 'number' || version !== 1) {
-    throw path.buildCodeFrameError(
-      'Passed an invalid version for useTemplateTagProposalSemantics. This option must be assign a version number. The current valid version numbers are: 1'
-    );
-  }
-
   path = path.parentPath;
   let filename = filePath.parse(state.file.opts.filename).name;
 
@@ -112,9 +103,7 @@ module.exports.replaceTemplateTagProposal = function (
     return;
   } else {
     throw path.buildCodeFrameError(
-      `Attempted to use \`${
-        options.debugName || options.originalName
-      }\` to define a template in an unsupported way. Templates defined using this syntax must be:\n\n1. Assigned to a variable declaration OR\n2. The default export of a file OR\n2. In the top level of the file on their own (sugar for \`export default\`) OR\n4. Used directly within a named class body`
+      `Attempted to use \`<${TEMPLATE_TAG_NAME}>\` to define a template in an unsupported way. Templates defined using this syntax must be:\n\n1. Assigned to a variable declaration OR\n2. The default export of a file OR\n2. In the top level of the file on their own (sugar for \`export default\`) OR\n4. Used directly within a named class body`
     );
   }
 };

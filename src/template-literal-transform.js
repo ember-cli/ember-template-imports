@@ -1,34 +1,20 @@
 const filePath = require('path');
-const { registerRefs } = require('./util');
+const { registerRefs, TEMPLATE_LITERAL_IDENTIFIER } = require('./util');
 
-module.exports.replaceTemplateLiteralProposal = function (
-  t,
-  path,
-  state,
-  compiled,
-  options
-) {
-  let version = options.useTemplateLiteralProposalSemantics;
-
-  if (typeof version !== 'number' || version !== 1) {
-    throw path.buildCodeFrameError(
-      'Passed an invalid version for useTemplateLiteralProposalSemantics. This option must be assign a version number. The current valid version numbers are: 1'
-    );
-  }
-
+module.exports.transformTemplateLiteral = function (t, path, compiled, state) {
   let { parentPath } = path;
   let filename = filePath.parse(state.file.opts.filename).name;
 
   if (parentPath.node.type === 'ClassProperty') {
     if (parentPath.node.static !== true) {
       throw path.buildCodeFrameError(
-        `Attempted to use \`${options.originalName}\` with a non-static class field. Templates declared with this helper must be assigned to the \`static template\` class field`
+        `Attempted to use \`${TEMPLATE_LITERAL_IDENTIFIER}\` with a non-static class field. Templates declared with this helper must be assigned to the \`static template\` class field`
       );
     }
 
     if (parentPath.node.key.name !== 'template') {
       throw path.buildCodeFrameError(
-        `Attempted to use \`${options.originalName}\` with the ${parentPath.node.key.name} class property. Templates declared with this helper must be assigned to the \`static template\` class field`
+        `Attempted to use \`${TEMPLATE_LITERAL_IDENTIFIER}\` with the ${parentPath.node.key.name} class property. Templates declared with this helper must be assigned to the \`static template\` class field`
       );
     }
 
