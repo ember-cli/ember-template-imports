@@ -1,24 +1,19 @@
 const stew = require('broccoli-stew');
+const util = require('./util');
 const {
   preprocessEmbeddedTemplates,
 } = require('babel-plugin-htmlbars-inline-precompile');
 
 module.exports = class TemplateImportPreprocessor {
-  constructor(
-    getTemplateCompilerPath,
-    importIdentifier = 'hbs',
-    importPath = 'ember-template-imports',
-    templateTag = 'template',
-    templateTagReplacement = 'GLIMMER_TEMPLATE'
-  ) {
+  constructor(getTemplateCompilerPath) {
     this.name = 'template-imports-preprocessor';
     this.getTemplateCompilerPath = getTemplateCompilerPath;
 
     this.templateTagConfig = {
       getTemplateLocalsExportPath: '_GlimmerSyntax.getTemplateLocals',
 
-      templateTag,
-      templateTagReplacement,
+      templateTag: util.TEMPLATE_TAG_NAME,
+      templateTagReplacement: util.TEMPLATE_TAG_PLACEHOLDER,
 
       includeSourceMaps: true,
       includeTemplateTokens: true,
@@ -27,8 +22,8 @@ module.exports = class TemplateImportPreprocessor {
     this.templateLiteralConfig = {
       getTemplateLocalsExportPath: '_GlimmerSyntax.getTemplateLocals',
 
-      importIdentifier,
-      importPath,
+      importIdentifier: util.TEMPLATE_LITERAL_IDENTIFIER,
+      importPath: util.TEMPLATE_LITERAL_MODULE_SPECIFIER,
 
       includeSourceMaps: true,
       includeTemplateTokens: true,
