@@ -2,10 +2,27 @@
 // const Greeting = hbs`Hello!`;
 exports.TEMPLATE_LITERAL_IDENTIFIER = 'hbs';
 exports.TEMPLATE_LITERAL_MODULE_SPECIFIER = 'ember-template-imports';
+exports.isTemplateLiteral = (callExpressionPath) => {
+  let callee = callExpressionPath.get('callee');
+  return (
+    callee.isIdentifier() &&
+    callee.referencesImport(
+      exports.TEMPLATE_LITERAL_MODULE_SPECIFIER,
+      exports.TEMPLATE_LITERAL_IDENTIFIER
+    )
+  );
+};
 
 // const Greeting = <template>Hello</template>
 exports.TEMPLATE_TAG_NAME = 'template';
 exports.TEMPLATE_TAG_PLACEHOLDER = '__GLIMMER_TEMPLATE';
+exports.isTemplateTag = (callExpressionPath) => {
+  let callee = callExpressionPath.get('callee');
+  return (
+    callee.isIdentifier() &&
+    callee.node.name === exports.TEMPLATE_TAG_PLACEHOLDER
+  );
+};
 
 exports.buildPrecompileTemplateCall = (t, callExpressionPath, state) => {
   return t.callExpression(

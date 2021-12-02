@@ -1,11 +1,12 @@
 'use strict';
 require('validate-peer-dependencies')(__dirname);
 let VersionChecker = require('ember-cli-version-checker');
+let { addPlugin } = require('ember-cli-babel-plugin-helpers');
 
 module.exports = {
   name: require('./package').name,
 
-  included() {
+  included(includer) {
     this._super.included.apply(this, arguments);
 
     let emberChecker = new VersionChecker(this.project).for('ember-source');
@@ -15,6 +16,8 @@ module.exports = {
         'ember-template-imports requires ember-source 3.27.0 or higher'
       );
     }
+
+    addPlugin(includer, require.resolve('./src/babel-plugin'));
 
     this.templateCompilerPath = this.parent.addons
       .find((a) => a.name === 'ember-cli-htmlbars')
