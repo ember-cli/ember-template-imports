@@ -32,10 +32,10 @@ module.exports.transformTemplateLiteral = function (t, path, compiled, state) {
         registerRefs(
           classPath.insertAfter(
             t.expressionStatement(
-              t.callExpression(
-                state.ensureImport('setComponentTemplate', '@ember/component'),
-                [compiled, classPath.node.id]
-              )
+              t.callExpression(buildSetComponentTemplate(classPath, state), [
+                compiled,
+                classPath.node.id,
+              ])
             )
           ),
           (newPath) => [
@@ -48,10 +48,10 @@ module.exports.transformTemplateLiteral = function (t, path, compiled, state) {
       registerRefs(
         classPath.replaceWith(
           t.expressionStatement(
-            t.callExpression(
-              state.ensureImport('setComponentTemplate', '@ember/component'),
-              [compiled, classPath.node]
-            )
+            t.callExpression(buildSetComponentTemplate(classPath, state), [
+              compiled,
+              classPath.node,
+            ])
           )
         ),
         (newPath) => [
@@ -68,16 +68,18 @@ module.exports.transformTemplateLiteral = function (t, path, compiled, state) {
 
     registerRefs(
       path.replaceWith(
-        t.callExpression(
-          state.ensureImport('setComponentTemplate', '@ember/component'),
-          [
-            compiled,
-            t.callExpression(
-              state.ensureImport('default', '@ember/component/template-only'),
-              [t.stringLiteral(filename), t.stringLiteral(varId.name)]
+        t.callExpression(buildSetComponentTemplate(path, state), [
+          compiled,
+          t.callExpression(
+            state.importUtil.import(
+              path,
+              '@ember/component/template-only',
+              'default',
+              'templateOnly'
             ),
-          ]
-        )
+            [t.stringLiteral(filename), t.stringLiteral(varId.name)]
+          ),
+        ])
       ),
       (newPath) => [
         newPath.get('callee'),
@@ -88,9 +90,21 @@ module.exports.transformTemplateLiteral = function (t, path, compiled, state) {
   }
 };
 
+function buildSetComponentTemplate(path, state) {
+  return state.importUtil.import(
+    path,
+    '@ember/component',
+    'setComponentTemplate'
+  );
+}
+
 function buildClassExpression(t, state, classPath, compiled) {
   return t.callExpression(
-    state.ensureImport('setComponentTemplate', '@ember/component'),
+    state.importUtil.import(
+      classPath,
+      '@ember/component',
+      'setComponentTemplate'
+    ),
     [
       compiled,
       t.classExpression(

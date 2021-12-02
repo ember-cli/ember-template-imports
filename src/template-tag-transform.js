@@ -16,11 +16,11 @@ const { registerRefs, TEMPLATE_TAG_NAME } = require('./util');
  */
 module.exports.transformTemplateTag = function (
   t,
-  path,
+  templatePath,
   compiled,
   state
 ) {
-  path = path.parentPath;
+  let path = templatePath.parentPath;
   let filename = filePath.parse(state.file.opts.filename).name;
 
   if (path.type === 'ArrayExpression') {
@@ -29,11 +29,16 @@ module.exports.transformTemplateTag = function (
       arrayParentPath.node.id || path.scope.generateUidIdentifier(filename);
 
     const templateOnlyComponentExpression = t.callExpression(
-      state.ensureImport('setComponentTemplate', '@ember/component'),
+      buildSetComponentTemplate(path, state),
       [
         compiled,
         t.callExpression(
-          state.ensureImport('default', '@ember/component/template-only'),
+          state.importUtil.import(
+            templatePath,
+            '@ember/component/template-only',
+            'default',
+            'templateOnly'
+          ),
           [t.stringLiteral(filename), t.stringLiteral(varId.name)]
         ),
       ]
@@ -70,10 +75,10 @@ module.exports.transformTemplateTag = function (
       registerRefs(
         classPath.insertAfter(
           t.expressionStatement(
-            t.callExpression(
-              state.ensureImport('setComponentTemplate', '@ember/component'),
-              [compiled, classPath.node.id]
-            )
+            t.callExpression(buildSetComponentTemplate(path, state), [
+              compiled,
+              classPath.node.id,
+            ])
           )
         ),
         (newPath) => [
@@ -85,10 +90,10 @@ module.exports.transformTemplateTag = function (
       registerRefs(
         classPath.replaceWith(
           t.expressionStatement(
-            t.callExpression(
-              state.ensureImport('setComponentTemplate', '@ember/component'),
-              [compiled, classPath.node]
-            )
+            t.callExpression(buildSetComponentTemplate(path, state), [
+              compiled,
+              classPath.node,
+            ])
           )
         ),
         (newPath) => [
@@ -107,3 +112,11 @@ module.exports.transformTemplateTag = function (
     );
   }
 };
+
+function buildSetComponentTemplate(path, state) {
+  return state.importUtil.import(
+    path,
+    '@ember/component',
+    'setComponentTemplate'
+  );
+}
