@@ -2,8 +2,51 @@ const stew = require('broccoli-stew');
 const util = require('./util');
 const {
   preprocessEmbeddedTemplates,
-} = require('babel-plugin-htmlbars-inline-precompile');
+} = require('../lib/preprocess-embedded-templates');
 
+/**
+ * This preprocessor operates on source files as raw strings, converting
+ * tagged template strings and embedded `<template>` tags like these:
+ *
+ * ```js
+ * import { hbs } from 'ember-template-imports';
+ *
+ * const ComponentA = hbs`
+ *   <Greeting />, World!
+ * `;
+ *
+ * const ComponentB = <template>
+ *   <Greeting />, World!
+ * </template>;
+ *
+ * class ComponentC {
+ *   <template>
+ *     <Greeting />, World!
+ *   </template>
+ * }
+ * ```
+ *
+ * Into an intermediate representation like this that can be further
+ * processed in our Babel plugin.
+ *
+ * ```js
+ * import { hbs } from 'ember-template-imports';
+ *
+ * const ComponentA = hbs(`
+ *   <Greeting />, World!
+ * `, { strictMode: true, scope: () => ({ Greeting }) });
+ *
+ * const ComponentB = [__GLIMMER_TEMPLATE(`
+ *   <Greeting />, World!
+ * `, { strictMode: true, scope: () => ({ Greeting }) })];
+ *
+ * class ComponentC {
+ *   [__GLIMMER_TEMPLATE(`
+ *     <Greeting />, World!
+ *   `, { strictMode: true, scope: () => ({ Greeting }) })]
+ * }
+ * ```
+ */
 module.exports = class TemplateImportPreprocessor {
   constructor(getTemplateCompilerPath) {
     this.name = 'template-imports-preprocessor';
