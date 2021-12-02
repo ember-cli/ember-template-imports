@@ -140,12 +140,12 @@ function replaceMatch(
       .join(',');
 
     if (tokensString.length > 0) {
-      options = `, { scope() { return {${tokensString}}; } }`;
+      options = `, scope: () => ({${tokensString}})`;
     }
   }
 
   const newStart = `${startReplacement}\``;
-  const newEnd = `\`${options}${endReplacement}`;
+  const newEnd = `\`, { strictMode: true${options} }${endReplacement}`;
 
   s.overwrite(openStart, openEnd, newStart);
   s.overwrite(closeStart, closeEnd, newEnd);
