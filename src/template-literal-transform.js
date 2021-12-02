@@ -1,8 +1,13 @@
 const filePath = require('path');
-const { registerRefs, TEMPLATE_LITERAL_IDENTIFIER } = require('./util');
+const {
+  registerRefs,
+  TEMPLATE_LITERAL_IDENTIFIER,
+  buildPrecompileTemplateCall,
+} = require('./util');
 
-module.exports.transformTemplateLiteral = function (t, path, compiled, state) {
+module.exports.transformTemplateLiteral = function (t, path, state) {
   let { parentPath } = path;
+  let compiled = buildPrecompileTemplateCall(t, path, state);
   let filename = filePath.parse(state.file.opts.filename).name;
 
   if (parentPath.node.type === 'ClassProperty') {

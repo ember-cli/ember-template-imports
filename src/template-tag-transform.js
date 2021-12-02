@@ -1,5 +1,9 @@
 const filePath = require('path');
-const { registerRefs, TEMPLATE_TAG_NAME } = require('./util');
+const {
+  registerRefs,
+  TEMPLATE_TAG_NAME,
+  buildPrecompileTemplateCall,
+} = require('./util');
 
 /**
  * Supports the following syntaxes:
@@ -14,12 +18,8 @@ const { registerRefs, TEMPLATE_TAG_NAME } = require('./util');
  *   [GLIMMER_TEMPLATE('hello')];
  * }
  */
-module.exports.transformTemplateTag = function (
-  t,
-  templatePath,
-  compiled,
-  state
-) {
+module.exports.transformTemplateTag = function (t, templatePath, state) {
+  let compiled = buildPrecompileTemplateCall(t, templatePath, state);
   let path = templatePath.parentPath;
   let filename = filePath.parse(state.file.opts.filename).name;
 

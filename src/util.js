@@ -1,12 +1,24 @@
 // import { hbs } from 'ember-template-imports';
-module.exports.TEMPLATE_LITERAL_IDENTIFIER = 'hbs';
-module.exports.TEMPLATE_LITERAL_MODULE_SPECIFIER = 'ember-template-imports';
+// const Greeting = hbs`Hello!`;
+exports.TEMPLATE_LITERAL_IDENTIFIER = 'hbs';
+exports.TEMPLATE_LITERAL_MODULE_SPECIFIER = 'ember-template-imports';
 
-// <template>Hello</template>
-module.exports.TEMPLATE_TAG_NAME = 'template';
-module.exports.TEMPLATE_TAG_PLACEHOLDER = '__GLIMMER_TEMPLATE';
+// const Greeting = <template>Hello</template>
+exports.TEMPLATE_TAG_NAME = 'template';
+exports.TEMPLATE_TAG_PLACEHOLDER = '__GLIMMER_TEMPLATE';
 
-module.exports.registerRefs = (newPath, getRefPaths) => {
+exports.buildPrecompileTemplateCall = (t, callExpressionPath, state) => {
+  return t.callExpression(
+    state.importUtil.import(
+      callExpressionPath.get('callee'),
+      '@ember/template-compilation',
+      'precompileTemplate'
+    ),
+    callExpressionPath.node.arguments
+  );
+};
+
+exports.registerRefs = (newPath, getRefPaths) => {
   if (Array.isArray(newPath)) {
     if (newPath.length > 1) {
       throw new Error(
