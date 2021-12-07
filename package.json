@@ -99,7 +99,10 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "before": "ember-cli-htmlbars"
+    "before": [
+      "ember-cli-htmlbars",
+      "ember-cli-babel"
+    ]
   },
   "release-it": {
     "plugins": {
