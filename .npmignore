@@ -2,6 +2,10 @@
 /dist/
 /tmp/
 
+# TypeScript
+/src/**/*.ts
+/lib/tsconfig.tsbuildinfo
+
 # dependencies
 /bower_components/
 

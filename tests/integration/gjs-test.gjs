@@ -15,7 +15,7 @@ module('tests/integration/components/gjs', function (hooks) {
     await render(
       precompileTemplate(`<Foo @name="world" />`, {
         strictMode: true,
-        scope: { Foo },
+        scope: () => ({ Foo }),
       })
     );
 
@@ -32,7 +32,7 @@ module('tests/integration/components/gjs', function (hooks) {
     await render(
       precompileTemplate(`<Foo @name="world" />`, {
         strictMode: true,
-        scope: { Foo },
+        scope: () => ({ Foo }),
       })
     );
 
@@ -43,7 +43,7 @@ module('tests/integration/components/gjs', function (hooks) {
     await render(
       precompileTemplate(`<GjsTest />`, {
         strictMode: true,
-        scope: { GjsTest },
+        scope: () => ({ GjsTest }),
       })
     );
 
