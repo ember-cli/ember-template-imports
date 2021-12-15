@@ -1,3 +1,12 @@
+## v2.0.0 (2021-12-15)
+
+#### :boom: Breaking Change
+* [#25](https://github.com/ember-template-imports/ember-template-imports/pull/25) Support Embroider + HTMLBars 6 ([@dfreeman](https://github.com/dfreeman))
+
+#### Committers: 1
+- Dan Freeman ([@dfreeman](https://github.com/dfreeman))
+
+
 ## v1.1.1 (2021-03-25)
 
 #### :bug: Bug Fix
