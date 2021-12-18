@@ -4,6 +4,7 @@ import { render } from '@ember/test-helpers';
 import { precompileTemplate } from '@ember/template-compilation';
 import Component from '@glimmer/component';
 
+import GetService from 'dummy/helpers/get-service';
 import GjsTest from 'dummy/components/gjs-test';
 
 module('tests/integration/components/gjs', function (hooks) {
@@ -48,5 +49,20 @@ module('tests/integration/components/gjs', function (hooks) {
     );
 
     assert.equal(this.element.textContent.trim(), 'Hello, world!');
+  });
+
+  test('it works with ember helpers', async function (assert) {
+    await render(
+      precompileTemplate(`
+        {{#let (service 'router') as |router|}}
+          {{router.currentRouteName}} hi
+        {{/let}}
+        `, {
+        strictMode: true,
+        scope: () => ({ service: GetService }),
+      })
+    );
+
+    assert.equal(this.element.textContent.trim(), 'index hi');
   });
 });
