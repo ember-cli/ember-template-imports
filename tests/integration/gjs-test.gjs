@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import { precompileTemplate } from '@ember/template-compilation';
 import Component from '@glimmer/component';
 
-import GetService from 'dummy/helpers/service';
+import service from 'dummy/helpers/service';
 import GjsTest from 'dummy/components/gjs-test';
 
 module('tests/integration/components/gjs', function (hooks) {
@@ -59,7 +59,7 @@ module('tests/integration/components/gjs', function (hooks) {
         {{/let}}
         `, {
         strictMode: true,
-        scope: () => ({ service: GetService }),
+        scope: () => ({ service }),
       })
     );
 
