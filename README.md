@@ -41,7 +41,7 @@ So far, this addon supports two different potential formats:
     <MyComponent/>
   `;
   ```
-  
+
 For the previous version of this addon, see [this repository](https://github.com/patricklx/ember-template-imports).
 And huge thanks to @patricklx for his contributions here!
 
@@ -267,6 +267,23 @@ standard JS template literal syntax:
   the class. It is compiled away, and so it cannot be directly referenced or
   dynamically modified/assigned.
 
+
+## Reference: built-in helpers, modifiers, components
+
+As implemented as part of the [Strict Mode Templates RFC](rfc-496), the built in
+helpers, modifiers and components are available for import:
+
+* `array` (`import { array } from '@ember/helper`)
+* `concat` (`import { concat } from '@ember/helper`)
+* `fn` (`import { fn } from '@ember/helper`)
+* `get` (`import { get } from '@ember/helper`)
+* `hash` (`import { hash } from '@ember/helper`)
+* `on` (`import { on } from '@ember/modifier'`)
+* `Input` (`import { Input } from '@ember/component`)
+* `LinkTo` (`import { LinkTo } from '@ember/routing`)
+* `TextArea` (`import { TextArea } from '@ember/component'`)
+
+[rfc-496]: https://github.com/emberjs/rfcs/pull/496
 
 Compatibility
 ------------------------------------------------------------------------------
