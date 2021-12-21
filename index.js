@@ -1,7 +1,7 @@
 'use strict';
 require('validate-peer-dependencies')(__dirname);
 let VersionChecker = require('ember-cli-version-checker');
-let { addPlugin } = require('ember-cli-babel-plugin-helpers');
+let { addPlugin, hasPlugin } = require('ember-cli-babel-plugin-helpers');
 
 module.exports = {
   name: require('./package').name,
@@ -17,7 +17,11 @@ module.exports = {
       );
     }
 
-    addPlugin(includer, require.resolve('./src/babel-plugin'));
+    let pluginPath = require.resolve('./src/babel-plugin');
+
+    if (!hasPlugin(includer, pluginPath)) {
+      addPlugin(includer, pluginPath);
+    }
 
     this.templateCompilerPath = this.parent.addons
       .find((a) => a.name === 'ember-cli-htmlbars')
