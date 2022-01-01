@@ -1,3 +1,16 @@
+## v2.0.1 (2022-01-01)
+
+#### :bug: Bug Fix
+* [#30](https://github.com/ember-template-imports/ember-template-imports/pull/30) declare magic string dependency ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* [#29](https://github.com/ember-template-imports/ember-template-imports/pull/29) Do not add the babel plugin if it's already present ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :memo: Documentation
+* [#27](https://github.com/ember-template-imports/ember-template-imports/pull/27) Add reference for built-in helpers/modifiers/components ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+
 ## v2.0.0 (2021-12-15)
 
 #### :boom: Breaking Change
