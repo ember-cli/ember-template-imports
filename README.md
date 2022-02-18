@@ -301,6 +301,24 @@ Installation
 ember install ember-template-imports
 ```
 
+Editor Integrations
+------------------------------------------------------------------------------
+
+To get syntax highlighting inside embedded templates and support for the GJS
+file extension, you may need to configure your editor.
+
+### Visual Studio Code
+The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragpat.vscode-glimmer) plugin handles syntax highlighting for both proposed formats.
+
+### Neovim
+
+[Example Neovim Config](https://github.com/NullVoxPopuli/dotfiles/blob/master/home/.config/nvim/lua/plugins.lua#L69) with support for good highlighting of embedded templates in JS and TS, using:
+
+- https://github.com/nvim-treesitter/nvim-treesitter
+- https://github.com/alexlafroscia/tree-sitter-glimmer
+
+
+
 Contributing
 ------------------------------------------------------------------------------
 
