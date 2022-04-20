@@ -270,7 +270,7 @@ standard JS template literal syntax:
 
 ## Reference: built-in helpers, modifiers, components
 
-As implemented as part of the [Strict Mode Templates RFC](rfc-496), the built in
+As implemented as part of the [Strict Mode Templates RFC][rfc-496], the built in
 helpers, modifiers and components are available for import:
 
 * `array` (`import { array } from '@ember/helper';`)
