@@ -3,11 +3,16 @@
     "incremental": true,
     "target": "es2016",
     "module": "commonjs",
+    "rootDir": "src",
     "outDir": "lib",
     "moduleResolution": "node",
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true
-  }
+  },
+  "include": [
+    "src/**/*",
+    "local-types/**/*"
+  ],
 }
