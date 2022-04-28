@@ -47,6 +47,8 @@ jobs:
       run: yarn install --network-timeout 60000
     - name: build
       run: yarn build
+    - name: jest
+      run: yarn test:jest
     - name: ember test
       run: yarn test:ember
 
@@ -65,6 +67,8 @@ jobs:
       run: yarn install --ignore-lockfile
     - name: build
       run: yarn build
+    - name: jest
+      run: yarn test:jest
     - name: ember test
       run: yarn test:ember
 

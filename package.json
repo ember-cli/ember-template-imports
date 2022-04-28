@@ -26,6 +26,7 @@
     "prepack": "npm run build",
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
+    "test:jest": "jest",
     "test:ember": "ember test",
     "test:ember-compatibility": "ember try:each"
   },
@@ -49,6 +50,7 @@
     "@embroider/test-setup": "^0.47.2",
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
+    "@types/jest": "^27.4.1",
     "@types/line-column": "^1.0.0",
     "@types/string.prototype.matchall": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
@@ -79,6 +81,7 @@
     "eslint-plugin-ember": "^10.2.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^27.0.0",
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
@@ -86,6 +89,7 @@
     "qunit-dom": "^1.6.0",
     "release-it": "^14.2.1",
     "release-it-lerna-changelog": "^3.1.0",
+    "ts-jest": "^27.1.4",
     "typescript": "^4.5.2",
     "webpack": "^5.64.4"
   },
