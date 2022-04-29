@@ -1,5 +1,6 @@
 import matchAll from 'string.prototype.matchall';
 import { expect } from './debug';
+import parseStaticImports from 'parse-static-imports';
 
 export type TemplateMatch = TemplateTagMatch | TemplateLiteralMatch;
 
@@ -14,6 +15,16 @@ export interface TemplateLiteralMatch {
   tagName: string;
   start: RegExpMatchArray;
   end: RegExpMatchArray;
+}
+
+export interface StaticImportConfig {
+  importPath: string;
+  importIdentifier: string;
+}
+
+export interface ParseTemplatesOptions {
+  templateTag: string;
+  templateLiteral: StaticImportConfig[];
 }
 
 const escapeChar = '\\';
@@ -66,13 +77,25 @@ function isEscaped(template: string, _offset: number | undefined) {
 export function parseTemplates(
   template: string,
   relativePath: string,
-  templateTag?: string
+  options?: string | ParseTemplatesOptions
 ): TemplateMatch[] {
   const results: TemplateMatch[] = [];
+  let templateTag: string | undefined = undefined;
+  let templateLiteralConfig: StaticImportConfig[] | undefined = undefined;
+  if (typeof options === 'string') {
+    templateTag = options;
+  } else if (options && 'templateTag' in options) {
+    templateLiteralConfig = options.templateLiteral;
+  }
 
   const templateTagStart = new RegExp(`<${templateTag}[^<]*>`);
   const templateTagEnd = new RegExp(`</${templateTag}>`);
   const argumentsMatchRegex = new RegExp(`<${templateTag}[^<]*\\S[^<]*>`);
+
+  let importedNames : string[] = [];
+  if (templateLiteralConfig) {
+    importedNames = findImportedNames(template, templateLiteralConfig);
+  }
 
   const allTokens = new RegExp(
     [
@@ -116,7 +139,7 @@ export function parseTemplates(
     } else if (token[0].match(singleLineCommentStart)) {
       parseSingleLineComment(results, template, token, tokens);
     } else if (token[0].match(templateLiteralStart)) {
-      parseTemplateLiteral(results, template, token, tokens, isTopLevel);
+      parseTemplateLiteral(results, template, token, tokens, isTopLevel, importedNames);
     } else if (
       isTopLevel &&
       templateTag !== undefined &&
@@ -200,7 +223,8 @@ export function parseTemplates(
     template: string,
     startToken: RegExpMatchArray,
     tokens: RegExpMatchArray[],
-    isTopLevel = false
+    isTopLevel = false,
+    importedNames: string[]
   ) {
     let hasDynamicSegment = false;
 
@@ -223,13 +247,16 @@ export function parseTemplates(
             currentToken = ['`'];
             currentToken.index = index + tokenStr.length - 1;
           }
-
-          results.push({
-            type: 'template-literal',
-            tagName: startToken[1],
-            start: startToken,
-            end: currentToken,
-          });
+          const tagName = startToken[1];
+          if (!templateLiteralConfig || (templateLiteralConfig && importedNames.includes(tagName))) {
+            results.push({
+              type: 'template-literal',
+              tagName,
+              start: startToken,
+              end: currentToken,
+            });
+          }
+          
         }
 
         return;
@@ -307,4 +334,34 @@ export function parseTemplates(
   }
 
   return results;
+}
+
+// TODO: this should probably be in util.js?
+function findImportedNames(
+  template: string,
+  importConfig: StaticImportConfig[],
+): string[] {
+  const importedNames = [];
+  for (const $import of parseStaticImports(template)) {
+    const config = findImportConfigByImportPath(importConfig, $import.moduleName);
+    if (config) {
+      const { importPath, importIdentifier} = config;
+      if ($import.moduleName === importPath) {
+        const match = $import.namedImports.find(
+          ({ name }) => name === importIdentifier
+        );
+        if (match) {
+          importedNames.push(match.alias || match.name);
+        }
+      }
+    }
+  }
+  return importedNames;
+}
+
+function findImportConfigByImportPath(
+  importConfig: StaticImportConfig[],
+  importPath: string
+): StaticImportConfig | undefined {
+  return importConfig.find( config => config.importPath === importPath);
 }
