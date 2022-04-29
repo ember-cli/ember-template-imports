@@ -1,9 +1,12 @@
 import MagicString from 'magic-string';
 import path from 'path';
-import parseStaticImports from 'parse-static-imports';
 import lineColumn from 'line-column';
 import { expect } from './debug';
-import { parseTemplates, TemplateMatch } from './parse-templates';
+import {
+  parseTemplates,
+  ParseTemplatesOptions,
+  TemplateMatch,
+} from './parse-templates';
 
 interface PreprocessOptionsEager {
   getTemplateLocals: GetTemplateLocals;
@@ -62,24 +65,6 @@ function getMatchStartAndEnd(match: RegExpMatchArray) {
         'Expected regular expression match to have an index'
       ) + match[0].length,
   };
-}
-
-function findImportedName(
-  template: string,
-  importPath: string,
-  importIdentifier: string
-): string | undefined {
-  for (const $import of parseStaticImports(template)) {
-    if ($import.moduleName === importPath) {
-      const match = $import.namedImports.find(
-        ({ name }) => name === importIdentifier
-      );
-
-      return match?.alias || match?.name;
-    }
-  }
-
-  return undefined;
 }
 
 function replacementFrom(
@@ -207,7 +192,7 @@ export function preprocessEmbeddedTemplates(
     relativePath,
   } = options;
 
-  let { importIdentifier } = options;
+  const { importIdentifier } = options;
 
   if ('getTemplateLocals' in options) {
     getTemplateLocals = options.getTemplateLocals;
@@ -218,18 +203,20 @@ export function preprocessEmbeddedTemplates(
     );
   }
 
-  if (importPath && importIdentifier) {
-    importIdentifier = findImportedName(template, importPath, importIdentifier);
+  const parseTemplatesOptions: ParseTemplatesOptions = {
+    templateTag,
+  };
 
-    if (!importIdentifier) {
-      return {
-        output: template,
-        replacements: [],
-      };
-    }
+  if (importPath && importIdentifier) {
+    parseTemplatesOptions.templateLiteral = [
+      {
+        importPath,
+        importIdentifier,
+      },
+    ];
   }
 
-  const matches = parseTemplates(template, relativePath, templateTag);
+  const matches = parseTemplates(template, relativePath, parseTemplatesOptions);
   const replacements: Replacement[] = [];
   const s = new MagicString(template);
 

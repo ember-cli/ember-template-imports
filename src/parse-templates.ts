@@ -23,8 +23,8 @@ export interface StaticImportConfig {
 }
 
 export interface ParseTemplatesOptions {
-  templateTag: string;
-  templateLiteral: StaticImportConfig[];
+  templateTag?: string;
+  templateLiteral?: StaticImportConfig[];
 }
 
 const escapeChar = '\\';
@@ -86,6 +86,7 @@ export function parseTemplates(
     templateTag = options;
   } else if (options && 'templateTag' in options) {
     templateLiteralConfig = options.templateLiteral;
+    templateTag = options.templateTag;
   }
 
   const templateTagStart = new RegExp(`<${templateTag}[^<]*>`);
