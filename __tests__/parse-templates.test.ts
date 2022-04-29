@@ -1,4 +1,7 @@
-import { parseTemplates as _parseTemplates, ParseTemplatesOptions } from '../src/parse-templates';
+import {
+  parseTemplates as _parseTemplates,
+  ParseTemplatesOptions,
+} from '../src/parse-templates';
 
 describe('parseTemplates', function () {
   /*
@@ -87,16 +90,16 @@ describe('parseTemplates', function () {
   });
 
   it('hbs`Hello!` with imports', function () {
-    const input = 'import { hbs } from \'ember-cli-htmlbars\'; hbs`Hello!`';
+    const input = "import { hbs } from 'ember-cli-htmlbars'; hbs`Hello!`";
 
     const templates = parseTemplates(input, 'foo.js', {
       templateTag: 'template',
       templateLiteral: [
         {
           importPath: 'ember-cli-htmlbars',
-          importIdentifier: 'hbs'
-        }
-      ]
+          importIdentifier: 'hbs',
+        },
+      ],
     });
 
     expect(templates).toMatchInlineSnapshot(`
@@ -124,40 +127,41 @@ describe('parseTemplates', function () {
   });
 
   it('hbs`Hello!` with imports alias', function () {
-    const input = `import { hbs as someHbs } from \'ember-cli-htmlbars\';\n` +
-                  `import { hbs } from \'not-the-hbs-you-want\';\n` +
-                  `hbs\`Hello!\`\n` +
-                  `someHbs\`Howdy!\``;
+    const input =
+      "import { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
+      "import { hbs } from 'not-the-hbs-you-want';\n" +
+      'hbs`Hello!`\n' +
+      'someHbs`Howdy!`';
 
     const templates = parseTemplates(input, 'foo.js', {
       templateTag: 'template',
       templateLiteral: [
         {
           importPath: 'ember-cli-htmlbars',
-          importIdentifier: 'hbs'
-        }
-      ]
+          importIdentifier: 'hbs',
+        },
+      ],
     });
 
     const expected = [
       {
-      end: {
-        0: '`',
-        1: undefined,
-        groups: undefined,
-        index: 123,
-        input,
+        end: {
+          0: '`',
+          1: undefined,
+          groups: undefined,
+          index: 123,
+          input,
+        },
+        start: {
+          0: 'someHbs`',
+          1: 'someHbs',
+          groups: undefined,
+          index: 109,
+          input,
+        },
+        tagName: 'someHbs',
+        type: 'template-literal',
       },
-      start: {
-        0: 'someHbs\`',
-        1: 'someHbs',
-        groups: undefined,
-        index: 109,
-        input,
-      },
-      tagName: 'someHbs',
-      type: 'template-literal',
-    }
     ];
 
     expect(templates).toEqual(expected);
@@ -197,9 +201,9 @@ describe('parseTemplates', function () {
       templateLiteral: [
         {
           importPath: 'ember-cli-htmlbars',
-          importIdentifier: 'hbs'
-        }
-      ]
+          importIdentifier: 'hbs',
+        },
+      ],
     });
 
     expect(templates).toEqual([]);

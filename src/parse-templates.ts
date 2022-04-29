@@ -92,7 +92,7 @@ export function parseTemplates(
   const templateTagEnd = new RegExp(`</${templateTag}>`);
   const argumentsMatchRegex = new RegExp(`<${templateTag}[^<]*\\S[^<]*>`);
 
-  let importedNames : string[] = [];
+  let importedNames: string[] = [];
   if (templateLiteralConfig) {
     importedNames = findImportedNames(template, templateLiteralConfig);
   }
@@ -139,7 +139,14 @@ export function parseTemplates(
     } else if (token[0].match(singleLineCommentStart)) {
       parseSingleLineComment(results, template, token, tokens);
     } else if (token[0].match(templateLiteralStart)) {
-      parseTemplateLiteral(results, template, token, tokens, isTopLevel, importedNames);
+      parseTemplateLiteral(
+        results,
+        template,
+        token,
+        tokens,
+        isTopLevel,
+        importedNames
+      );
     } else if (
       isTopLevel &&
       templateTag !== undefined &&
@@ -248,7 +255,10 @@ export function parseTemplates(
             currentToken.index = index + tokenStr.length - 1;
           }
           const tagName = startToken[1];
-          if (!templateLiteralConfig || (templateLiteralConfig && importedNames.includes(tagName))) {
+          if (
+            !templateLiteralConfig ||
+            (templateLiteralConfig && importedNames.includes(tagName))
+          ) {
             results.push({
               type: 'template-literal',
               tagName,
@@ -256,7 +266,6 @@ export function parseTemplates(
               end: currentToken,
             });
           }
-          
         }
 
         return;
@@ -339,13 +348,16 @@ export function parseTemplates(
 // TODO: this should probably be in util.js?
 function findImportedNames(
   template: string,
-  importConfig: StaticImportConfig[],
+  importConfig: StaticImportConfig[]
 ): string[] {
   const importedNames = [];
   for (const $import of parseStaticImports(template)) {
-    const config = findImportConfigByImportPath(importConfig, $import.moduleName);
+    const config = findImportConfigByImportPath(
+      importConfig,
+      $import.moduleName
+    );
     if (config) {
-      const { importPath, importIdentifier} = config;
+      const { importPath, importIdentifier } = config;
       if ($import.moduleName === importPath) {
         const match = $import.namedImports.find(
           ({ name }) => name === importIdentifier
@@ -363,5 +375,5 @@ function findImportConfigByImportPath(
   importConfig: StaticImportConfig[],
   importPath: string
 ): StaticImportConfig | undefined {
-  return importConfig.find( config => config.importPath === importPath);
+  return importConfig.find((config) => config.importPath === importPath);
 }
