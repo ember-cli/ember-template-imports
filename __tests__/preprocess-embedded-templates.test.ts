@@ -1,6 +1,6 @@
 import { preprocessEmbeddedTemplates } from '../src/preprocess-embedded-templates';
 import { getTemplateLocals } from '@glimmer/syntax';
-const util = require('../src/util.js');
+import * as util from '../src/util.js';
 
 describe('preprocessEmbeddedTemplates', function () {
   it('<template><template>', function () {
