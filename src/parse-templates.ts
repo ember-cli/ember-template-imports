@@ -77,17 +77,11 @@ function isEscaped(template: string, _offset: number | undefined) {
 export function parseTemplates(
   template: string,
   relativePath: string,
-  options?: string | ParseTemplatesOptions
+  options?: ParseTemplatesOptions
 ): TemplateMatch[] {
   const results: TemplateMatch[] = [];
-  let templateTag: string | undefined = undefined;
-  let templateLiteralConfig: StaticImportConfig[] | undefined = undefined;
-  if (typeof options === 'string') {
-    templateTag = options;
-  } else if (options && 'templateTag' in options) {
-    templateLiteralConfig = options.templateLiteral;
-    templateTag = options.templateTag;
-  }
+  const templateTag = options?.templateTag;
+  const templateLiteralConfig = options?.templateLiteral;
 
   const templateTagStart = new RegExp(`<${templateTag}[^<]*>`);
   const templateTagEnd = new RegExp(`</${templateTag}>`);

@@ -15,7 +15,7 @@ describe('parseTemplates', function () {
   function parseTemplates(
     source: string,
     relativePath: string,
-    options?: string | ParseTemplatesOptions
+    options?: ParseTemplatesOptions
   ) {
     const results = _parseTemplates(source, relativePath, options);
 
@@ -35,7 +35,9 @@ describe('parseTemplates', function () {
   it('<template><template>', function () {
     const input = `<template>Hello!</template>`;
 
-    const templates = parseTemplates(input, 'foo.gjs', 'template');
+    const templates = parseTemplates(input, 'foo.gjs', {
+      templateTag: 'template',
+    });
 
     expect(templates).toMatchInlineSnapshot(`
       Array [
@@ -63,7 +65,9 @@ describe('parseTemplates', function () {
   it('hbs`Hello!`', function () {
     const input = 'hbs`Hello!`';
 
-    const templates = parseTemplates(input, 'foo.js', 'template');
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+    });
 
     expect(templates).toMatchInlineSnapshot(`
       Array [
@@ -170,7 +174,9 @@ describe('parseTemplates', function () {
   it('lol`hahahaha`', function () {
     const input = 'lol`hahaha`';
 
-    const templates = parseTemplates(input, 'foo.js', 'template');
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+    });
 
     expect(templates).toMatchInlineSnapshot(`
       Array [
