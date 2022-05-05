@@ -340,7 +340,6 @@ export function parseTemplates(
   return results;
 }
 
-// TODO: this should probably be in util.js?
 function findImportedNames(
   template: string,
   importConfig: StaticImportConfig[]
