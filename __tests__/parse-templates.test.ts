@@ -318,7 +318,72 @@ describe('parseTemplates', function () {
     `);
   });
 
-  it('hbs`Hello!` with imports alias', function () {
+  it.only('hbs`Hello!` with imports alias', function () {
+    const input =
+      "import { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
+      "import theHbs from 'htmlbars-inline-precompile';\n" +
+      "import { hbs } from 'not-the-hbs-you-want';\n" +
+      'hbs`Hello!`\n' +
+      'someHbs`Howdy!`\n' +
+      'theHbs`Hi!`';
+
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+      templateLiteral: [
+        {
+          importPath: 'ember-cli-htmlbars',
+          importIdentifier: 'hbs',
+        },
+        {
+          importPath: 'htmlbars-inline-precompile',
+          importIdentifier: 'default',
+        },
+      ],
+    });
+
+    const expected = [
+      {
+        end: {
+          0: '`',
+          1: undefined,
+          groups: undefined,
+          index: 172,
+          input,
+        },
+        start: {
+          0: 'someHbs`',
+          1: 'someHbs',
+          groups: undefined,
+          index: 158,
+          input,
+        },
+        tagName: 'someHbs',
+        type: 'template-literal',
+      },
+      {
+        end: {
+          0: '`',
+          1: undefined,
+          groups: undefined,
+          index: 184,
+          input,
+        },
+        start: {
+          0: 'theHbs`',
+          1: 'theHbs',
+          groups: undefined,
+          index: 174,
+          input,
+        },
+        tagName: 'theHbs',
+        type: 'template-literal',
+      },
+    ];
+
+    expect(templates).toEqual(expected);
+  });
+
+  it('hbs`Hello!` with multiple imports and alias', function () {
     const input =
       "import { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
       "import { hbs } from 'not-the-hbs-you-want';\n" +
