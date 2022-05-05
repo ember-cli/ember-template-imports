@@ -352,16 +352,13 @@ function findImportedNames(
       $import.moduleName
     );
     if (config) {
-      const imports = [...$import.namedImports];
-      if ($import.defaultImport) {
-        imports.push({
-          name: $import.defaultImport,
-          alias: $import.defaultImport,
-        });
-      }
       const { importPath, importIdentifier } = config;
-      if ($import.moduleName === importPath) {
-        const match = imports.find(({ name }) => name === importIdentifier);
+      if (importIdentifier === 'default' && $import.defaultImport) {
+        importedNames.push($import.defaultImport);
+      } else if ($import.moduleName === importPath) {
+        const match = $import.namedImports.find(
+          ({ name }) => name === importIdentifier
+        );
         if (match) {
           importedNames.push(match.alias || match.name);
         }

@@ -207,14 +207,14 @@ describe('parseTemplates', function () {
 
   it('hbs`Hello!` with (default) import ember-cli-htmlbars-inline-precompile', function () {
     const input =
-      "import hbs from 'ember-cli-htmlbars-inline-precompile'; hbs`Hello!`";
+      "import theHbs from 'ember-cli-htmlbars-inline-precompile'; theHbs`Hello!`";
 
     const templates = parseTemplates(input, 'foo.js', {
       templateTag: 'template',
       templateLiteral: [
         {
           importPath: 'ember-cli-htmlbars-inline-precompile',
-          importIdentifier: 'hbs',
+          importIdentifier: 'default',
         },
       ],
     });
@@ -226,17 +226,17 @@ describe('parseTemplates', function () {
             "0": "\`",
             "1": undefined,
             "groups": undefined,
-            "index": 66,
+            "index": 72,
             "input": "${input}",
           },
           "start": Object {
-            "0": "hbs\`",
-            "1": "hbs",
+            "0": "theHbs\`",
+            "1": "theHbs",
             "groups": undefined,
-            "index": 56,
+            "index": 59,
             "input": "${input}",
           },
-          "tagName": "hbs",
+          "tagName": "theHbs",
           "type": "template-literal",
         },
       ]
@@ -251,7 +251,7 @@ describe('parseTemplates', function () {
       templateLiteral: [
         {
           importPath: 'htmlbars-inline-precompile',
-          importIdentifier: 'hbs',
+          importIdentifier: 'default',
         },
       ],
     });
