@@ -93,7 +93,7 @@ describe('parseTemplates', function () {
     `);
   });
 
-  it('hbs`Hello!` with imports', function () {
+  it('hbs`Hello!` with imports ember-cli-htmlbars', function () {
     const input = "import { hbs } from 'ember-cli-htmlbars'; hbs`Hello!`";
 
     const templates = parseTemplates(input, 'foo.js', {
@@ -124,6 +124,191 @@ describe('parseTemplates', function () {
             "input": "${input}",
           },
           "tagName": "hbs",
+          "type": "template-literal",
+        },
+      ]
+    `);
+  });
+
+  it('hbs`Hello!` with imports @ember/template-compilation', function () {
+    const input = "import { hbs } from '@ember/template-compilation'; hbs`Hello!`";
+
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+      templateLiteral: [
+        {
+          importPath: '@ember/template-compilation',
+          importIdentifier: 'hbs',
+        },
+      ],
+    });
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "end": Object {
+            "0": "\`",
+            "1": undefined,
+            "groups": undefined,
+            "index": 61,
+            "input": "${input}",
+          },
+          "start": Object {
+            "0": "hbs\`",
+            "1": "hbs",
+            "groups": undefined,
+            "index": 51,
+            "input": "${input}",
+          },
+          "tagName": "hbs",
+          "type": "template-literal",
+        },
+      ]
+    `);
+  });
+
+  it('hbs`Hello!` with imports ember-template-imports', function () {
+    const input = "import { hbs } from 'ember-template-imports'; hbs`Hello!`";
+
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+      templateLiteral: [
+        {
+          importPath: 'ember-template-imports',
+          importIdentifier: 'hbs',
+        },
+      ],
+    });
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "end": Object {
+            "0": "\`",
+            "1": undefined,
+            "groups": undefined,
+            "index": 56,
+            "input": "${input}",
+          },
+          "start": Object {
+            "0": "hbs\`",
+            "1": "hbs",
+            "groups": undefined,
+            "index": 46,
+            "input": "${input}",
+          },
+          "tagName": "hbs",
+          "type": "template-literal",
+        },
+      ]
+    `);
+  });
+
+  it('hbs`Hello!` with (default) import ember-cli-htmlbars-inline-precompile', function () {
+    const input = "import hbs from 'ember-cli-htmlbars-inline-precompile'; hbs`Hello!`";
+
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+      templateLiteral: [
+        {
+          importPath: 'ember-cli-htmlbars-inline-precompile',
+          importIdentifier: 'hbs',
+        },
+      ],
+    });
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "end": Object {
+            "0": "\`",
+            "1": undefined,
+            "groups": undefined,
+            "index": 66,
+            "input": "${input}",
+          },
+          "start": Object {
+            "0": "hbs\`",
+            "1": "hbs",
+            "groups": undefined,
+            "index": 56,
+            "input": "${input}",
+          },
+          "tagName": "hbs",
+          "type": "template-literal",
+        },
+      ]
+    `);
+  });
+
+  it('hbs`Hello!` with (default) import htmlbars-inline-precompile', function () {
+    const input = "import hbs from 'htmlbars-inline-precompile'; hbs`Hello!`";
+
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+      templateLiteral: [
+        {
+          importPath: 'htmlbars-inline-precompile',
+          importIdentifier: 'hbs',
+        },
+      ],
+    });
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "end": Object {
+            "0": "\`",
+            "1": undefined,
+            "groups": undefined,
+            "index": 56,
+            "input": "${input}",
+          },
+          "start": Object {
+            "0": "hbs\`",
+            "1": "hbs",
+            "groups": undefined,
+            "index": 46,
+            "input": "${input}",
+          },
+          "tagName": "hbs",
+          "type": "template-literal",
+        },
+      ]
+    `);
+  });
+
+  it('hbs`Hello!` with import @ember/template-compilation', function () {
+    const input = "import { precompileTemplate } from '@ember/template-compilation'; precompileTemplate`Hello!`";
+
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+      templateLiteral: [
+        {
+          importPath: '@ember/template-compilation',
+          importIdentifier: 'precompileTemplate',
+        },
+      ],
+    });
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "end": Object {
+            "0": "\`",
+            "1": undefined,
+            "groups": undefined,
+            "index": 91,
+            "input": "${input}",
+          },
+          "start": Object {
+            "0": "precompileTemplate\`",
+            "1": "precompileTemplate",
+            "groups": undefined,
+            "index": 66,
+            "input": "${input}",
+          },
+          "tagName": "precompileTemplate",
           "type": "template-literal",
         },
       ]
