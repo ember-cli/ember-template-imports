@@ -352,17 +352,15 @@ function findImportedNames(
       $import.moduleName
     );
     if (config) {
-      const { importPath, importIdentifier } = config;
-      if ($import.moduleName === importPath) {
-        if (importIdentifier === 'default' && $import.defaultImport) {
-          importedNames.push($import.defaultImport);
-        } else {
-          const match = $import.namedImports.find(
-            ({ name }) => name === importIdentifier
-          );
-          if (match) {
-            importedNames.push(match.alias || match.name);
-          }
+      const { importIdentifier } = config;
+      if (importIdentifier === 'default' && $import.defaultImport) {
+        importedNames.push($import.defaultImport);
+      } else {
+        const match = $import.namedImports.find(
+          ({ name }) => name === importIdentifier
+        );
+        if (match) {
+          importedNames.push(match.alias || match.name);
         }
       }
     }
