@@ -49,7 +49,7 @@
     "@ember/test-helpers": "^2.2.0",
     "@embroider/test-setup": "^0.47.2",
     "@glimmer/component": "^1.0.3",
-    "@glimmer/syntax": "0.65.2",
+    "@glimmer/syntax": "0.77.6",
     "@glimmer/tracking": "^1.0.3",
     "@types/jest": "^27.4.1",
     "@types/line-column": "^1.0.0",
