@@ -318,7 +318,7 @@ describe('parseTemplates', function () {
     `);
   });
 
-  it.only('hbs`Hello!` with imports alias', function () {
+  it('hbs`Hello!` with imports alias', function () {
     const input =
       "import { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
       "import theHbs from 'htmlbars-inline-precompile';\n" +

@@ -353,14 +353,16 @@ function findImportedNames(
     );
     if (config) {
       const { importPath, importIdentifier } = config;
-      if (importIdentifier === 'default' && $import.defaultImport) {
-        importedNames.push($import.defaultImport);
-      } else if ($import.moduleName === importPath) {
-        const match = $import.namedImports.find(
-          ({ name }) => name === importIdentifier
-        );
-        if (match) {
-          importedNames.push(match.alias || match.name);
+      if ($import.moduleName === importPath) {
+        if (importIdentifier === 'default' && $import.defaultImport) {
+          importedNames.push($import.defaultImport);
+        } else {
+          const match = $import.namedImports.find(
+            ({ name }) => name === importIdentifier
+          );
+          if (match) {
+            importedNames.push(match.alias || match.name);
+          }
         }
       }
     }
