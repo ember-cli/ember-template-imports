@@ -131,7 +131,8 @@ describe('parseTemplates', function () {
   });
 
   it('hbs`Hello!` with imports @ember/template-compilation', function () {
-    const input = "import { hbs } from '@ember/template-compilation'; hbs`Hello!`";
+    const input =
+      "import { hbs } from '@ember/template-compilation'; hbs`Hello!`";
 
     const templates = parseTemplates(input, 'foo.js', {
       templateTag: 'template',
@@ -205,7 +206,8 @@ describe('parseTemplates', function () {
   });
 
   it('hbs`Hello!` with (default) import ember-cli-htmlbars-inline-precompile', function () {
-    const input = "import hbs from 'ember-cli-htmlbars-inline-precompile'; hbs`Hello!`";
+    const input =
+      "import hbs from 'ember-cli-htmlbars-inline-precompile'; hbs`Hello!`";
 
     const templates = parseTemplates(input, 'foo.js', {
       templateTag: 'template',
@@ -279,7 +281,8 @@ describe('parseTemplates', function () {
   });
 
   it('hbs`Hello!` with import @ember/template-compilation', function () {
-    const input = "import { precompileTemplate } from '@ember/template-compilation'; precompileTemplate`Hello!`";
+    const input =
+      "import { precompileTemplate } from '@ember/template-compilation'; precompileTemplate`Hello!`";
 
     const templates = parseTemplates(input, 'foo.js', {
       templateTag: 'template',

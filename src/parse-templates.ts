@@ -354,16 +354,14 @@ function findImportedNames(
     if (config) {
       const imports = [...$import.namedImports];
       if ($import.defaultImport) {
-        imports.push({ 
+        imports.push({
           name: $import.defaultImport,
-          alias: $import.defaultImport
+          alias: $import.defaultImport,
         });
       }
       const { importPath, importIdentifier } = config;
       if ($import.moduleName === importPath) {
-        const match = imports.find(
-          ({ name }) => name === importIdentifier
-        );
+        const match = imports.find(({ name }) => name === importIdentifier);
         if (match) {
           importedNames.push(match.alias || match.name);
         }
