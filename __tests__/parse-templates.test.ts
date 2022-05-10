@@ -205,7 +205,7 @@ describe('parseTemplates', function () {
     `);
   });
 
-  it('hbs`Hello!` with (default) import ember-cli-htmlbars-inline-precompile', function () {
+  it('renamed hbs`Hello!` with (default) import ember-cli-htmlbars-inline-precompile', function () {
     const input =
       "import theHbs from 'ember-cli-htmlbars-inline-precompile'; theHbs`Hello!`";
 
