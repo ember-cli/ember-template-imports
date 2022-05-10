@@ -280,7 +280,7 @@ describe('parseTemplates', function () {
     `);
   });
 
-  it('hbs`Hello!` with import @ember/template-compilation', function () {
+it('precompileTemplate`Hello!` with import @ember/template-compilation', function () {
     const input =
       "import { precompileTemplate } from '@ember/template-compilation'; precompileTemplate`Hello!`";
 
