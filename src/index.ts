@@ -1,1 +1,1 @@
-export { parseTemplates } from "./parse-templates";
+export { parseTemplates } from './parse-templates';
