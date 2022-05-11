@@ -17,11 +17,23 @@ export interface TemplateLiteralMatch {
   end: RegExpMatchArray;
 }
 
+/**
+ * Represents a static import of a template literal.
+ *
+ * @param importPath the path to the package from which we want to import the template literal (e.g.: 'ember-cli-htmlbars')
+ * @param importIdentifier the name of the template literal (e.g.: 'hbs') or 'default' if this package exports a default function
+ */
 export interface StaticImportConfig {
   importPath: string;
   importIdentifier: string;
 }
 
+/**
+ * The input options to instruct parseTemplates on how to parse the input.
+ *
+ * @param templateTag tag if parsing template tags is enabled
+ * @param templateLiteral an array of StaticImportConfig to indicate which static imports are expected in this template
+ */
 export interface ParseTemplatesOptions {
   templateTag?: string;
   templateLiteral?: StaticImportConfig[];
@@ -71,7 +83,7 @@ function isEscaped(template: string, _offset: number | undefined) {
  *
  * @param template The template to parse
  * @param relativePath Relative file path for the template (for errors)
- * @param templateTag Optional template tag if parsing template tags is enabled
+ * @param options Optional {ParseTemplateOptions}
  * @returns
  */
 export function parseTemplates(
