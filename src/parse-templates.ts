@@ -83,7 +83,7 @@ function isEscaped(template: string, _offset: number | undefined) {
  *
  * @param template The template to parse
  * @param relativePath Relative file path for the template (for errors)
- * @param options Optional {ParseTemplateOptions}
+ * @param options optional configuration options for how to parse templates
  * @returns
  */
 export function parseTemplates(
