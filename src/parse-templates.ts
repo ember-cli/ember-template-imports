@@ -19,23 +19,30 @@ export interface TemplateLiteralMatch {
 
 /**
  * Represents a static import of a template literal.
- *
- * @param importPath the path to the package from which we want to import the template literal (e.g.: 'ember-cli-htmlbars')
- * @param importIdentifier the name of the template literal (e.g.: 'hbs') or 'default' if this package exports a default function
  */
 export interface StaticImportConfig {
+  /**
+   * The path to the package from which we want to import the template literal
+   * (e.g.: 'ember-cli-htmlbars')
+   */
   importPath: string;
+  /**
+   * The name of the template literal (e.g.: 'hbs') or 'default' if this package
+   * exports a default function
+   */
   importIdentifier: string;
 }
 
 /**
  * The input options to instruct parseTemplates on how to parse the input.
  *
- * @param templateTag tag if parsing template tags is enabled
- * @param templateLiteral an array of StaticImportConfig to indicate which static imports are expected in this template
+ * @param templateTag
+ * @param templateLiteral
  */
 export interface ParseTemplatesOptions {
+  /** Tag to use, if parsing template tags is enabled. */
   templateTag?: string;
+  /** Which static imports are expected in this template. */
   templateLiteral?: StaticImportConfig[];
 }
 
