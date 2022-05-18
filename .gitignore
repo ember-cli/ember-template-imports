@@ -26,3 +26,6 @@
 /bower.json.ember-try
 /package.json.ember-try
 /yarn.lock.ember-try
+
+# TS build artifacts
+*.tsbuildinfo
