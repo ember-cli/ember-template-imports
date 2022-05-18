@@ -1,3 +1,30 @@
+Deprecated as of 10.7.0. highlight(lang, code, ...args) has been deprecated.
+Deprecated as of 10.7.0. Please use highlight(code, options) instead.
+https://github.com/highlightjs/highlight.js/issues/2277
+
+## v3.0.0 (2022-05-18)
+
+#### :boom: Breaking Change
+* [#37](https://github.com/ember-template-imports/ember-template-imports/pull/37) Update parseTemplates to filter by tagName ([@ventuno](https://github.com/ventuno))
+
+#### :rocket: Enhancement
+* [#37](https://github.com/ember-template-imports/ember-template-imports/pull/37) Update parseTemplates to filter by tagName ([@ventuno](https://github.com/ventuno))
+
+#### :memo: Documentation
+* [#34](https://github.com/ember-template-imports/ember-template-imports/pull/34) Fix broken link ([@kaermorchen](https://github.com/kaermorchen))
+* [#24](https://github.com/ember-template-imports/ember-template-imports/pull/24) start a README section for editor integration links ([@ef4](https://github.com/ef4))
+* [#32](https://github.com/ember-template-imports/ember-template-imports/pull/32) Fix missing quotes in reference-imports section ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* [#36](https://github.com/ember-template-imports/ember-template-imports/pull/36) Adds a basic node-land test harness. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 5
+- Edward Faulkner ([@ef4](https://github.com/ef4))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Stanislav Romanov ([@kaermorchen](https://github.com/kaermorchen))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [@ventuno](https://github.com/ventuno)
+
 ## v2.0.1 (2022-01-01)
 
 #### :bug: Bug Fix
