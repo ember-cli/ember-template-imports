@@ -29,3 +29,6 @@
 
 # TS build artifacts
 *.tsbuildinfo
+
+# macOS files
+.DS_Store
