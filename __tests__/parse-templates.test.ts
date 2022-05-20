@@ -139,6 +139,10 @@ describe('parseTemplates', function () {
       templateLiteral: [
         {
           importPath: '@ember/template-compilation',
+          importIdentifier: 'precompileTemplate',
+        },
+        {
+          importPath: '@ember/template-compilation',
           importIdentifier: 'hbs',
         },
       ],
@@ -289,6 +293,10 @@ describe('parseTemplates', function () {
       templateLiteral: [
         {
           importPath: '@ember/template-compilation',
+          importIdentifier: 'hbs',
+        },
+        {
+          importPath: '@ember/template-compilation',
           importIdentifier: 'precompileTemplate',
         },
       ],
@@ -320,10 +328,11 @@ describe('parseTemplates', function () {
 
   it('hbs`Hello!` with imports alias', function () {
     const input =
-      "import { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
+      "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
       "import theHbs from 'htmlbars-inline-precompile';\n" +
       "import { hbs } from 'not-the-hbs-you-want';\n" +
       'hbs`Hello!`\n' +
+      'someDefaultHbs`Hello!`\n' +
       'someHbs`Howdy!`\n' +
       'theHbs`Hi!`';
 
@@ -333,6 +342,10 @@ describe('parseTemplates', function () {
         {
           importPath: 'ember-cli-htmlbars',
           importIdentifier: 'hbs',
+        },
+        {
+          importPath: 'ember-cli-htmlbars',
+          importIdentifier: 'default',
         },
         {
           importPath: 'htmlbars-inline-precompile',
@@ -347,14 +360,32 @@ describe('parseTemplates', function () {
           0: '`',
           1: undefined,
           groups: undefined,
-          index: 172,
+          index: 195,
+          input,
+        },
+        start: {
+          0: 'someDefaultHbs`',
+          1: 'someDefaultHbs',
+          groups: undefined,
+          index: 174,
+          input,
+        },
+        tagName: 'someDefaultHbs',
+        type: 'template-literal',
+      },
+      {
+        end: {
+          0: '`',
+          1: undefined,
+          groups: undefined,
+          index: 211,
           input,
         },
         start: {
           0: 'someHbs`',
           1: 'someHbs',
           groups: undefined,
-          index: 158,
+          index: 197,
           input,
         },
         tagName: 'someHbs',
@@ -365,14 +396,14 @@ describe('parseTemplates', function () {
           0: '`',
           1: undefined,
           groups: undefined,
-          index: 184,
+          index: 223,
           input,
         },
         start: {
           0: 'theHbs`',
           1: 'theHbs',
           groups: undefined,
-          index: 174,
+          index: 213,
           input,
         },
         tagName: 'theHbs',

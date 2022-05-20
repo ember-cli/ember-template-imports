@@ -370,16 +370,17 @@ function findImportedNames(
       $import.moduleName
     );
     if (config) {
-      const { importIdentifier } = config;
-      if (importIdentifier === 'default' && $import.defaultImport) {
+      const importIdentifiers = config.map(
+        ({ importIdentifier }) => importIdentifier
+      );
+      if ($import.defaultImport && importIdentifiers.includes('default')) {
         importedNames.push($import.defaultImport);
-      } else {
-        const match = $import.namedImports.find(
-          ({ name }) => name === importIdentifier
-        );
-        if (match) {
-          importedNames.push(match.alias || match.name);
-        }
+      }
+      const match = $import.namedImports.find(({ name }) =>
+        importIdentifiers.includes(name)
+      );
+      if (match) {
+        importedNames.push(match.alias || match.name);
       }
     }
   }
@@ -389,6 +390,6 @@ function findImportedNames(
 function findImportConfigByImportPath(
   importConfig: StaticImportConfig[],
   importPath: string
-): StaticImportConfig | undefined {
-  return importConfig.find((config) => config.importPath === importPath);
+): StaticImportConfig[] | undefined {
+  return importConfig.filter((config) => config.importPath === importPath);
 }
