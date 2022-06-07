@@ -139,6 +139,10 @@ describe('parseTemplates', function () {
       templateLiteral: [
         {
           importPath: '@ember/template-compilation',
+          importIdentifier: 'precompileTemplate',
+        },
+        {
+          importPath: '@ember/template-compilation',
           importIdentifier: 'hbs',
         },
       ],
@@ -289,6 +293,10 @@ describe('parseTemplates', function () {
       templateLiteral: [
         {
           importPath: '@ember/template-compilation',
+          importIdentifier: 'hbs',
+        },
+        {
+          importPath: '@ember/template-compilation',
           importIdentifier: 'precompileTemplate',
         },
       ],
@@ -373,6 +381,94 @@ describe('parseTemplates', function () {
           1: 'theHbs',
           groups: undefined,
           index: 174,
+          input,
+        },
+        tagName: 'theHbs',
+        type: 'template-literal',
+      },
+    ];
+
+    expect(templates).toEqual(expected);
+  });
+
+  it('with multiple identifiers for the same import path', function () {
+    const input =
+      "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
+      "import theHbs from 'htmlbars-inline-precompile';\n" +
+      "import { hbs } from 'not-the-hbs-you-want';\n" +
+      'hbs`Hello!`\n' +
+      'someDefaultHbs`Hello!`\n' +
+      'someHbs`Howdy!`\n' +
+      'theHbs`Hi!`';
+
+    const templates = parseTemplates(input, 'foo.js', {
+      templateTag: 'template',
+      templateLiteral: [
+        {
+          importPath: 'ember-cli-htmlbars',
+          importIdentifier: 'hbs',
+        },
+        {
+          importPath: 'ember-cli-htmlbars',
+          importIdentifier: 'default',
+        },
+        {
+          importPath: 'htmlbars-inline-precompile',
+          importIdentifier: 'default',
+        },
+      ],
+    });
+
+    const expected = [
+      {
+        end: {
+          0: '`',
+          1: undefined,
+          groups: undefined,
+          index: 195,
+          input,
+        },
+        start: {
+          0: 'someDefaultHbs`',
+          1: 'someDefaultHbs',
+          groups: undefined,
+          index: 174,
+          input,
+        },
+        tagName: 'someDefaultHbs',
+        type: 'template-literal',
+      },
+      {
+        end: {
+          0: '`',
+          1: undefined,
+          groups: undefined,
+          index: 211,
+          input,
+        },
+        start: {
+          0: 'someHbs`',
+          1: 'someHbs',
+          groups: undefined,
+          index: 197,
+          input,
+        },
+        tagName: 'someHbs',
+        type: 'template-literal',
+      },
+      {
+        end: {
+          0: '`',
+          1: undefined,
+          groups: undefined,
+          index: 223,
+          input,
+        },
+        start: {
+          0: 'theHbs`',
+          1: 'theHbs',
+          groups: undefined,
+          index: 213,
           input,
         },
         tagName: 'theHbs',
