@@ -1,3 +1,16 @@
+## v3.0.1 (2022-06-07)
+
+#### :bug: Bug Fix
+* [#41](https://github.com/ember-template-imports/ember-template-imports/pull/41) Correctly support multiple template parsing fn from same path ([@ventuno](https://github.com/ventuno))
+
+#### :house: Internal
+* [#40](https://github.com/ember-template-imports/ember-template-imports/pull/40) Improve parallelization in CI ([@chriskrycho](https://github.com/chriskrycho))
+
+#### Committers: 2
+- Chris Krycho ([@chriskrycho](https://github.com/chriskrycho))
+- [@ventuno](https://github.com/ventuno)
+
+
 ## v3.0.0 (2022-05-18)
 
 #### :boom: Breaking Change
