@@ -79,6 +79,8 @@ describe('parseTemplates', function () {
             "index": 10,
             "input": "hbs\`Hello!\`",
           },
+          "importIdentifier": "hbs",
+          "importPath": undefined,
           "start": Object {
             "0": "hbs\`",
             "1": "hbs",
@@ -116,6 +118,8 @@ describe('parseTemplates', function () {
             "index": 52,
             "input": "${input}",
           },
+          "importIdentifier": "hbs",
+          "importPath": "ember-cli-htmlbars",
           "start": Object {
             "0": "hbs\`",
             "1": "hbs",
@@ -158,6 +162,8 @@ describe('parseTemplates', function () {
             "index": 61,
             "input": "${input}",
           },
+          "importIdentifier": "hbs",
+          "importPath": "@ember/template-compilation",
           "start": Object {
             "0": "hbs\`",
             "1": "hbs",
@@ -195,6 +201,8 @@ describe('parseTemplates', function () {
             "index": 56,
             "input": "${input}",
           },
+          "importIdentifier": "hbs",
+          "importPath": "ember-template-imports",
           "start": Object {
             "0": "hbs\`",
             "1": "hbs",
@@ -233,6 +241,8 @@ describe('parseTemplates', function () {
             "index": 72,
             "input": "${input}",
           },
+          "importIdentifier": "theHbs",
+          "importPath": "ember-cli-htmlbars-inline-precompile",
           "start": Object {
             "0": "theHbs\`",
             "1": "theHbs",
@@ -270,6 +280,8 @@ describe('parseTemplates', function () {
             "index": 56,
             "input": "${input}",
           },
+          "importIdentifier": "hbs",
+          "importPath": "htmlbars-inline-precompile",
           "start": Object {
             "0": "hbs\`",
             "1": "hbs",
@@ -312,6 +324,8 @@ describe('parseTemplates', function () {
             "index": 91,
             "input": "${input}",
           },
+          "importIdentifier": "precompileTemplate",
+          "importPath": "@ember/template-compilation",
           "start": Object {
             "0": "precompileTemplate\`",
             "1": "precompileTemplate",
@@ -358,6 +372,8 @@ describe('parseTemplates', function () {
           index: 172,
           input,
         },
+        importIdentifier: 'someHbs',
+        importPath: 'ember-cli-htmlbars',
         start: {
           0: 'someHbs`',
           1: 'someHbs',
@@ -376,6 +392,8 @@ describe('parseTemplates', function () {
           index: 184,
           input,
         },
+        importIdentifier: 'theHbs',
+        importPath: 'htmlbars-inline-precompile',
         start: {
           0: 'theHbs`',
           1: 'theHbs',
@@ -428,6 +446,8 @@ describe('parseTemplates', function () {
           index: 195,
           input,
         },
+        importIdentifier: 'someDefaultHbs',
+        importPath: 'ember-cli-htmlbars',
         start: {
           0: 'someDefaultHbs`',
           1: 'someDefaultHbs',
@@ -446,6 +466,8 @@ describe('parseTemplates', function () {
           index: 211,
           input,
         },
+        importIdentifier: 'someHbs',
+        importPath: 'ember-cli-htmlbars',
         start: {
           0: 'someHbs`',
           1: 'someHbs',
@@ -464,6 +486,8 @@ describe('parseTemplates', function () {
           index: 223,
           input,
         },
+        importIdentifier: 'theHbs',
+        importPath: 'htmlbars-inline-precompile',
         start: {
           0: 'theHbs`',
           1: 'theHbs',
@@ -505,6 +529,8 @@ describe('parseTemplates', function () {
           index: 123,
           input,
         },
+        importIdentifier: 'someHbs',
+        importPath: 'ember-cli-htmlbars',
         start: {
           0: 'someHbs`',
           1: 'someHbs',
@@ -534,6 +560,8 @@ describe('parseTemplates', function () {
             "0": "\`",
             "index": 10,
           },
+          "importIdentifier": "lol",
+          "importPath": undefined,
           "start": Object {
             "0": "lol\`",
             "1": "lol",
