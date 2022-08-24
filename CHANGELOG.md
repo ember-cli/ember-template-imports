@@ -1,3 +1,12 @@
+## v3.1.0 (2022-08-24)
+
+#### :rocket: Enhancement
+* [#47](https://github.com/ember-template-imports/ember-template-imports/pull/47) Update `TemplateLiteralMatch` to include source `importPath` and `importIdentifier` ([@nlfurniss](https://github.com/nlfurniss))
+
+#### Committers: 1
+- Nathaniel Furniss ([@nlfurniss](https://github.com/nlfurniss))
+
+
 ## v3.0.1 (2022-06-07)
 
 #### :bug: Bug Fix
