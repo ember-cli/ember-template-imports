@@ -15,6 +15,8 @@ export interface TemplateLiteralMatch {
   tagName: string;
   start: RegExpMatchArray;
   end: RegExpMatchArray;
+  importPath: string;
+  importIdentifier: string;
 }
 
 /**
@@ -106,7 +108,7 @@ export function parseTemplates(
   const templateTagEnd = new RegExp(`</${templateTag}>`);
   const argumentsMatchRegex = new RegExp(`<${templateTag}[^<]*\\S[^<]*>`);
 
-  let importedNames: string[] = [];
+  let importedNames = new Map<string, string>();
   if (templateLiteralConfig) {
     importedNames = findImportedNames(template, templateLiteralConfig);
   }
@@ -245,7 +247,7 @@ export function parseTemplates(
     startToken: RegExpMatchArray,
     tokens: RegExpMatchArray[],
     isTopLevel = false,
-    importedNames: string[]
+    importedNames: Map<string, string>
   ) {
     let hasDynamicSegment = false;
 
@@ -271,13 +273,17 @@ export function parseTemplates(
           const tagName = startToken[1];
           if (
             !templateLiteralConfig ||
-            (templateLiteralConfig && importedNames.includes(tagName))
+            (templateLiteralConfig && importedNames.has(tagName))
           ) {
             results.push({
               type: 'template-literal',
               tagName,
               start: startToken,
               end: currentToken,
+              // SAFETY: TS doesn't narrow here even with `has` or assigning Map.get to a var and checking that it's not undefined
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              importPath: importedNames.get(tagName)!,
+              importIdentifier: tagName,
             });
           }
         }
@@ -362,8 +368,8 @@ export function parseTemplates(
 function findImportedNames(
   template: string,
   importConfig: StaticImportConfig[]
-): string[] {
-  const importedNames = [];
+): Map<string, string> {
+  const importedNames = new Map<string, string>();
   for (const $import of parseStaticImports(template)) {
     const config = findImportConfigByImportPath(
       importConfig,
@@ -374,13 +380,13 @@ function findImportedNames(
         ({ importIdentifier }) => importIdentifier
       );
       if ($import.defaultImport && importIdentifiers.includes('default')) {
-        importedNames.push($import.defaultImport);
+        importedNames.set($import.defaultImport, $import.moduleName);
       }
       const match = $import.namedImports.find(({ name }) =>
         importIdentifiers.includes(name)
       );
       if (match) {
-        importedNames.push(match.alias || match.name);
+        importedNames.set(match.alias || match.name, $import.moduleName);
       }
     }
   }
