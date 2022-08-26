@@ -108,7 +108,7 @@ export function parseTemplates(
   const templateTagEnd = new RegExp(`</${templateTag}>`);
   const argumentsMatchRegex = new RegExp(`<${templateTag}[^<]*\\S[^<]*>`);
 
-  let importedNames = new Map<string, string>();
+  let importedNames = new Map<string, StaticImportConfig>();
   if (templateLiteralConfig) {
     importedNames = findImportedNames(template, templateLiteralConfig);
   }
@@ -247,7 +247,7 @@ export function parseTemplates(
     startToken: RegExpMatchArray,
     tokens: RegExpMatchArray[],
     isTopLevel = false,
-    importedNames: Map<string, string>
+    importedNames: Map<string, StaticImportConfig>
   ) {
     let hasDynamicSegment = false;
 
@@ -271,19 +271,15 @@ export function parseTemplates(
             currentToken.index = index + tokenStr.length - 1;
           }
           const tagName = startToken[1];
-          if (
-            !templateLiteralConfig ||
-            (templateLiteralConfig && importedNames.has(tagName))
-          ) {
+          const importConfig = importedNames.get(tagName);
+          if (importConfig !== undefined) {
             results.push({
               type: 'template-literal',
               tagName,
               start: startToken,
               end: currentToken,
-              // SAFETY: TS doesn't narrow here even with `has` or assigning Map.get to a var and checking that it's not undefined
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              importPath: importedNames.get(tagName)!,
-              importIdentifier: tagName,
+              importPath: importConfig.importPath,
+              importIdentifier: importConfig.importIdentifier,
             });
           }
         }
@@ -368,34 +364,33 @@ export function parseTemplates(
 function findImportedNames(
   template: string,
   importConfig: StaticImportConfig[]
-): Map<string, string> {
-  const importedNames = new Map<string, string>();
+): Map<string, StaticImportConfig> {
+  const importedNames = new Map<string, StaticImportConfig>();
+
   for (const $import of parseStaticImports(template)) {
-    const config = findImportConfigByImportPath(
+    for (const $config of findImportConfigByImportPath(
       importConfig,
       $import.moduleName
-    );
-    if (config) {
-      const importIdentifiers = config.map(
-        ({ importIdentifier }) => importIdentifier
-      );
-      if ($import.defaultImport && importIdentifiers.includes('default')) {
-        importedNames.set($import.defaultImport, $import.moduleName);
+    )) {
+      if ($import.defaultImport && $config.importIdentifier === 'default') {
+        importedNames.set($import.defaultImport, $config);
       }
-      const match = $import.namedImports.find(({ name }) =>
-        importIdentifiers.includes(name)
+      const match = $import.namedImports.find(
+        ({ name }) => $config.importIdentifier === name
       );
       if (match) {
-        importedNames.set(match.alias || match.name, $import.moduleName);
+        const localName = match.alias || match.name;
+        importedNames.set(localName, $config);
       }
     }
   }
+
   return importedNames;
 }
 
 function findImportConfigByImportPath(
   importConfig: StaticImportConfig[],
   importPath: string
-): StaticImportConfig[] | undefined {
+): StaticImportConfig[] {
   return importConfig.filter((config) => config.importPath === importPath);
 }
