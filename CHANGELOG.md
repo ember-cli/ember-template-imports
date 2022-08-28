@@ -1,3 +1,12 @@
+## v3.1.1 (2022-08-28)
+
+#### :bug: Bug Fix
+* [#50](https://github.com/ember-template-imports/ember-template-imports/pull/50) Include the correct import name in `parseTemplates` results ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 1
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
+
 ## v3.1.0 (2022-08-24)
 
 #### :rocket: Enhancement
