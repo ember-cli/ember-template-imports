@@ -39,6 +39,23 @@ module('tests/integration/components/gjs', function (hooks) {
     assert.equal(this.element.textContent.trim(), 'Hello, world!');
   });
 
+  test('it works with classes with a backtick character somewhere in the template', async function (assert) {
+    class Foo extends Component {
+      greeting = 'Hello';
+
+      <template>{{this.greeting}}, `lifeform`!</template>
+    }
+
+    await render(
+      precompileTemplate(`<Foo />`, {
+        strictMode: true,
+        scope: () => ({ Foo }),
+      })
+    );
+
+    assert.equal(this.element.textContent.trim(), 'Hello, `lifeform`!');
+  });
+
   test('it works with a component that is a top-level default export', async function (assert) {
     await render(
       precompileTemplate(`<GjsTest />`, {
