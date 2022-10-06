@@ -49,7 +49,7 @@ export interface ParseTemplatesOptions {
 }
 
 const escapeChar = '\\';
-const stringOrRegexDelimiter = /['"/]/;
+const stringDelimiter = /['"]/;
 
 const singleLineCommentStart = /\/\//;
 const newLine = /\n/;
@@ -119,7 +119,7 @@ export function parseTemplates(
       newLine.source,
       multiLineCommentStart.source,
       multiLineCommentEnd.source,
-      stringOrRegexDelimiter.source,
+      stringDelimiter.source,
       templateLiteralStart.source,
       templateLiteralEnd.source,
       dynamicSegmentStart.source,
@@ -170,16 +170,16 @@ export function parseTemplates(
       token[0].match(templateTagStart)
     ) {
       parseTemplateTag(results, template, token, tokens);
-    } else if (token[0].match(stringOrRegexDelimiter)) {
-      parseStringOrRegex(results, template, token, tokens);
+    } else if (token[0].match(stringDelimiter)) {
+      parseString(results, template, token, tokens);
     }
   }
 
   /**
-   * Parse a string or a regex. All tokens within a string or regex are ignored
+   * Parse a string. All tokens within a string are ignored
    * since there are no dynamic segments within these.
    */
-  function parseStringOrRegex(
+  function parseString(
     _results: TemplateMatch[],
     template: string,
     startToken: RegExpMatchArray,
