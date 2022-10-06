@@ -3,7 +3,7 @@ import { getTemplateLocals } from '@glimmer/syntax';
 import * as util from '../src/util.js';
 
 describe('preprocessEmbeddedTemplates', function () {
-  it('<template><template>', function () {
+  it('<template></template>', function () {
     const input = `<template>Hello!</template>`;
     const templates = preprocessEmbeddedTemplates(input, {
       getTemplateLocals,
@@ -39,8 +39,66 @@ describe('preprocessEmbeddedTemplates', function () {
     expect(templates).toEqual(expected);
   });
 
+  it('<template></template> with backticks in content', function () {
+    const input = '<template>Hello `world`!</template>';
+    const templates = preprocessEmbeddedTemplates(input, {
+      getTemplateLocals,
+      relativePath: 'foo.gjs',
+      templateTag: util.TEMPLATE_TAG_NAME,
+      templateTagReplacement: util.TEMPLATE_TAG_PLACEHOLDER,
+      includeSourceMaps: false,
+      includeTemplateTokens: false,
+    });
+
+    const expected = {
+      output:
+        '[__GLIMMER_TEMPLATE(`Hello \\`world\\`!`, { strictMode: true })]',
+      replacements: [
+        {
+          type: 'start',
+          index: 0,
+          oldLength: 10,
+          newLength: 21,
+          originalCol: 1,
+          originalLine: 1,
+        },
+        {
+          type: 'end',
+          index: 24,
+          oldLength: 11,
+          newLength: 25,
+          originalCol: 25,
+          originalLine: 1,
+        },
+      ],
+    };
+
+    expect(templates).toEqual(expected);
+  });
+
   it('hbs`Hello`', function () {
     const input = `hbs\`Hello!\``;
+    const templates = preprocessEmbeddedTemplates(input, {
+      getTemplateLocals,
+      relativePath: 'foo.gjs',
+      templateTag: util.TEMPLATE_TAG_NAME,
+      templateTagReplacement: util.TEMPLATE_TAG_PLACEHOLDER,
+      importIdentifier: util.TEMPLATE_LITERAL_IDENTIFIER,
+      importPath: util.TEMPLATE_LITERAL_MODULE_SPECIFIER,
+      includeSourceMaps: false,
+      includeTemplateTokens: false,
+    });
+
+    const expected = {
+      output: input,
+      replacements: [],
+    };
+
+    expect(templates).toEqual(expected);
+  });
+
+  it('hbs`Hello \\`world\\``', function () {
+    const input = `hbs\`Hello \\\`world\\\`!\``; // template tag with escaped backticks in content
     const templates = preprocessEmbeddedTemplates(input, {
       getTemplateLocals,
       relativePath: 'foo.gjs',

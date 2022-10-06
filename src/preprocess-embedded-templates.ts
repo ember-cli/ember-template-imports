@@ -134,6 +134,7 @@ function replaceMatch(
 
   s.overwrite(openStart, openEnd, newStart);
   s.overwrite(closeStart, closeEnd, newEnd);
+  ensureBackticksEscaped(s, openEnd + 1, closeStart - 1);
 
   return [
     replacementFrom(
@@ -270,4 +271,10 @@ export function preprocessEmbeddedTemplates(
     output,
     replacements,
   };
+}
+
+function ensureBackticksEscaped(s: MagicString, start: number, end: number) {
+  let content = s.slice(start, end);
+  content = content.replace(/(?<!\\)`/g, '\\`');
+  s.overwrite(start, end, content, false);
 }
