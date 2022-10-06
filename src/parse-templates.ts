@@ -198,8 +198,8 @@ export function parseTemplates(
   }
 
   /**
-   * Parse a string or a regex. All tokens within a string or regex are ignored
-   * since there are no dynamic segments within these.
+   * Parse a single-line comment. All tokens within a single-line comment are ignored
+   * since there are no dynamic segments within them.
    */
   function parseSingleLineComment(
     _results: TemplateMatch[],
@@ -217,8 +217,8 @@ export function parseTemplates(
   }
 
   /**
-   * Parse a string or a regex. All tokens within a string or regex are ignored
-   * since there are no dynamic segments within these.
+   * Parse a multi-line comment. All tokens within a multi-line comment are ignored
+   * since there are no dynamic segments within them.
    */
   function parseMultiLineComment(
     _results: TemplateMatch[],
