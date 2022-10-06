@@ -52,8 +52,26 @@ module('tests/integration/components/gjs', function (hooks) {
         scope: () => ({ Foo }),
       })
     );
-
     assert.equal(this.element.textContent.trim(), 'Hello, `lifeform`!');
+  });
+
+test('it works with classes with a slash character somewhere before the template', async function (assert) {
+    class Foo extends Component {
+      greeting = 'Hello';
+      get age() {
+        return 90 / 2;
+      }
+
+      <template>{{this.greeting}}, {{this.age}}-year-old!</template>
+    }
+
+    await render(
+      precompileTemplate(`<Foo @name="world" />`, {
+        strictMode: true,
+        scope: () => ({ Foo }),
+      })
+    );
+    assert.equal(this.element.textContent.trim(), 'Hello, 45-year-old!');
   });
 
   test('it works with a component that is a top-level default export', async function (assert) {
