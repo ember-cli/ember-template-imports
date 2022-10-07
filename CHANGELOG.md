@@ -1,7 +1,3 @@
-Deprecated as of 10.7.0. highlight(lang, code, ...args) has been deprecated.
-Deprecated as of 10.7.0. Please use highlight(code, options) instead.
-https://github.com/highlightjs/highlight.js/issues/2277
-
 ## v3.1.2 (2022-10-07)
 
 #### :bug: Bug Fix
