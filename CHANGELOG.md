@@ -1,3 +1,21 @@
+Deprecated as of 10.7.0. highlight(lang, code, ...args) has been deprecated.
+Deprecated as of 10.7.0. Please use highlight(code, options) instead.
+https://github.com/highlightjs/highlight.js/issues/2277
+
+## v3.1.2 (2022-10-07)
+
+#### :bug: Bug Fix
+* [#51](https://github.com/ember-template-imports/ember-template-imports/pull/51) Stop trying to tokenize regexes to avoid confusing bug caused by division appearing in a file before a <template> tag ([@lukemelia](https://github.com/lukemelia))
+* [#54](https://github.com/ember-template-imports/ember-template-imports/pull/54) Fix build failures due to backticks within in template tags ([@lukemelia](https://github.com/lukemelia))
+
+#### :memo: Documentation
+* [#55](https://github.com/ember-template-imports/ember-template-imports/pull/55) Fix parse function comments ([@backspace](https://github.com/backspace))
+
+#### Committers: 3
+- Buck Doyle ([@backspace](https://github.com/backspace))
+- Luke Melia ([@lukemelia](https://github.com/lukemelia))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## v3.1.1 (2022-08-28)
 
 #### :bug: Bug Fix
