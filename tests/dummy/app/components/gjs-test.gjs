@@ -9,5 +9,5 @@ class Second extends Component {
 }
 
 <template>
-  <First/>, <Second/>!
+  <First/>, <template><Second/>!</template>
 </template>
