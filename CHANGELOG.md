@@ -1,3 +1,17 @@
+## v3.2.0 (2022-10-25)
+
+#### :rocket: Enhancement
+* [#74](https://github.com/ember-template-imports/ember-template-imports/pull/74) Provide the contents of the parsed template when calling `parseTemplates` ([@gabrielcsapo](https://github.com/gabrielcsapo))
+* [#73](https://github.com/ember-template-imports/ember-template-imports/pull/73) Do not require parent addon to include ember-cli-htmlbars ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+#### :house: Internal
+* [#56](https://github.com/ember-template-imports/ember-template-imports/pull/56) internal: set up Dependabot ([@chriskrycho](https://github.com/chriskrycho))
+
+#### Committers: 2
+- Chris Krycho ([@chriskrycho](https://github.com/chriskrycho))
+- Gabriel Csapo ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+
 ## v3.1.2 (2022-10-07)
 
 #### :bug: Bug Fix
