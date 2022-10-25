@@ -23,9 +23,10 @@ module.exports = {
       addPlugin(includer, pluginPath);
     }
 
-    this.templateCompilerPath = this.parent.addons
-      .find((a) => a.name === 'ember-cli-htmlbars')
-      .templateCompilerPath();
+    // Used in ember-cli-htmlbars to get the location of templateCompiler without traversing this.addons (https://github.com/ember-cli/ember-cli-htmlbars/blob/6860beed9a357d5e948abd09754e8a978fed1320/lib/ember-addon-main.js#L264)
+    let ember = this.project.findAddonByName('ember-source');
+
+    this.templateCompilerPath = ember.absolutePaths.templateCompiler;
   },
 
   setupPreprocessorRegistry(type, registry) {
