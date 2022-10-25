@@ -3,6 +3,10 @@ require('validate-peer-dependencies')(__dirname);
 let VersionChecker = require('ember-cli-version-checker');
 let { addPlugin, hasPlugin } = require('ember-cli-babel-plugin-helpers');
 
+// eslint-disable-next-line node/no-unpublished-require
+const emberAddon = require('ember-source');
+const templateCompiler = emberAddon.absolutePaths.templateCompiler;
+
 module.exports = {
   name: require('./package').name,
 
@@ -23,10 +27,7 @@ module.exports = {
       addPlugin(includer, pluginPath);
     }
 
-    // Used in ember-cli-htmlbars to get the location of templateCompiler without traversing this.addons (https://github.com/ember-cli/ember-cli-htmlbars/blob/6860beed9a357d5e948abd09754e8a978fed1320/lib/ember-addon-main.js#L264)
-    let ember = this.project.findAddonByName('ember-source');
-
-    this.templateCompilerPath = ember.absolutePaths.templateCompiler;
+    this.templateCompilerPath = templateCompiler;
   },
 
   setupPreprocessorRegistry(type, registry) {
