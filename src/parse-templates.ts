@@ -8,11 +8,13 @@ export interface TemplateTagMatch {
   type: 'template-tag';
   start: RegExpMatchArray;
   end: RegExpMatchArray;
+  contents: string;
 }
 
 export interface TemplateLiteralMatch {
   type: 'template-literal';
   tagName: string;
+  contents: string;
   start: RegExpMatchArray;
   end: RegExpMatchArray;
   importPath: string;
@@ -272,10 +274,20 @@ export function parseTemplates(
           }
           const tagName = startToken[1];
           const importConfig = importedNames.get(tagName);
+
           if (importConfig !== undefined) {
+            let contents = '';
+
+            if (startToken.index !== undefined) {
+              const templateStart = startToken.index + startToken[0].length;
+
+              contents = template.slice(templateStart, currentToken.index);
+            }
+
             results.push({
               type: 'template-literal',
               tagName,
+              contents: contents,
               start: startToken,
               end: currentToken,
               importPath: importConfig.importPath,
@@ -347,8 +359,17 @@ export function parseTemplates(
       }
 
       if (stack === 0) {
+        let contents = '';
+
+        if (startToken.index !== undefined) {
+          const templateStart = startToken.index + startToken[0].length;
+
+          contents = template.slice(templateStart, currentToken.index);
+        }
+
         results.push({
           type: 'template-tag',
+          contents: contents,
           start: startToken,
           end: currentToken,
         });

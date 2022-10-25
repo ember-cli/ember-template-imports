@@ -42,6 +42,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "</template>",
             "1": undefined,
@@ -75,6 +76,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "</template>",
             "1": undefined,
@@ -173,6 +175,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "\`",
             "1": undefined,
@@ -217,6 +220,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "\`",
             "1": undefined,
@@ -256,6 +260,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "\`",
             "1": undefined,
@@ -296,6 +301,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "\`",
             "1": undefined,
@@ -335,6 +341,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "\`",
             "1": undefined,
@@ -379,6 +386,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contents": "Hello!",
           "end": Object {
             "0": "\`",
             "1": undefined,
@@ -427,6 +435,7 @@ describe('parseTemplates', function () {
 
     const expected = [
       {
+        contents: 'Howdy!',
         end: {
           0: '`',
           1: undefined,
@@ -447,6 +456,7 @@ describe('parseTemplates', function () {
         type: 'template-literal',
       },
       {
+        contents: 'Hi!',
         end: {
           0: '`',
           1: undefined,
@@ -501,6 +511,7 @@ describe('parseTemplates', function () {
 
     const expected = [
       {
+        contents: 'Hello!',
         end: {
           0: '`',
           1: undefined,
@@ -521,6 +532,7 @@ describe('parseTemplates', function () {
         type: 'template-literal',
       },
       {
+        contents: 'Howdy!',
         end: {
           0: '`',
           1: undefined,
@@ -541,6 +553,7 @@ describe('parseTemplates', function () {
         type: 'template-literal',
       },
       {
+        contents: 'Hi!',
         end: {
           0: '`',
           1: undefined,
@@ -584,6 +597,7 @@ describe('parseTemplates', function () {
 
     const expected = [
       {
+        contents: 'Howdy!',
         end: {
           0: '`',
           1: undefined,
