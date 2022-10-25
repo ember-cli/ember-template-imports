@@ -42,7 +42,7 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
-          "contents": "",
+          "contents": "Hello!",
           "end": Object {
             "0": "</template>",
             "1": undefined,

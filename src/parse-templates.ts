@@ -278,7 +278,7 @@ export function parseTemplates(
           if (importConfig !== undefined) {
             let contents = '';
 
-            if (startToken.index) {
+            if (startToken.index !== undefined) {
               const templateStart = startToken.index + startToken[0].length;
 
               contents = template.slice(templateStart, currentToken.index);
@@ -361,7 +361,7 @@ export function parseTemplates(
       if (stack === 0) {
         let contents = '';
 
-        if (startToken.index) {
+        if (startToken.index !== undefined) {
           const templateStart = startToken.index + startToken[0].length;
 
           contents = template.slice(templateStart, currentToken.index);
