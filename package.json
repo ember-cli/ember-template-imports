@@ -130,8 +130,5 @@
       "release": true,
       "tokenRef": "GITHUB_AUTH"
     }
-  },
-  "volta": {
-    "node": "14.17.0"
   }
 }
