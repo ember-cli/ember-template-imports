@@ -1,7 +1,11 @@
 // import { hbs } from 'ember-template-imports';
 // const Greeting = hbs`Hello!`;
-exports.TEMPLATE_LITERAL_IDENTIFIER = 'hbs';
-exports.TEMPLATE_LITERAL_MODULE_SPECIFIER = 'ember-template-imports';
+const TEMPLATE_LITERAL_IDENTIFIER = 'hbs';
+const TEMPLATE_LITERAL_MODULE_SPECIFIER = 'ember-template-imports';
+
+exports.TEMPLATE_LITERAL_IDENTIFIER = TEMPLATE_LITERAL_IDENTIFIER;
+exports.TEMPLATE_LITERAL_MODULE_SPECIFIER = TEMPLATE_LITERAL_MODULE_SPECIFIER;
+
 exports.isTemplateLiteral = (callExpressionPath) => {
   let callee = callExpressionPath.get('callee');
   return (
@@ -54,4 +58,27 @@ exports.registerRefs = (newPath, getRefPaths) => {
       binding.reference(ref);
     }
   }
+};
+
+const SUPPORTED_EXTENSIONS = ['.js', '.ts', '.gjs', '.gts'];
+
+exports.SUPPORTED_EXTENSIONS = SUPPORTED_EXTENSIONS;
+
+/**
+ * @param {object} templateInfo
+ *
+ * @returns {boolean}
+ */
+exports.isStrictMode = function isStrictMode(templateInfo) {
+  return (
+    (templateInfo.importIdentifier === TEMPLATE_LITERAL_IDENTIFIER &&
+      templateInfo.importPath === TEMPLATE_LITERAL_MODULE_SPECIFIER) ||
+    templateInfo.type === 'template-tag'
+  );
+};
+
+exports.isSupportedScriptFileExtension = function isSupportedScriptFileExtension(
+  filePath = ''
+) {
+  return SUPPORTED_EXTENSIONS.some((ext) => filePath.endsWith(ext));
 };
