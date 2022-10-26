@@ -3,7 +3,7 @@ const {
   registerRefs,
   TEMPLATE_LITERAL_IDENTIFIER,
   buildPrecompileTemplateCall,
-} = require('./util');
+} = require('../lib/util');
 
 module.exports.transformTemplateLiteral = function (t, path, state) {
   let { parentPath } = path;

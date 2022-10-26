@@ -21,6 +21,12 @@ export interface TemplateLiteralMatch {
   importIdentifier: string;
 }
 
+export function isTemplateLiteralMatch(
+  template: TemplateTagMatch | TemplateLiteralMatch
+): template is TemplateLiteralMatch {
+  return template.type === 'template-literal';
+}
+
 /**
  * Represents a static import of a template literal.
  */
