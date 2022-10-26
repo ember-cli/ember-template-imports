@@ -149,6 +149,21 @@ describe('parseTemplates', function () {
     `);
   });
 
+  it('<template></template> with typescript type called template', () => {
+    const input = `
+    type template = { foo: string };
+    type optionalTemplate = Partial<template>;
+
+    const MyComponent = <template>Hello World</template>
+    `;
+
+    const templates = parseTemplates(input, 'foo.gjs', {
+      templateTag: 'template',
+    });
+
+    expect(templates[0]).toBeTruthy();
+  });
+
   it('hbs`Hello!` when only matching <template>', function () {
     const input = 'hbs`Hello!`';
 
