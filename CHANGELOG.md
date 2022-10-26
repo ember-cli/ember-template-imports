@@ -1,4 +1,14 @@
 
+
+## v3.3.1 (2022-10-26)
+
+#### :bug: Bug Fix
+* [#78](https://github.com/ember-template-imports/ember-template-imports/pull/78) Bring back `src/utils.js` temporarily ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 1
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
+
 ## v3.3.0 (2022-10-26)
 
 #### :house: Internal
