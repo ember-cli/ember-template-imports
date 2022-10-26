@@ -1,3 +1,14 @@
+
+## v3.3.0 (2022-10-26)
+
+#### :house: Internal
+* [#75](https://github.com/ember-template-imports/ember-template-imports/pull/75) chore: converts util to typescript ([@gabrielcsapo](https://github.com/gabrielcsapo))
+* [#77](https://github.com/ember-template-imports/ember-template-imports/pull/77) feat: move over utils from ember-template-lint ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+#### Committers: 1
+- Gabriel Csapo ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+
 ## v3.2.0 (2022-10-25)
 
 #### :rocket: Enhancement
