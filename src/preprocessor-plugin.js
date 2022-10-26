@@ -1,5 +1,5 @@
 const stew = require('broccoli-stew');
-const util = require('./util');
+const util = require('../lib/util');
 const {
   preprocessEmbeddedTemplates,
 } = require('../lib/preprocess-embedded-templates');
