@@ -312,7 +312,7 @@ The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragp
 
 ### Neovim
 
-[Example Neovim Config](https://github.com/NullVoxPopuli/dotfiles/blob/master/home/.config/nvim/lua/plugins.lua#L69) with support for good highlighting of embedded templates in JS and TS, using:
+[Example Neovim Config](https://github.com/NullVoxPopuli/dotfiles/blob/main/home/.config/nvim/lua/plugins/syntax.lua#L15) with support for good highlighting of embedded templates in JS and TS, using:
 
 - https://github.com/nvim-treesitter/nvim-treesitter
 - https://github.com/alexlafroscia/tree-sitter-glimmer
