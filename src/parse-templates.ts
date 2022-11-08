@@ -1,6 +1,12 @@
 import matchAll from 'string.prototype.matchall';
-import { expect } from './debug';
 import parseStaticImports from 'parse-static-imports';
+
+import {
+  TEMPLATE_TAG_NAME,
+  TEMPLATE_LITERAL_MODULE_SPECIFIER,
+  TEMPLATE_LITERAL_IDENTIFIER,
+} from './util';
+import { expect } from './debug';
 
 export type TemplateMatch = TemplateTagMatch | TemplateLiteralMatch;
 
@@ -83,6 +89,36 @@ function isEscaped(template: string, _offset: number | undefined) {
 
   return count % 2 === 1;
 }
+
+export const DEFAULT_PARSE_OPTIONS = {
+  templateTag: TEMPLATE_TAG_NAME,
+  templateLiteral: [
+    {
+      importPath: 'ember-cli-htmlbars',
+      importIdentifier: 'hbs',
+    },
+    {
+      importPath: '@ember/template-compilation',
+      importIdentifier: 'hbs',
+    },
+    {
+      importPath: TEMPLATE_LITERAL_MODULE_SPECIFIER,
+      importIdentifier: TEMPLATE_LITERAL_IDENTIFIER,
+    },
+    {
+      importPath: 'ember-cli-htmlbars-inline-precompile',
+      importIdentifier: 'default',
+    },
+    {
+      importPath: 'htmlbars-inline-precompile',
+      importIdentifier: 'default',
+    },
+    {
+      importPath: '@ember/template-compilation',
+      importIdentifier: 'precompileTemplate',
+    },
+  ],
+};
 
 /**
  * Parses a template to find all possible valid matches for an embedded template.
