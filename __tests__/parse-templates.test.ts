@@ -1,7 +1,7 @@
 import {
   parseTemplates as _parseTemplates,
   ParseTemplatesOptions,
-  DEFAULT_PARSE_OPTIONS,
+  DEFAULT_PARSE_TEMPLATES_OPTIONS,
 } from '../src/parse-templates';
 
 describe('parseTemplates', function () {
@@ -579,7 +579,7 @@ describe('parseTemplates', function () {
     expect(templates).toEqual(expected);
   });
 
-  it('with multiple identifiers for the same import path', function () {
+  it('with multiple identifiers for the same import path with DEFAULT_PARSE_TEMPLATES_OPTIONS', function () {
     const input =
       "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
       "import theHbs from 'htmlbars-inline-precompile';\n" +
@@ -589,7 +589,7 @@ describe('parseTemplates', function () {
       'someHbs`Howdy!`\n' +
       'theHbs`Hi!`';
 
-    const templates = parseTemplates(input, 'foo.js', DEFAULT_PARSE_OPTIONS);
+    const templates = parseTemplates(input, 'foo.js', DEFAULT_PARSE_TEMPLATES_OPTIONS);
 
     expect(templates).toMatchInlineSnapshot(`
       Array [

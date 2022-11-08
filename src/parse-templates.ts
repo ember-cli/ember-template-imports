@@ -90,7 +90,7 @@ function isEscaped(template: string, _offset: number | undefined) {
   return count % 2 === 1;
 }
 
-export const DEFAULT_PARSE_OPTIONS = {
+export const DEFAULT_PARSE_TEMPLATES_OPTIONS = {
   templateTag: TEMPLATE_TAG_NAME,
   templateLiteral: [
     {
@@ -142,7 +142,7 @@ export const DEFAULT_PARSE_OPTIONS = {
 export function parseTemplates(
   template: string,
   relativePath: string,
-  options?: ParseTemplatesOptions
+  options: ParseTemplatesOptions = DEFAULT_PARSE_TEMPLATES_OPTIONS
 ): TemplateMatch[] {
   const results: TemplateMatch[] = [];
   const templateTag = options?.templateTag;
