@@ -1,5 +1,20 @@
 
 
+
+## v3.4.0 (2022-11-09)
+
+#### :rocket: Enhancement
+* [#83](https://github.com/ember-template-imports/ember-template-imports/pull/83) feat: adds tagName to TemplateTag ([@gabrielcsapo](https://github.com/gabrielcsapo))
+* [#82](https://github.com/ember-template-imports/ember-template-imports/pull/82) feat: adds default exports to avoid importing from nested paths ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+#### :memo: Documentation
+* [#80](https://github.com/ember-template-imports/ember-template-imports/pull/80) readme: update example neovim link ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- Gabriel Csapo ([@gabrielcsapo](https://github.com/gabrielcsapo))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+
 ## v3.3.1 (2022-10-26)
 
 #### :bug: Bug Fix
