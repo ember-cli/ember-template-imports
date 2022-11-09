@@ -1,6 +1,7 @@
 import {
   parseTemplates as _parseTemplates,
   ParseTemplatesOptions,
+  DEFAULT_PARSE_TEMPLATES_OPTIONS,
 } from '../src/parse-templates';
 
 describe('parseTemplates', function () {
@@ -576,6 +577,94 @@ describe('parseTemplates', function () {
     ];
 
     expect(templates).toEqual(expected);
+  });
+
+  it('with multiple identifiers for the same import path with DEFAULT_PARSE_TEMPLATES_OPTIONS', function () {
+    const input =
+      "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';\n" +
+      "import theHbs from 'htmlbars-inline-precompile';\n" +
+      "import { hbs } from 'not-the-hbs-you-want';\n" +
+      'hbs`Hello!`\n' +
+      'someDefaultHbs`Hello!`\n' +
+      'someHbs`Howdy!`\n' +
+      'theHbs`Hi!`';
+
+    const templates = parseTemplates(
+      input,
+      'foo.js',
+      DEFAULT_PARSE_TEMPLATES_OPTIONS
+    );
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contents": "Howdy!",
+          "end": Object {
+            "0": "\`",
+            "1": undefined,
+            "groups": undefined,
+            "index": 211,
+            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
+      import theHbs from 'htmlbars-inline-precompile';
+      import { hbs } from 'not-the-hbs-you-want';
+      hbs\`Hello!\`
+      someDefaultHbs\`Hello!\`
+      someHbs\`Howdy!\`
+      theHbs\`Hi!\`",
+          },
+          "importIdentifier": "hbs",
+          "importPath": "ember-cli-htmlbars",
+          "start": Object {
+            "0": "someHbs\`",
+            "1": "someHbs",
+            "groups": undefined,
+            "index": 197,
+            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
+      import theHbs from 'htmlbars-inline-precompile';
+      import { hbs } from 'not-the-hbs-you-want';
+      hbs\`Hello!\`
+      someDefaultHbs\`Hello!\`
+      someHbs\`Howdy!\`
+      theHbs\`Hi!\`",
+          },
+          "tagName": "someHbs",
+          "type": "template-literal",
+        },
+        Object {
+          "contents": "Hi!",
+          "end": Object {
+            "0": "\`",
+            "1": undefined,
+            "groups": undefined,
+            "index": 223,
+            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
+      import theHbs from 'htmlbars-inline-precompile';
+      import { hbs } from 'not-the-hbs-you-want';
+      hbs\`Hello!\`
+      someDefaultHbs\`Hello!\`
+      someHbs\`Howdy!\`
+      theHbs\`Hi!\`",
+          },
+          "importIdentifier": "default",
+          "importPath": "htmlbars-inline-precompile",
+          "start": Object {
+            "0": "theHbs\`",
+            "1": "theHbs",
+            "groups": undefined,
+            "index": 213,
+            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
+      import theHbs from 'htmlbars-inline-precompile';
+      import { hbs } from 'not-the-hbs-you-want';
+      hbs\`Hello!\`
+      someDefaultHbs\`Hello!\`
+      someHbs\`Howdy!\`
+      theHbs\`Hi!\`",
+          },
+          "tagName": "theHbs",
+          "type": "template-literal",
+        },
+      ]
+    `);
   });
 
   it('hbs`Hello!` with multiple imports and alias', function () {
