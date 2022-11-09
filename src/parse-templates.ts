@@ -12,6 +12,7 @@ export type TemplateMatch = TemplateTagMatch | TemplateLiteralMatch;
 
 export interface TemplateTagMatch {
   type: 'template-tag';
+  tagName: string;
   start: RegExpMatchArray;
   end: RegExpMatchArray;
   contents: string;
@@ -213,7 +214,7 @@ export function parseTemplates(
       templateTagStart &&
       token[0].match(templateTagStart)
     ) {
-      parseTemplateTag(results, template, token, tokens);
+      parseTemplateTag(results, template, token, tokens, templateTag);
     } else if (token[0].match(stringDelimiter)) {
       parseString(results, template, token, tokens);
     }
@@ -381,7 +382,8 @@ export function parseTemplates(
     results: TemplateMatch[],
     _template: string,
     startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[]
+    tokens: RegExpMatchArray[],
+    templateTag: string
   ) {
     let stack = 1;
 
@@ -411,6 +413,7 @@ export function parseTemplates(
 
         results.push({
           type: 'template-tag',
+          tagName: templateTag,
           contents: contents,
           start: startToken,
           end: currentToken,
