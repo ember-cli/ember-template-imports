@@ -178,7 +178,7 @@ export function parseTemplates(
       templateTagStart &&
       token[0].match(templateTagStart)
     ) {
-      parseTemplateTag(results, template, token, tokens);
+      parseTemplateTag(results, template, token, tokens, templateTag);
     } else if (token[0].match(stringDelimiter)) {
       parseString(results, template, token, tokens);
     }
@@ -346,7 +346,8 @@ export function parseTemplates(
     results: TemplateMatch[],
     _template: string,
     startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[]
+    tokens: RegExpMatchArray[],
+    templateTag: string
   ) {
     let stack = 1;
 
@@ -376,9 +377,7 @@ export function parseTemplates(
 
         results.push({
           type: 'template-tag',
-          // we know that the templateTag has to be set because we have set the templateStart and templateEnd tokens
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          tagName: templateTag!,
+          tagName: templateTag,
           contents: contents,
           start: startToken,
           end: currentToken,
