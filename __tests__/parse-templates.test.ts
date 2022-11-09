@@ -589,7 +589,11 @@ describe('parseTemplates', function () {
       'someHbs`Howdy!`\n' +
       'theHbs`Hi!`';
 
-    const templates = parseTemplates(input, 'foo.js', DEFAULT_PARSE_TEMPLATES_OPTIONS);
+    const templates = parseTemplates(
+      input,
+      'foo.js',
+      DEFAULT_PARSE_TEMPLATES_OPTIONS
+    );
 
     expect(templates).toMatchInlineSnapshot(`
       Array [
