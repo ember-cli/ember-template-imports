@@ -57,6 +57,7 @@ describe('parseTemplates', function () {
             "index": 0,
             "input": "<template>Hello!</template>",
           },
+          "tagName": "template",
           "type": "template-tag",
         },
       ]
@@ -97,6 +98,7 @@ describe('parseTemplates', function () {
             <template>Hello!</template>
           ",
           },
+          "tagName": "template",
           "type": "template-tag",
         },
       ]

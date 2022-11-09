@@ -6,6 +6,7 @@ export type TemplateMatch = TemplateTagMatch | TemplateLiteralMatch;
 
 export interface TemplateTagMatch {
   type: 'template-tag';
+  tagName: string;
   start: RegExpMatchArray;
   end: RegExpMatchArray;
   contents: string;
@@ -375,6 +376,9 @@ export function parseTemplates(
 
         results.push({
           type: 'template-tag',
+          // we know that the templateTag has to be set because we have set the templateStart and templateEnd tokens
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          tagName: templateTag!,
           contents: contents,
           start: startToken,
           end: currentToken,
