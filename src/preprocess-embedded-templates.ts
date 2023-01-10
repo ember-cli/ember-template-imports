@@ -254,7 +254,8 @@ export function preprocessEmbeddedTemplates(
 
   let output = s.toString();
 
-  if (includeSourceMaps) {
+  const hasChanges = template !== output;
+  if (includeSourceMaps && hasChanges) {
     const { dir, name } = path.parse(relativePath);
 
     const map = s.generateMap({

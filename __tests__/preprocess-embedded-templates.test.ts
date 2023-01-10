@@ -158,4 +158,31 @@ describe('preprocessEmbeddedTemplates', function () {
 
     expect(templates).toEqual(expected);
   });
+
+  it('includes source maps', function () {
+    const input = `<template>Hello!</template>`;
+    const templates = preprocessEmbeddedTemplates(input, {
+      getTemplateLocals,
+      relativePath: 'foo.gjs',
+      templateTag: util.TEMPLATE_TAG_NAME,
+      templateTagReplacement: util.TEMPLATE_TAG_PLACEHOLDER,
+      includeSourceMaps: true,
+      includeTemplateTokens: false,
+    });
+
+    expect(templates.output).toContain('//# sourceMappingURL');
+  });
+  it("doesn't include source maps if no templates", function () {
+    const input = `const foo = "Hello!"`;
+    const templates = preprocessEmbeddedTemplates(input, {
+      getTemplateLocals,
+      relativePath: 'foo.gjs',
+      templateTag: util.TEMPLATE_TAG_NAME,
+      templateTagReplacement: util.TEMPLATE_TAG_PLACEHOLDER,
+      includeSourceMaps: true,
+      includeTemplateTokens: false,
+    });
+
+    expect(templates.output).not.toContain('//# sourceMappingURL');
+  });
 });
