@@ -1,6 +1,19 @@
 
 
 
+
+## v3.4.1 (2023-01-30)
+
+#### :bug: Bug Fix
+* [#110](https://github.com/ember-template-imports/ember-template-imports/pull/110) Fix unnecessary addition of sourcemaps - Closes [#108](https://github.com/ember-template-imports/ember-template-imports/issues/108) ([@wagenet](https://github.com/wagenet))
+
+#### :memo: Documentation
+* [#111](https://github.com/ember-template-imports/ember-template-imports/pull/111) Update CONTRIBUTING.md ([@wagenet](https://github.com/wagenet))
+
+#### Committers: 2
+- Peter Wagenet ([@wagenet](https://github.com/wagenet))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
 ## v3.4.0 (2022-11-09)
 
 #### :rocket: Enhancement
