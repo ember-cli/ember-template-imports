@@ -6,6 +6,7 @@
 
 #### :bug: Bug Fix
 * [#110](https://github.com/ember-template-imports/ember-template-imports/pull/110) Fix unnecessary addition of sourcemaps - Closes [#108](https://github.com/ember-template-imports/ember-template-imports/issues/108) ([@wagenet](https://github.com/wagenet))
+* [#87](https://github.com/ember-template-imports/ember-template-imports/pull/87) Remove ember-cli-htmlbars from peerDependencies ([@SergeAstapov](https://github.com/sergeastapov)]
 
 #### :memo: Documentation
 * [#111](https://github.com/ember-template-imports/ember-template-imports/pull/111) Update CONTRIBUTING.md ([@wagenet](https://github.com/wagenet))
