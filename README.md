@@ -178,6 +178,7 @@ export default hbs`
   <Hello @name="world" />
 `;
 ```
+
 In addition, you can define template-only components and assign them to
 variables, allowing you to export components with named exports:
 
@@ -267,63 +268,146 @@ standard JS template literal syntax:
   the class. It is compiled away, and so it cannot be directly referenced or
   dynamically modified/assigned.
 
-
 ## Reference: built-in helpers, modifiers, components
 
 As implemented as part of the [Strict Mode Templates RFC][rfc-496], the built in
 helpers, modifiers and components are available for import:
 
-* `array` (`import { array } from '@ember/helper';`)
-* `concat` (`import { concat } from '@ember/helper';`)
-* `fn` (`import { fn } from '@ember/helper';`)
-* `get` (`import { get } from '@ember/helper';`)
-* `hash` (`import { hash } from '@ember/helper';`)
-* `on` (`import { on } from '@ember/modifier';`)
-* `Input` (`import { Input } from '@ember/component';`)
-* `LinkTo` (`import { LinkTo } from '@ember/routing';`)
-* `TextArea` (`import { TextArea } from '@ember/component';`)
+- `array` (`import { array } from '@ember/helper';`)
+- `concat` (`import { concat } from '@ember/helper';`)
+- `fn` (`import { fn } from '@ember/helper';`)
+- `get` (`import { get } from '@ember/helper';`)
+- `hash` (`import { hash } from '@ember/helper';`)
+- `on` (`import { on } from '@ember/modifier';`)
+- `Input` (`import { Input } from '@ember/component';`)
+- `LinkTo` (`import { LinkTo } from '@ember/routing';`)
+- `TextArea` (`import { TextArea } from '@ember/component';`)
 
 [rfc-496]: https://github.com/emberjs/rfcs/pull/496
 
-Compatibility
-------------------------------------------------------------------------------
+## Compatibility
 
-* Ember.js v3.27 or above
-* Ember CLI v2.13 or above
-* `ember-cli-htmlbars` 6.0 or above
-* Node.js v12 or above
+- Ember.js v3.27 or above
+- Ember CLI v2.13 or above
+- `ember-cli-htmlbars` 6.0 or above
+- Node.js v12 or above
 
-
-Installation
-------------------------------------------------------------------------------
+## Installation
 
 ```
 ember install ember-template-imports
 ```
 
-Editor Integrations
-------------------------------------------------------------------------------
+## Usage for V2 Addons
+
+V2 addons are build by default with rollup, see
+[blueprint](https://github.com/embroider-build/addon-blueprint). This addon
+provides integrations to rollup to understand and transpile `.gjs` and `.gts`
+files
+
+### Step 1: Install babel plugin
+
+Add the `ember-template-imports` babel plugin to your babel config:
+
+```diff
+'use strict';
+
+module.exports = {
+  presets: ['@babel/preset-typescript'],
+  plugins: [
++    'ember-template-imports/babel-plugin',
+    '@embroider/addon-dev/template-colocation-plugin',
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    '@babel/plugin-proposal-class-properties'
+  ]
+};
+```
+
+### Step 2: Understand and Transpile `<emplate>`
+
+The first step is add the `ember-template-imports` rollup plugin, which will
+understand the `<template>` tag `gjs` and `gts` files and transpiles it to an
+intermediate format:
+
+```js
+import { Addon } from '@embroider/addon-dev/rollup';
+import emberTemplateImports from 'ember-template-imports/rollup-plugin';
+
+const addon = new Addon({
+  srcDir: 'src',
+  destDir: 'dist'
+});
+
+export default {
+  // This provides defaults that work well alongside `publicEntrypoints` below.
+  // You can augment this if you need to.
+  output: addon.output(),
+
+  plugins: [
+    // These are the modules that users should be able to import from your
+    // addon. Anything not listed here may get optimized away.
+    addon.publicEntrypoints(['components/**/*.js', 'index.js'<% if (typescript) {%>, 'template-registry.js'<% } %>]),
+
+    // These are the modules that should get reexported into the traditional
+    // "app" tree. Things in here should also be in publicEntrypoints above, but
+    // not everything in publicEntrypoints necessarily needs to go here.
+    addon.appReexports(['components/**/*.js']),
+
+    // Follow the V2 Addon rules about dependencies. Your code can import from
+    // `dependencies` and `peerDependencies` as well as standard Ember-provided
+    // package names.
+    addon.dependencies(),
+
+    emberTemplateImports(),
+
+    // ...
+  ]
+};
+```
+
+For `gjs` files, the next line would be to run the babel plugin, which uses the
+config we extended earlier and transpiles the intermediate format into the final
+`js` files.
+
+### Step 3: Configure `rollup-plugin-ts` (TS Only)
+
+For typescript a config change is required to allow the transpilation to happen:
+
+```diff
+// rollup.plugin.mjs
+   
+    typescript({
+      transpiler: 'babel',
+      browserslist: false,
+-      transpileOnly: false,
++      transpileOnly: true,
+    }),
+```
+
+Background: `rollup-plugin-ts` uses your input files (the intermediate format
+from the step above) to typescheck them, which in our case will always error.
+Telling `rollup-plugin-ts` to only transpile won't typecheck.
+
+## Editor Integrations
 
 To get syntax highlighting inside embedded templates and support for the GJS
 file extension, you may need to configure your editor.
 
 ### Visual Studio Code
+
 The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragpat.vscode-glimmer) plugin handles syntax highlighting for both proposed formats.
 
 ### Neovim
 
 [Example Neovim Config](https://github.com/NullVoxPopuli/dotfiles/blob/main/home/.config/nvim/lua/plugins/syntax.lua#L15) with support for good highlighting of embedded templates in JS and TS, using:
 
-- https://github.com/nvim-treesitter/nvim-treesitter
-- https://github.com/alexlafroscia/tree-sitter-glimmer
-
-
+- <https://github.com/nvim-treesitter/nvim-treesitter>
+- <https://github.com/alexlafroscia/tree-sitter-glimmer>
 
 Contributing
 ------------------------------------------------------------------------------
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
-
 
 License
 ------------------------------------------------------------------------------
