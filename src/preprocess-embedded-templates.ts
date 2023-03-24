@@ -19,6 +19,7 @@ interface PreprocessOptionsEager {
   relativePath: string;
   includeSourceMaps: boolean;
   includeTemplateTokens: boolean;
+  addViolator?: (relativePath: string) => void;
 }
 
 interface PreprocessOptionsLazy {
@@ -229,7 +230,7 @@ export function preprocessEmbeddedTemplates(
       match.tagName === importIdentifier
     ) {
       // hbs literals are deprecated
-      addViolator(relativePath);
+      addViolator?.(relativePath);
 
       replacements.push(
         ...replaceMatch(
