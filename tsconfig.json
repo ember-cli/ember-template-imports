@@ -11,8 +11,5 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true
   },
-  "include": [
-    "src/**/*",
-    "local-types/**/*"
-  ],
+  "include": ["src/**/*", "local-types/**/*"]
 }

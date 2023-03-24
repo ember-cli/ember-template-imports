@@ -1,5 +1,4 @@
-ember-template-imports
-==============================================================================
+# ember-template-imports
 
 This addon provides a number of different formats for using template imports
 within Ember!
@@ -8,8 +7,8 @@ within Ember!
 import MyComponent from './my-component';
 
 <template>
-  <MyComponent/>
-</template>
+  <MyComponent />
+</template>;
 ```
 
 Template imports are an upcoming feature in Ember. Like Glimmer components, the
@@ -27,8 +26,8 @@ So far, this addon supports two different potential formats:
   import MyComponent from './my-component';
 
   <template>
-    <MyComponent/>
-  </template>
+    <MyComponent />
+  </template>;
   ```
 
 - Template literals, similar to the existing `hbs` helper in tests:
@@ -85,11 +84,11 @@ define template-only components and assign them to variables, allowing you to
 export components with named exports:
 
 ```js
-export const First = <template>First</template>
+export const First = <template>First</template>;
 
-export const Second = <template>Second</template>
+export const Second = <template>Second</template>;
 
-export const Third = <template>Third</template>
+export const Third = <template>Third</template>;
 ```
 
 This also allows you to create components that are only used locally, in the
@@ -178,6 +177,7 @@ export default hbs`
   <Hello @name="world" />
 `;
 ```
+
 In addition, you can define template-only components and assign them to
 variables, allowing you to export components with named exports:
 
@@ -226,7 +226,7 @@ import { modifier } from 'ember-modifier';
 const plusOne = helper(([num]) => num + 1);
 
 const setScrollPosition = modifier((element, [position]) => {
-  element.scrollTop = position
+  element.scrollTop = position;
 });
 
 hbs`
@@ -267,47 +267,43 @@ standard JS template literal syntax:
   the class. It is compiled away, and so it cannot be directly referenced or
   dynamically modified/assigned.
 
-
 ## Reference: built-in helpers, modifiers, components
 
 As implemented as part of the [Strict Mode Templates RFC][rfc-496], the built in
 helpers, modifiers and components are available for import:
 
-* `array` (`import { array } from '@ember/helper';`)
-* `concat` (`import { concat } from '@ember/helper';`)
-* `fn` (`import { fn } from '@ember/helper';`)
-* `get` (`import { get } from '@ember/helper';`)
-* `hash` (`import { hash } from '@ember/helper';`)
-* `on` (`import { on } from '@ember/modifier';`)
-* `Input` (`import { Input } from '@ember/component';`)
-* `LinkTo` (`import { LinkTo } from '@ember/routing';`)
-* `TextArea` (`import { TextArea } from '@ember/component';`)
+- `array` (`import { array } from '@ember/helper';`)
+- `concat` (`import { concat } from '@ember/helper';`)
+- `fn` (`import { fn } from '@ember/helper';`)
+- `get` (`import { get } from '@ember/helper';`)
+- `hash` (`import { hash } from '@ember/helper';`)
+- `on` (`import { on } from '@ember/modifier';`)
+- `Input` (`import { Input } from '@ember/component';`)
+- `LinkTo` (`import { LinkTo } from '@ember/routing';`)
+- `TextArea` (`import { TextArea } from '@ember/component';`)
 
 [rfc-496]: https://github.com/emberjs/rfcs/pull/496
 
-Compatibility
-------------------------------------------------------------------------------
+## Compatibility
 
-* Ember.js v3.27 or above
-* Ember CLI v2.13 or above
-* `ember-cli-htmlbars` 6.0 or above
-* Node.js v12 or above
+- Ember.js v3.27 or above
+- Ember CLI v2.13 or above
+- `ember-cli-htmlbars` 6.0 or above
+- Node.js v12 or above
 
-
-Installation
-------------------------------------------------------------------------------
+## Installation
 
 ```
 ember install ember-template-imports
 ```
 
-Editor Integrations
-------------------------------------------------------------------------------
+## Editor Integrations
 
 To get syntax highlighting inside embedded templates and support for the GJS
 file extension, you may need to configure your editor.
 
 ### Visual Studio Code
+
 The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragpat.vscode-glimmer) plugin handles syntax highlighting for both proposed formats.
 
 ### Neovim
@@ -317,15 +313,10 @@ The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragp
 - https://github.com/nvim-treesitter/nvim-treesitter
 - https://github.com/alexlafroscia/tree-sitter-glimmer
 
-
-
-Contributing
-------------------------------------------------------------------------------
+## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
-
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).

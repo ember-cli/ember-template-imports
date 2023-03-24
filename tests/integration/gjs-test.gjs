@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import { precompileTemplate } from '@ember/template-compilation';
 import Component from '@glimmer/component';
 
-import GjsTest from 'dummy/components/gjs-test';
+import GjsTest from 'dummy/components/gjs-examples';
 
 module('tests/integration/components/gjs', function (hooks) {
   setupRenderingTest(hooks);

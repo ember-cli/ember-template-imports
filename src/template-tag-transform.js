@@ -3,7 +3,7 @@ const {
   registerRefs,
   TEMPLATE_TAG_NAME,
   buildPrecompileTemplateCall,
-} = require('../lib/util');
+} = require('./util');
 
 /**
  * Supports the following syntaxes:

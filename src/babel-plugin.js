@@ -1,5 +1,5 @@
 const { ImportUtil } = require('babel-import-util');
-const util = require('../lib/util');
+const util = require('./util');
 const { transformTemplateLiteral } = require('./template-literal-transform');
 const { transformTemplateTag } = require('./template-tag-transform');
 

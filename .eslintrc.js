@@ -2,24 +2,27 @@
 
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
-    ecmaVersion: 2018,
+    requireConfigFile: false,
     sourceType: 'module',
     ecmaFeatures: {
       legacyDecorators: true,
     },
   },
   plugins: ['ember'],
-  extends: [
-    'eslint:recommended',
-    'plugin:ember/recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:ember/recommended', 'prettier'],
   env: {
     browser: true,
   },
-  rules: {},
+  rules: {
+    'node/no-missing-require': [
+      'error',
+      {
+        tryExtensions: ['.js', '.json', '.node', '.gjs', '.gts', '.ts'],
+      },
+    ],
+  },
   overrides: [
     // node files
     {
@@ -54,7 +57,7 @@ module.exports = {
       extends: ['plugin:node/recommended'],
     },
     {
-      files: ['*.ts'],
+      files: ['*.ts', '*.gts'],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/recommended'],

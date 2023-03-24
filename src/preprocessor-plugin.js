@@ -1,8 +1,8 @@
 const stew = require('broccoli-stew');
-const util = require('../lib/util');
+const util = require('./util');
 const {
   preprocessEmbeddedTemplates,
-} = require('../lib/preprocess-embedded-templates');
+} = require('./preprocess-embedded-templates');
 
 /**
  * This preprocessor operates on source files as raw strings, converting

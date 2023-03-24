@@ -10,4 +10,5 @@ class Second extends Component {
 
 <template>
   <First/>, <Second/>!
+  {{(divide)}}
 </template>

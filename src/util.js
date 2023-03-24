@@ -3,4 +3,4 @@
 // being rewritting in `.ts` we need to re-export from `lib/utils.js`.
 //
 // TODO: this should be removed in the next major version
-module.exports = require('../lib/util');
+module.exports = require('./util');
