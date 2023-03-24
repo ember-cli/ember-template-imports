@@ -1,8 +1,8 @@
-const chalk = require('chalk');
 const { ImportUtil } = require('babel-import-util');
 const util = require('../lib/util');
 const { transformTemplateLiteral } = require('./template-literal-transform');
 const { transformTemplateTag } = require('./template-tag-transform');
+const { addViolator } = require('./hbs-deprecation');
 
 /**
  * This Babel plugin takes parseable code emitted by the string-based
@@ -93,7 +93,6 @@ module.exports = function (babel) {
 
     CallExpression(path, state) {
       if (util.isTemplateLiteral(path)) {
-        maybePrintHbsDeprecation();
         state.hadTaggedTemplate = true;
         transformTemplateLiteral(t, path, state);
       } else if (util.isTemplateTag(path)) {
@@ -104,34 +103,3 @@ module.exports = function (babel) {
 
   return { visitor };
 };
-
-/**
- * Flip this after the first print, because otherwise,
- * the deprecation will print for every occurrence of hbs.
- *
- * Ideally, if we could aggregate all the file paths that use hbs
- * and then print the warning at the end, we'd have a nicer to-do list for folks to migrate.
- */
-let hasPrintedHbsDeprecation = false;
-
-function deprecate(msg) {
-  /**
-   * Surrounding newlines are because this output occurs during the
-   * "building..." output of ember-cli, and interlacing
-   * dynamic output with static output does not look great normally.
-   */
-  console.warn(
-    '\n' + chalk.yellow(`DEPRECATION [ember-template-imports]: ${msg}`) + '\n'
-  );
-}
-
-function maybePrintHbsDeprecation() {
-  if (hasPrintedHbsDeprecation) return;
-
-  deprecate(
-    `importing 'hbs' from 'ember-template-imports' is deprecated and will be removed in the next major (v4.0.0). ` +
-      `Please migrate to the <template> syntax per the conclusions in https://github.com/emberjs/rfcs/pull/779.`
-  );
-
-  hasPrintedHbsDeprecation = true;
-}

@@ -1,5 +1,6 @@
 const stew = require('broccoli-stew');
 const util = require('../lib/util');
+const { addViolator } = require('./hbs-deprecation');
 const {
   preprocessEmbeddedTemplates,
 } = require('../lib/preprocess-embedded-templates');
@@ -70,6 +71,7 @@ module.exports = class TemplateImportPreprocessor {
 
       includeSourceMaps: true,
       includeTemplateTokens: true,
+      addViolator,
     };
   }
 

@@ -1,7 +1,10 @@
 'use strict';
 require('validate-peer-dependencies')(__dirname);
+
+let stew = require('broccoli-stew');
 let VersionChecker = require('ember-cli-version-checker');
 let { addPlugin, hasPlugin } = require('ember-cli-babel-plugin-helpers');
+const { maybePrintHbsDeprecation } = require('./src/hbs-deprecation');
 
 module.exports = {
   name: require('./package').name,
@@ -27,6 +30,10 @@ module.exports = {
     let ember = this.project.findAddonByName('ember-source');
 
     this.templateCompilerPath = ember.absolutePaths.templateCompiler;
+  },
+
+  postBuild() {
+    maybePrintHbsDeprecation();
   },
 
   setupPreprocessorRegistry(type, registry) {
