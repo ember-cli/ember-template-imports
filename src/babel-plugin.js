@@ -2,7 +2,6 @@ const { ImportUtil } = require('babel-import-util');
 const util = require('../lib/util');
 const { transformTemplateLiteral } = require('./template-literal-transform');
 const { transformTemplateTag } = require('./template-tag-transform');
-const { addViolator } = require('./hbs-deprecation');
 
 /**
  * This Babel plugin takes parseable code emitted by the string-based
