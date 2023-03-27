@@ -2,6 +2,19 @@
 
 
 
+
+## v3.4.2 (2023-03-27)
+
+#### :bug: Bug Fix
+* [#136](https://github.com/ember-template-imports/ember-template-imports/pull/136) bump glimmer/syntax to latest ([@hmajoros](https://github.com/hmajoros))
+
+#### :house: Internal
+* [#141](https://github.com/ember-template-imports/ember-template-imports/pull/141) Fix build against Ember v5 ([@chriskrycho](https://github.com/chriskrycho))
+
+#### Committers: 2
+- Chris Krycho ([@chriskrycho](https://github.com/chriskrycho))
+- Hank Majoros ([@hmajoros](https://github.com/hmajoros))
+
 ## v3.4.1 (2023-01-30)
 
 #### :bug: Bug Fix
