@@ -253,7 +253,6 @@ export default class Hello extends Component {
 }
 ```
 
-
 ## Reference: built-in helpers, modifiers, components
 
 As implemented as part of the [Strict Mode Templates RFC][rfc-496], the built in

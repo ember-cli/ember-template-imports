@@ -9,12 +9,6 @@ const {
  * tagged template strings and embedded `<template>` tags like these:
  *
  * ```js
- * import { hbs } from 'ember-template-imports';
- *
- * const ComponentA = hbs`
- *   <Greeting />, World!
- * `;
- *
  * const ComponentB = <template>
  *   <Greeting />, World!
  * </template>;
@@ -30,12 +24,6 @@ const {
  * processed in our Babel plugin.
  *
  * ```js
- * import { hbs } from 'ember-template-imports';
- *
- * const ComponentA = hbs(`
- *   <Greeting />, World!
- * `, { strictMode: true, scope: () => ({ Greeting }) });
- *
  * const ComponentB = [__GLIMMER_TEMPLATE(`
  *   <Greeting />, World!
  * `, { strictMode: true, scope: () => ({ Greeting }) })];
@@ -61,37 +49,21 @@ module.exports = class TemplateImportPreprocessor {
       includeSourceMaps: true,
       includeTemplateTokens: true,
     };
-
-    this.templateLiteralConfig = {
-      getTemplateLocalsExportPath: '_GlimmerSyntax.getTemplateLocals',
-
-      importIdentifier: util.TEMPLATE_LITERAL_IDENTIFIER,
-      importPath: util.TEMPLATE_LITERAL_MODULE_SPECIFIER,
-
-      includeSourceMaps: true,
-      includeTemplateTokens: true,
-    };
   }
 
   toTree(tree) {
-    let compiled = stew.map(
-      tree,
-      `**/*.{js,gjs,ts,gts}`,
-      (string, relativePath) => {
-        let config = {
-          relativePath,
-          getTemplateLocalsRequirePath: this.getTemplateCompilerPath(),
-        };
+    let compiled = stew.map(tree, `**/*.{gjs,gts}`, (string, relativePath) => {
+      let config = {
+        relativePath,
+        getTemplateLocalsRequirePath: this.getTemplateCompilerPath(),
+      };
 
-        if (relativePath.match(/\.(gjs|gts)$/)) {
-          Object.assign(config, this.templateTagConfig);
-        } else {
-          Object.assign(config, this.templateLiteralConfig);
-        }
-
-        return preprocessEmbeddedTemplates(string, config).output;
+      if (relativePath.match(/\.(gjs|gts)$/)) {
+        Object.assign(config, this.templateTagConfig);
       }
-    );
+
+      return preprocessEmbeddedTemplates(string, config).output;
+    });
 
     return stew.rename(compiled, (name) => {
       return name.replace(/\.gjs$/, '.js').replace(/\.gts$/, '.ts');
