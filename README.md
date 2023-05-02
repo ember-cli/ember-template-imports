@@ -281,7 +281,7 @@ helpers, modifiers and components are available for import:
 * `on` (`import { on } from '@ember/modifier';`)
 * `Input` (`import { Input } from '@ember/component';`)
 * `LinkTo` (`import { LinkTo } from '@ember/routing';`)
-* `TextArea` (`import { TextArea } from '@ember/component';`)
+* `Textarea` (`import { Textarea } from '@ember/component';`)
 
 [rfc-496]: https://github.com/emberjs/rfcs/pull/496
 
