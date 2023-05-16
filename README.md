@@ -312,12 +312,39 @@ The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragp
 
 ### Neovim
 
-[Example Neovim Config](https://github.com/NullVoxPopuli/dotfiles/blob/main/home/.config/nvim/lua/plugins/syntax.lua#L15) with support for good highlighting of embedded templates in JS and TS, using:
+[Example Neovim Config](https://github.com/NullVoxPopuli/dotfiles/blob/main/home/.config/nvim/lua/plugins/syntax.lua#L52) with support for good highlighting of embedded templates in JS and TS, using:
 
 - https://github.com/nvim-treesitter/nvim-treesitter
 - https://github.com/alexlafroscia/tree-sitter-glimmer
 
+Additionally, when using the eslint-lsp, you'll need to tell ESLint to activate when `javascript.glimmer` and `typecsript.glimmer` files are loaded. [Example](https://github.com/NullVoxPopuli/dotfiles/blob/main/home/.config/nvim/lua/plugin-config/lsp/init.lua#L147).
 
+<details><summary>Configure ESLint for gjs + gts and fix-on-save</summary>
+
+```lua
+local lsp = require('lspconfig')
+  
+-- ✂️ 
+
+local eslint = lsp['eslint']
+  
+eslint.setup({
+  filetypes = { 
+    "javascript", "typescript", 
+    "typescript.glimmer", "javascript.glimmer", 
+    "json", 
+    "markdown" 
+  },
+  on_attach = function(client, bufnr)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      command = "EslintFixAll",
+    })
+  end,
+})
+```
+  
+</details>  
 
 Contributing
 ------------------------------------------------------------------------------
