@@ -1272,6 +1272,13 @@
   dependencies:
     "@glimmer/env" "^0.1.7"
 
+"@glimmer/global-context@0.84.3":
+  version "0.84.3"
+  resolved "https://registry.yarnpkg.com/@glimmer/global-context/-/global-context-0.84.3.tgz#f8bf2cda9562716f2ddf3f96837e7559600635c4"
+  integrity sha512-8Oy9Wg5IZxMEeAnVmzD2NkObf89BeHoFSzJgJROE/deutd3rxg83mvlOez4zBBGYwnTb+VGU2LYRpet92egJjA==
+  dependencies:
+    "@glimmer/env" "^0.1.7"
+
 "@glimmer/interfaces@0.65.4":
   version "0.65.4"
   resolved "https://registry.yarnpkg.com/@glimmer/interfaces/-/interfaces-0.65.4.tgz#d298cc2b12b8ebcf269f39246ca7ab92816f6680"
@@ -1297,7 +1304,18 @@
     "@glimmer/util" "0.65.4"
     "@glimmer/validator" "0.65.4"
 
-"@glimmer/syntax@0.84.3":
+"@glimmer/reference@^0.84.3":
+  version "0.84.3"
+  resolved "https://registry.yarnpkg.com/@glimmer/reference/-/reference-0.84.3.tgz#6420ad9c102633ac83939fd1b2457269d21fb632"
+  integrity sha512-lV+p/aWPVC8vUjmlvYVU7WQJsLh319SdXuAWoX/SE3pq340BJlAJiEcAc6q52y9JNhT57gMwtjMX96W5Xcx/qw==
+  dependencies:
+    "@glimmer/env" "^0.1.7"
+    "@glimmer/global-context" "0.84.3"
+    "@glimmer/interfaces" "0.84.3"
+    "@glimmer/util" "0.84.3"
+    "@glimmer/validator" "0.84.3"
+
+"@glimmer/syntax@0.84.3", "@glimmer/syntax@^0.84.2", "@glimmer/syntax@^0.84.3":
   version "0.84.3"
   resolved "https://registry.yarnpkg.com/@glimmer/syntax/-/syntax-0.84.3.tgz#4045a1708cef7fd810cff42fe6deeba40c7286d0"
   integrity sha512-ioVbTic6ZisLxqTgRBL2PCjYZTFIwobifCustrozRU2xGDiYvVIL0vt25h2c1ioDsX59UgVlDkIK4YTAQQSd2A==
@@ -1355,6 +1373,14 @@
   dependencies:
     "@glimmer/env" "^0.1.7"
     "@glimmer/global-context" "0.65.4"
+
+"@glimmer/validator@0.84.3", "@glimmer/validator@^0.84.3":
+  version "0.84.3"
+  resolved "https://registry.yarnpkg.com/@glimmer/validator/-/validator-0.84.3.tgz#cd83b7f9ab78953f23cc11a32d83d7f729c54df2"
+  integrity sha512-RTBV4TokUB0vI31UC7ikpV7lOYpWUlyqaKV//pRC4pexYMlmqnVhkFrdiimB/R1XyNdUOQUmnIAcdic39NkbhQ==
+  dependencies:
+    "@glimmer/env" "^0.1.7"
+    "@glimmer/global-context" "0.84.3"
 
 "@glimmer/validator@^0.44.0":
   version "0.44.0"
@@ -1613,6 +1639,11 @@
   version "1.4.14"
   resolved "https://registry.yarnpkg.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.14.tgz#add4c98d341472a289190b424efbdb096991bb24"
   integrity sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==
+
+"@jridgewell/sourcemap-codec@^1.4.13":
+  version "1.4.15"
+  resolved "https://registry.yarnpkg.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.15.tgz#d7c6e6755c78567a951e04ab52ef0fd26de59f32"
+  integrity sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==
 
 "@jridgewell/trace-mapping@^0.3.14", "@jridgewell/trace-mapping@^0.3.9":
   version "0.3.17"
@@ -4614,6 +4645,11 @@ commander@^6.2.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.1.tgz#0792eb682dfbc325999bb2b84fddddba110ac73c"
   integrity sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==
 
+commander@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+
 common-tags@^1.8.0:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/common-tags/-/common-tags-1.8.2.tgz#94ebb3c076d26032745fd54face7f688ef5ac9c6"
@@ -5798,6 +5834,21 @@ ember-source@~4.8.2:
     semver "^7.3.7"
     silent-error "^1.1.1"
 
+ember-template-imports@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/ember-template-imports/-/ember-template-imports-3.4.2.tgz#6cf7de7d4b8348a0fddf3aaec4947aa1211289e6"
+  integrity sha512-OS8TUVG2kQYYwP3netunLVfeijPoOKIs1SvPQRTNOQX4Pu8xGGBEZmrv0U1YTnQn12Eg+p6w/0UdGbUnITjyzw==
+  dependencies:
+    babel-import-util "^0.2.0"
+    broccoli-stew "^3.0.0"
+    ember-cli-babel-plugin-helpers "^1.1.1"
+    ember-cli-version-checker "^5.1.2"
+    line-column "^1.0.2"
+    magic-string "^0.25.7"
+    parse-static-imports "^1.1.0"
+    string.prototype.matchall "^4.0.6"
+    validate-peer-dependencies "^1.1.0"
+
 ember-template-lint@^2.18.1:
   version "2.21.0"
   resolved "https://registry.yarnpkg.com/ember-template-lint/-/ember-template-lint-2.21.0.tgz#7e120abf309a8810eeed26c52377943faf15a95b"
@@ -5831,6 +5882,23 @@ ember-template-recast@^5.0.1:
     slash "^3.0.0"
     tmp "^0.2.1"
     workerpool "^6.1.4"
+
+ember-template-recast@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-6.1.4.tgz#e964c184adfd876878009f8aa0b84c95633fce20"
+  integrity sha512-fCh+rOK6z+/tsdkTbOE+e7f84P6ObnIRQrCCrnu21E4X05hPeradikIkRMhJdxn4NWrxitfZskQDd37TR/lsNQ==
+  dependencies:
+    "@glimmer/reference" "^0.84.3"
+    "@glimmer/syntax" "^0.84.3"
+    "@glimmer/validator" "^0.84.3"
+    async-promise-queue "^1.0.5"
+    colors "^1.4.0"
+    commander "^8.3.0"
+    globby "^11.0.3"
+    ora "^5.4.0"
+    slash "^3.0.0"
+    tmp "^0.2.1"
+    workerpool "^6.4.0"
 
 ember-try-config@^3.0.0:
   version "3.0.0"
@@ -6132,17 +6200,22 @@ eslint-config-prettier@^7.2.0:
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-7.2.0.tgz#f4a4bd2832e810e8cc7c1411ec85b3e85c0c53f9"
   integrity sha512-rV4Qu0C3nfJKPOAhFujFxB7RMP+URFyQqqOZW9DMRD7ZDTFyjaIlETU3xzHELt++4ugC0+Jm084HQYkkJe+Ivg==
 
-eslint-plugin-ember@^10.2.0:
-  version "10.6.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-10.6.1.tgz#04ea84cc82307f64a2faa4f2855b30e5ebf9f722"
-  integrity sha512-R+TN3jwhYQ2ytZCA1VkfJDZSGgHFOHjsHU1DrBlRXYRepThe56PpuGxywAyDvQ7inhoAz3e6G6M60PzpvjzmNg==
+eslint-plugin-ember@^11.9.0:
+  version "11.9.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-11.9.0.tgz#b02f8d7c2d78ff2b8f13d1eaff55d13edfa8cfee"
+  integrity sha512-kpsvbdQOFw9ikzwmhxR8mmsAXtwwj+DPMGn1NOHAHJOnhTkyioKEiNO6tQK/b33VtQy1VpJP6zFu+Bt6m/cYxA==
   dependencies:
     "@ember-data/rfc395-data" "^0.0.4"
+    "@glimmer/syntax" "^0.84.2"
     css-tree "^2.0.4"
     ember-rfc176-data "^0.3.15"
+    ember-template-imports "^3.4.2"
+    ember-template-recast "^6.1.4"
     eslint-utils "^3.0.0"
     estraverse "^5.2.0"
+    lodash.camelcase "^4.1.1"
     lodash.kebabcase "^4.1.1"
+    magic-string "^0.30.0"
     requireindex "^1.2.0"
     snake-case "^3.0.3"
 
@@ -9480,6 +9553,11 @@ lodash.assignin@^4.1.0:
   resolved "https://registry.yarnpkg.com/lodash.assignin/-/lodash.assignin-4.2.0.tgz#ba8df5fb841eb0a3e8044232b0e263a8dc6a28a2"
   integrity sha512-yX/rx6d/UTVh7sSVWVSIMjfnz95evAgDFdb1ZozC35I9mSFCkmzptOzevxjgbQUsc78NR44LVHWjsoMQXy9FDg==
 
+lodash.camelcase@^4.1.1:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
+  integrity sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==
+
 lodash.castarray@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.castarray/-/lodash.castarray-4.4.0.tgz#c02513515e309daddd4c24c60cfddcf5976d9115"
@@ -9678,6 +9756,13 @@ magic-string@^0.25.7:
   integrity sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==
   dependencies:
     sourcemap-codec "^1.4.8"
+
+magic-string@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.0.tgz#fd58a4748c5c4547338a424e90fa5dd17f4de529"
+  integrity sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==
+  dependencies:
+    "@jridgewell/sourcemap-codec" "^1.4.13"
 
 make-dir@^2.0.0:
   version "2.1.0"
