@@ -19,6 +19,7 @@ module('tests/integration/components/gjs', function (hooks) {
       })
     );
 
+    assert.equal(Foo.moduleName, 'gjs-test');
     assert.equal(this.element.textContent.trim(), 'Hello, world!');
   });
 

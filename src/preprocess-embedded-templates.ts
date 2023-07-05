@@ -112,7 +112,8 @@ function replaceMatch(
   endReplacement: string,
   template: string,
   getTemplateLocals: GetTemplateLocals,
-  includeTemplateTokens: boolean
+  includeTemplateTokens: boolean,
+  relativePath: string
 ): Replacement[] {
   const { start: openStart, end: openEnd } = getMatchStartAndEnd(match.start);
   const { start: closeStart, end: closeEnd } = getMatchStartAndEnd(match.end);
@@ -130,7 +131,7 @@ function replaceMatch(
   }
 
   const newStart = `${startReplacement}\``;
-  const newEnd = `\`, { strictMode: true${options} }${endReplacement}`;
+  const newEnd = `\`, { strictMode: true, moduleName: '${relativePath}'${options} }${endReplacement}`;
 
   s.overwrite(openStart, openEnd, newStart);
   s.overwrite(closeStart, closeEnd, newEnd);
@@ -234,7 +235,8 @@ export function preprocessEmbeddedTemplates(
           ')',
           template,
           getTemplateLocals,
-          includeTemplateTokens
+          includeTemplateTokens,
+          relativePath
         )
       );
     } else if (match.type === 'template-tag') {
@@ -246,7 +248,8 @@ export function preprocessEmbeddedTemplates(
           ')]',
           template,
           getTemplateLocals,
-          includeTemplateTokens
+          includeTemplateTokens,
+          relativePath
         )
       );
     }

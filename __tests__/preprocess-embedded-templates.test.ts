@@ -15,7 +15,8 @@ describe('preprocessEmbeddedTemplates', function () {
     });
 
     const expected = {
-      output: '[__GLIMMER_TEMPLATE(`Hello!`, { strictMode: true })]',
+      output:
+        "[__GLIMMER_TEMPLATE(`Hello!`, { strictMode: true, moduleName: 'foo.gjs' })]",
       replacements: [
         {
           type: 'start',
@@ -29,7 +30,7 @@ describe('preprocessEmbeddedTemplates', function () {
           type: 'end',
           index: 16,
           oldLength: 11,
-          newLength: 25,
+          newLength: 48,
           originalCol: 17,
           originalLine: 1,
         },
@@ -52,7 +53,7 @@ describe('preprocessEmbeddedTemplates', function () {
 
     const expected = {
       output:
-        '[__GLIMMER_TEMPLATE(`Hello \\`world\\`!`, { strictMode: true })]',
+        "[__GLIMMER_TEMPLATE(`Hello \\`world\\`!`, { strictMode: true, moduleName: 'foo.gjs' })]",
       replacements: [
         {
           type: 'start',
@@ -66,7 +67,7 @@ describe('preprocessEmbeddedTemplates', function () {
           type: 'end',
           index: 24,
           oldLength: 11,
-          newLength: 25,
+          newLength: 48,
           originalCol: 25,
           originalLine: 1,
         },
@@ -135,7 +136,7 @@ describe('preprocessEmbeddedTemplates', function () {
 
     const expected = {
       output:
-        "import { hbs } from 'ember-template-imports'\nconst Greeting = hbs(`Hello!`, { strictMode: true })\n",
+        "import { hbs } from 'ember-template-imports'\nconst Greeting = hbs(`Hello!`, { strictMode: true, moduleName: 'foo.gjs' })\n",
       replacements: [
         {
           type: 'start',
@@ -149,7 +150,7 @@ describe('preprocessEmbeddedTemplates', function () {
           type: 'end',
           index: 72,
           oldLength: 1,
-          newLength: 24,
+          newLength: 47,
           originalCol: 28,
           originalLine: 2,
         },
