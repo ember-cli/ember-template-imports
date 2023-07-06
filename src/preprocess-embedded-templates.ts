@@ -2,6 +2,7 @@ import MagicString from 'magic-string';
 import path from 'path';
 import lineColumn from 'line-column';
 import { expect } from './debug';
+
 import {
   parseTemplates,
   ParseTemplatesOptions,
@@ -53,20 +54,6 @@ interface Replacement {
 
 type GetTemplateLocals = (template: string) => string[];
 
-function getMatchStartAndEnd(match: RegExpMatchArray) {
-  return {
-    start: expect(
-      match.index,
-      'Expected regular expression match to have an index'
-    ),
-    end:
-      expect(
-        match.index,
-        'Expected regular expression match to have an index'
-      ) + match[0].length,
-  };
-}
-
 function replacementFrom(
   template: string,
   index: number,
@@ -114,8 +101,8 @@ function replaceMatch(
   getTemplateLocals: GetTemplateLocals,
   includeTemplateTokens: boolean
 ): Replacement[] {
-  const { start: openStart, end: openEnd } = getMatchStartAndEnd(match.start);
-  const { start: closeStart, end: closeEnd } = getMatchStartAndEnd(match.end);
+  const { start: openStart, end: openEnd } = match.startRange;
+  const { start: closeStart, end: closeEnd } = match.endRange;
 
   let options = '';
 
@@ -129,12 +116,12 @@ function replaceMatch(
     }
   }
 
-  const newStart = `${startReplacement}\``;
+  const content = match.contents.replace(/(?<!\\)`/g, '\\`');
+  const newStart = `${match.prefix || ''}${startReplacement}\`${content}`;
   const newEnd = `\`, { strictMode: true${options} }${endReplacement}`;
 
-  s.overwrite(openStart, openEnd, newStart);
+  s.overwrite(openStart, closeStart, newStart);
   s.overwrite(closeStart, closeEnd, newEnd);
-  ensureBackticksEscaped(s, openEnd + 1, closeStart - 1);
 
   return [
     replacementFrom(
@@ -272,10 +259,4 @@ export function preprocessEmbeddedTemplates(
     output,
     replacements,
   };
-}
-
-function ensureBackticksEscaped(s: MagicString, start: number, end: number) {
-  let content = s.slice(start, end);
-  content = content.replace(/(?<!\\)`/g, '\\`');
-  s.overwrite(start, end, content, false);
 }

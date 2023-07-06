@@ -6,13 +6,13 @@ import {
 
 describe('parseTemplates', function () {
   /*
-    This is just to make snapshot testing a bit easier, since the real `parseTemplates`
-    returns `RegExpMatchArray` instances as `start`/`end` the snapshots only display a
-    small number of the fields that are available.
+      This is just to make snapshot testing a bit easier, since the real `parseTemplates`
+      returns `RegExpMatchArray` instances as `start`/`end` the snapshots only display a
+      small number of the fields that are available.
 
-    This transforms the `start`/`end` properties into simpler objects with the properties that
-    most consumers will be using, so that we can test the function easier.
-  */
+      This transforms the `start`/`end` properties into simpler objects with the properties that
+      most consumers will be using, so that we can test the function easier.
+    */
   function parseTemplates(
     source: string,
     relativePath: string,
@@ -43,20 +43,120 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            10,
+            16,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "</template>",
-            "1": undefined,
-            "groups": undefined,
             "index": 16,
-            "input": "<template>Hello!</template>",
           },
+          "endRange": Object {
+            "end": 27,
+            "start": 16,
+          },
+          "range": Array [
+            0,
+            27,
+          ],
           "start": Object {
-            "0": "<template>",
-            "1": undefined,
-            "groups": undefined,
+            "0": "Hello!",
             "index": 0,
-            "input": "<template>Hello!</template>",
+          },
+          "startRange": Object {
+            "end": 10,
+            "start": 0,
+          },
+          "tagName": "template",
+          "type": "template-tag",
+        },
+      ]
+    `);
+  });
+
+  it('<template></template> as assignment', function () {
+    const input = `
+      const tpl = <template>Hello!</template>
+    `;
+
+    const templates = parseTemplates(input, 'foo.gjs', {
+      templateTag: 'template',
+    });
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contentRange": Array [
+            29,
+            35,
+          ],
+          "contents": "Hello!",
+          "end": Object {
+            "0": "</template>",
+            "index": 35,
+          },
+          "endRange": Object {
+            "end": 46,
+            "start": 35,
+          },
+          "range": Array [
+            19,
+            46,
+          ],
+          "start": Object {
+            "0": "Hello!",
+            "index": 19,
+          },
+          "startRange": Object {
+            "end": 29,
+            "start": 19,
+          },
+          "tagName": "template",
+          "type": "template-tag",
+        },
+      ]
+    `);
+  });
+
+  it('<template></template> in class', function () {
+    const input = `
+      class A {
+        <template>Hello!</template>
+      }
+    `;
+
+    const templates = parseTemplates(input, 'foo.gjs', {
+      templateTag: 'template',
+    });
+
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contentRange": Array [
+            35,
+            41,
+          ],
+          "contents": "Hello!",
+          "end": Object {
+            "0": "</template>",
+            "index": 41,
+          },
+          "endRange": Object {
+            "end": 52,
+            "start": 41,
+          },
+          "range": Array [
+            25,
+            52,
+          ],
+          "start": Object {
+            "0": "Hello!",
+            "index": 25,
+          },
+          "startRange": Object {
+            "end": 35,
+            "start": 25,
           },
           "tagName": "template",
           "type": "template-tag",
@@ -78,26 +178,30 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            51,
+            57,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "</template>",
-            "1": undefined,
-            "groups": undefined,
             "index": 57,
-            "input": "
-            const divide = () => 4 / 2;
-            <template>Hello!</template>
-          ",
           },
+          "endRange": Object {
+            "end": 68,
+            "start": 57,
+          },
+          "range": Array [
+            41,
+            68,
+          ],
           "start": Object {
-            "0": "<template>",
-            "1": undefined,
-            "groups": undefined,
+            "0": "Hello!",
             "index": 41,
-            "input": "
-            const divide = () => 4 / 2;
-            <template>Hello!</template>
-          ",
+          },
+          "startRange": Object {
+            "end": 51,
+            "start": 41,
           },
           "tagName": "template",
           "type": "template-tag",
@@ -106,14 +210,7 @@ describe('parseTemplates', function () {
     `);
   });
 
-  // This test demonstrates a problem with the current implementation. The characters "<template>"
-  // inside of a regex is treated as an opening template tag instead of being ignored. Previous
-  // versions of this addon attempted to address this by parsing "/"-delimited regexes, however
-  // the addon's regular-expression based tokenizing was unable to properly distinguish a regex
-  // from division, and so the test above this one ("<template></template> preceded by a slash
-  // character") did not pass and caused quite confusing failures that occurred far more
-  // frequently than the issue demonstrated below will occur.
-  it.skip('<template></template> with <template> inside of a regexp', function () {
+  it('<template></template> with <template> inside of a regexp', function () {
     const input = `
       const myregex = /<template>/;
       <template>Hello!</template>
@@ -126,26 +223,32 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            53,
+            59,
+          ],
+          "contents": "Hello!",
           "end": Object {
             "0": "</template>",
-            "1": undefined,
-            "groups": undefined,
-            "index": 9,
-            "input": "
-            const myregex = /<template>/;
-            <template>Hello!</template>
-          ",
+            "index": 59,
           },
+          "endRange": Object {
+            "end": 70,
+            "start": 59,
+          },
+          "range": Array [
+            43,
+            70,
+          ],
           "start": Object {
-            "0": "<template>",
-            "1": undefined,
-            "groups": undefined,
+            "0": "Hello!",
             "index": 43,
-            "input": "
-            const myregex = /<template>/;
-            <template>Hello!</template>
-          ",
           },
+          "startRange": Object {
+            "end": 53,
+            "start": 43,
+          },
+          "tagName": "template",
           "type": "template-tag",
         },
       ]
@@ -178,22 +281,32 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            45,
+            52,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 52,
-            "input": "import { hbs } from 'ember-cli-htmlbars'; hbs\`Hello!\`",
+          },
+          "endRange": Object {
+            "end": 53,
+            "start": 52,
           },
           "importIdentifier": "hbs",
           "importPath": "ember-cli-htmlbars",
+          "range": Array [
+            42,
+            53,
+          ],
           "start": Object {
-            "0": "hbs\`",
-            "1": "hbs",
-            "groups": undefined,
+            "0": "Hello!",
             "index": 42,
-            "input": "import { hbs } from 'ember-cli-htmlbars'; hbs\`Hello!\`",
+          },
+          "startRange": Object {
+            "end": 46,
+            "start": 42,
           },
           "tagName": "hbs",
           "type": "template-literal",
@@ -223,22 +336,32 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            54,
+            61,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 61,
-            "input": "import { hbs } from '@ember/template-compilation'; hbs\`Hello!\`",
+          },
+          "endRange": Object {
+            "end": 62,
+            "start": 61,
           },
           "importIdentifier": "hbs",
           "importPath": "@ember/template-compilation",
+          "range": Array [
+            51,
+            62,
+          ],
           "start": Object {
-            "0": "hbs\`",
-            "1": "hbs",
-            "groups": undefined,
+            "0": "Hello!",
             "index": 51,
-            "input": "import { hbs } from '@ember/template-compilation'; hbs\`Hello!\`",
+          },
+          "startRange": Object {
+            "end": 55,
+            "start": 51,
           },
           "tagName": "hbs",
           "type": "template-literal",
@@ -263,22 +386,32 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            49,
+            56,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 56,
-            "input": "import { hbs } from 'ember-template-imports'; hbs\`Hello!\`",
+          },
+          "endRange": Object {
+            "end": 57,
+            "start": 56,
           },
           "importIdentifier": "hbs",
           "importPath": "ember-template-imports",
+          "range": Array [
+            46,
+            57,
+          ],
           "start": Object {
-            "0": "hbs\`",
-            "1": "hbs",
-            "groups": undefined,
+            "0": "Hello!",
             "index": 46,
-            "input": "import { hbs } from 'ember-template-imports'; hbs\`Hello!\`",
+          },
+          "startRange": Object {
+            "end": 50,
+            "start": 46,
           },
           "tagName": "hbs",
           "type": "template-literal",
@@ -304,22 +437,32 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            65,
+            72,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 72,
-            "input": "import theHbs from 'ember-cli-htmlbars-inline-precompile'; theHbs\`Hello!\`",
+          },
+          "endRange": Object {
+            "end": 73,
+            "start": 72,
           },
           "importIdentifier": "default",
           "importPath": "ember-cli-htmlbars-inline-precompile",
+          "range": Array [
+            59,
+            73,
+          ],
           "start": Object {
-            "0": "theHbs\`",
-            "1": "theHbs",
-            "groups": undefined,
+            "0": "Hello!",
             "index": 59,
-            "input": "import theHbs from 'ember-cli-htmlbars-inline-precompile'; theHbs\`Hello!\`",
+          },
+          "startRange": Object {
+            "end": 66,
+            "start": 59,
           },
           "tagName": "theHbs",
           "type": "template-literal",
@@ -344,22 +487,32 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            49,
+            56,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 56,
-            "input": "import hbs from 'htmlbars-inline-precompile'; hbs\`Hello!\`",
+          },
+          "endRange": Object {
+            "end": 57,
+            "start": 56,
           },
           "importIdentifier": "default",
           "importPath": "htmlbars-inline-precompile",
+          "range": Array [
+            46,
+            57,
+          ],
           "start": Object {
-            "0": "hbs\`",
-            "1": "hbs",
-            "groups": undefined,
+            "0": "Hello!",
             "index": 46,
-            "input": "import hbs from 'htmlbars-inline-precompile'; hbs\`Hello!\`",
+          },
+          "startRange": Object {
+            "end": 50,
+            "start": 46,
           },
           "tagName": "hbs",
           "type": "template-literal",
@@ -389,22 +542,32 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            84,
+            91,
+          ],
           "contents": "Hello!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 91,
-            "input": "import { precompileTemplate } from '@ember/template-compilation'; precompileTemplate\`Hello!\`",
+          },
+          "endRange": Object {
+            "end": 92,
+            "start": 91,
           },
           "importIdentifier": "precompileTemplate",
           "importPath": "@ember/template-compilation",
+          "range": Array [
+            66,
+            92,
+          ],
           "start": Object {
-            "0": "precompileTemplate\`",
-            "1": "precompileTemplate",
-            "groups": undefined,
+            "0": "Hello!",
             "index": 66,
-            "input": "import { precompileTemplate } from '@ember/template-compilation'; precompileTemplate\`Hello!\`",
+          },
+          "startRange": Object {
+            "end": 85,
+            "start": 66,
           },
           "tagName": "precompileTemplate",
           "type": "template-literal",
@@ -436,52 +599,72 @@ describe('parseTemplates', function () {
       ],
     });
 
-    const expected = [
-      {
-        contents: 'Howdy!',
-        end: {
-          0: '`',
-          1: undefined,
-          groups: undefined,
-          index: 172,
-          input,
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contentRange": Array [
+            165,
+            172,
+          ],
+          "contents": "Howdy!",
+          "end": Object {
+            "0": "\`",
+            "index": 172,
+          },
+          "endRange": Object {
+            "end": 173,
+            "start": 172,
+          },
+          "importIdentifier": "hbs",
+          "importPath": "ember-cli-htmlbars",
+          "range": Array [
+            158,
+            173,
+          ],
+          "start": Object {
+            "0": "Howdy!",
+            "index": 158,
+          },
+          "startRange": Object {
+            "end": 166,
+            "start": 158,
+          },
+          "tagName": "someHbs",
+          "type": "template-literal",
         },
-        importIdentifier: 'hbs',
-        importPath: 'ember-cli-htmlbars',
-        start: {
-          0: 'someHbs`',
-          1: 'someHbs',
-          groups: undefined,
-          index: 158,
-          input,
+        Object {
+          "contentRange": Array [
+            180,
+            184,
+          ],
+          "contents": "Hi!",
+          "end": Object {
+            "0": "\`",
+            "index": 184,
+          },
+          "endRange": Object {
+            "end": 185,
+            "start": 184,
+          },
+          "importIdentifier": "default",
+          "importPath": "htmlbars-inline-precompile",
+          "range": Array [
+            174,
+            185,
+          ],
+          "start": Object {
+            "0": "Hi!",
+            "index": 174,
+          },
+          "startRange": Object {
+            "end": 181,
+            "start": 174,
+          },
+          "tagName": "theHbs",
+          "type": "template-literal",
         },
-        tagName: 'someHbs',
-        type: 'template-literal',
-      },
-      {
-        contents: 'Hi!',
-        end: {
-          0: '`',
-          1: undefined,
-          groups: undefined,
-          index: 184,
-          input,
-        },
-        importIdentifier: 'default',
-        importPath: 'htmlbars-inline-precompile',
-        start: {
-          0: 'theHbs`',
-          1: 'theHbs',
-          groups: undefined,
-          index: 174,
-          input,
-        },
-        tagName: 'theHbs',
-        type: 'template-literal',
-      },
-    ];
-
-    expect(templates).toEqual(expected);
+      ]
+    `);
   });
 
   it('with multiple identifiers for the same import path', function () {
@@ -512,73 +695,103 @@ describe('parseTemplates', function () {
       ],
     });
 
-    const expected = [
-      {
-        contents: 'Hello!',
-        end: {
-          0: '`',
-          1: undefined,
-          groups: undefined,
-          index: 195,
-          input,
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contentRange": Array [
+            188,
+            195,
+          ],
+          "contents": "Hello!",
+          "end": Object {
+            "0": "\`",
+            "index": 195,
+          },
+          "endRange": Object {
+            "end": 196,
+            "start": 195,
+          },
+          "importIdentifier": "default",
+          "importPath": "ember-cli-htmlbars",
+          "range": Array [
+            174,
+            196,
+          ],
+          "start": Object {
+            "0": "Hello!",
+            "index": 174,
+          },
+          "startRange": Object {
+            "end": 189,
+            "start": 174,
+          },
+          "tagName": "someDefaultHbs",
+          "type": "template-literal",
         },
-        importIdentifier: 'default',
-        importPath: 'ember-cli-htmlbars',
-        start: {
-          0: 'someDefaultHbs`',
-          1: 'someDefaultHbs',
-          groups: undefined,
-          index: 174,
-          input,
+        Object {
+          "contentRange": Array [
+            204,
+            211,
+          ],
+          "contents": "Howdy!",
+          "end": Object {
+            "0": "\`",
+            "index": 211,
+          },
+          "endRange": Object {
+            "end": 212,
+            "start": 211,
+          },
+          "importIdentifier": "hbs",
+          "importPath": "ember-cli-htmlbars",
+          "range": Array [
+            197,
+            212,
+          ],
+          "start": Object {
+            "0": "Howdy!",
+            "index": 197,
+          },
+          "startRange": Object {
+            "end": 205,
+            "start": 197,
+          },
+          "tagName": "someHbs",
+          "type": "template-literal",
         },
-        tagName: 'someDefaultHbs',
-        type: 'template-literal',
-      },
-      {
-        contents: 'Howdy!',
-        end: {
-          0: '`',
-          1: undefined,
-          groups: undefined,
-          index: 211,
-          input,
+        Object {
+          "contentRange": Array [
+            219,
+            223,
+          ],
+          "contents": "Hi!",
+          "end": Object {
+            "0": "\`",
+            "index": 223,
+          },
+          "endRange": Object {
+            "end": 224,
+            "start": 223,
+          },
+          "importIdentifier": "default",
+          "importPath": "htmlbars-inline-precompile",
+          "range": Array [
+            213,
+            224,
+          ],
+          "start": Object {
+            "0": "Hi!",
+            "index": 213,
+          },
+          "startRange": Object {
+            "end": 220,
+            "start": 213,
+          },
+          "tagName": "theHbs",
+          "type": "template-literal",
         },
-        importIdentifier: 'hbs',
-        importPath: 'ember-cli-htmlbars',
-        start: {
-          0: 'someHbs`',
-          1: 'someHbs',
-          groups: undefined,
-          index: 197,
-          input,
-        },
-        tagName: 'someHbs',
-        type: 'template-literal',
-      },
-      {
-        contents: 'Hi!',
-        end: {
-          0: '`',
-          1: undefined,
-          groups: undefined,
-          index: 223,
-          input,
-        },
-        importIdentifier: 'default',
-        importPath: 'htmlbars-inline-precompile',
-        start: {
-          0: 'theHbs`',
-          1: 'theHbs',
-          groups: undefined,
-          index: 213,
-          input,
-        },
-        tagName: 'theHbs',
-        type: 'template-literal',
-      },
-    ];
-
-    expect(templates).toEqual(expected);
+      ]
+    `);
   });
 
   it('with multiple identifiers for the same import path with DEFAULT_PARSE_TEMPLATES_OPTIONS', function () {
@@ -600,67 +813,63 @@ describe('parseTemplates', function () {
     expect(templates).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contentRange": Array [
+            204,
+            211,
+          ],
           "contents": "Howdy!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 211,
-            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
-      import theHbs from 'htmlbars-inline-precompile';
-      import { hbs } from 'not-the-hbs-you-want';
-      hbs\`Hello!\`
-      someDefaultHbs\`Hello!\`
-      someHbs\`Howdy!\`
-      theHbs\`Hi!\`",
+          },
+          "endRange": Object {
+            "end": 212,
+            "start": 211,
           },
           "importIdentifier": "hbs",
           "importPath": "ember-cli-htmlbars",
+          "range": Array [
+            197,
+            212,
+          ],
           "start": Object {
-            "0": "someHbs\`",
-            "1": "someHbs",
-            "groups": undefined,
+            "0": "Howdy!",
             "index": 197,
-            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
-      import theHbs from 'htmlbars-inline-precompile';
-      import { hbs } from 'not-the-hbs-you-want';
-      hbs\`Hello!\`
-      someDefaultHbs\`Hello!\`
-      someHbs\`Howdy!\`
-      theHbs\`Hi!\`",
+          },
+          "startRange": Object {
+            "end": 205,
+            "start": 197,
           },
           "tagName": "someHbs",
           "type": "template-literal",
         },
         Object {
+          "contentRange": Array [
+            219,
+            223,
+          ],
           "contents": "Hi!",
           "end": Object {
             "0": "\`",
-            "1": undefined,
-            "groups": undefined,
             "index": 223,
-            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
-      import theHbs from 'htmlbars-inline-precompile';
-      import { hbs } from 'not-the-hbs-you-want';
-      hbs\`Hello!\`
-      someDefaultHbs\`Hello!\`
-      someHbs\`Howdy!\`
-      theHbs\`Hi!\`",
+          },
+          "endRange": Object {
+            "end": 224,
+            "start": 223,
           },
           "importIdentifier": "default",
           "importPath": "htmlbars-inline-precompile",
+          "range": Array [
+            213,
+            224,
+          ],
           "start": Object {
-            "0": "theHbs\`",
-            "1": "theHbs",
-            "groups": undefined,
+            "0": "Hi!",
             "index": 213,
-            "input": "import someDefaultHbs, { hbs as someHbs } from 'ember-cli-htmlbars';
-      import theHbs from 'htmlbars-inline-precompile';
-      import { hbs } from 'not-the-hbs-you-want';
-      hbs\`Hello!\`
-      someDefaultHbs\`Hello!\`
-      someHbs\`Howdy!\`
-      theHbs\`Hi!\`",
+          },
+          "startRange": Object {
+            "end": 220,
+            "start": 213,
           },
           "tagName": "theHbs",
           "type": "template-literal",
@@ -686,31 +895,41 @@ describe('parseTemplates', function () {
       ],
     });
 
-    const expected = [
-      {
-        contents: 'Howdy!',
-        end: {
-          0: '`',
-          1: undefined,
-          groups: undefined,
-          index: 123,
-          input,
+    expect(templates).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contentRange": Array [
+            116,
+            123,
+          ],
+          "contents": "Howdy!",
+          "end": Object {
+            "0": "\`",
+            "index": 123,
+          },
+          "endRange": Object {
+            "end": 124,
+            "start": 123,
+          },
+          "importIdentifier": "hbs",
+          "importPath": "ember-cli-htmlbars",
+          "range": Array [
+            109,
+            124,
+          ],
+          "start": Object {
+            "0": "Howdy!",
+            "index": 109,
+          },
+          "startRange": Object {
+            "end": 117,
+            "start": 109,
+          },
+          "tagName": "someHbs",
+          "type": "template-literal",
         },
-        importIdentifier: 'hbs',
-        importPath: 'ember-cli-htmlbars',
-        start: {
-          0: 'someHbs`',
-          1: 'someHbs',
-          groups: undefined,
-          index: 109,
-          input,
-        },
-        tagName: 'someHbs',
-        type: 'template-literal',
-      },
-    ];
-
-    expect(templates).toEqual(expected);
+      ]
+    `);
   });
 
   it('lol`hahahaha` with options', function () {

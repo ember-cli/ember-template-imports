@@ -31,10 +31,13 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@babel/parser": "^7.19.6",
+    "@babel/traverse": "^7.19.6",
     "babel-import-util": "^0.2.0",
     "broccoli-stew": "^3.0.0",
     "ember-cli-babel-plugin-helpers": "^1.1.1",
     "ember-cli-version-checker": "^5.1.2",
+    "htmlparser2": "^9.0.0",
     "line-column": "^1.0.2",
     "magic-string": "^0.25.7",
     "parse-static-imports": "^1.1.0",
@@ -42,7 +45,6 @@
     "validate-peer-dependencies": "^1.1.0"
   },
   "devDependencies": {
-    "@babel/traverse": "^7.19.6",
     "@babel/types": "^7.19.4",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.0.1",

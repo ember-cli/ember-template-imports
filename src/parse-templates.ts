@@ -1,31 +1,44 @@
-import matchAll from 'string.prototype.matchall';
 import parseStaticImports from 'parse-static-imports';
-
+import * as htmlparser2 from 'htmlparser2';
+import Parser from '@babel/parser/lib/parser';
+import traverse, { NodePath } from '@babel/traverse';
+import { ClassBody, Identifier, MemberExpression, Node } from '@babel/types';
 import {
   TEMPLATE_TAG_NAME,
   TEMPLATE_LITERAL_MODULE_SPECIFIER,
   TEMPLATE_LITERAL_IDENTIFIER,
 } from './util';
-import { expect } from './debug';
 
 export type TemplateMatch = TemplateTagMatch | TemplateLiteralMatch;
+
+export type Match = { start: number; end: number };
 
 export interface TemplateTagMatch {
   type: 'template-tag';
   tagName: string;
+  startRange: Match;
+  endRange: Match;
   start: RegExpMatchArray;
   end: RegExpMatchArray;
   contents: string;
+  contentRange: [number, number];
+  range: [number, number];
+  prefix?: string;
 }
 
 export interface TemplateLiteralMatch {
   type: 'template-literal';
   tagName: string;
   contents: string;
+  startRange: Match;
+  endRange: Match;
   start: RegExpMatchArray;
   end: RegExpMatchArray;
+  contentRange: [number, number];
+  range: [number, number];
   importPath: string;
   importIdentifier: string;
+  prefix?: string;
 }
 
 export function isTemplateLiteralMatch(
@@ -63,32 +76,33 @@ export interface ParseTemplatesOptions {
   templateLiteral?: StaticImportConfig[];
 }
 
-const escapeChar = '\\';
-const stringDelimiter = /['"]/;
+function replaceRange(
+  s: string,
+  start: number,
+  end: number,
+  substitute: string
+) {
+  return s.substring(0, start) + substitute + s.substring(end);
+}
 
-const singleLineCommentStart = /\/\//;
-const newLine = /\n/;
-const multiLineCommentStart = /\/\*/;
-const multiLineCommentEnd = /\*\//;
-
-const templateLiteralStart = /([$a-zA-Z_][0-9a-zA-Z_$]*)?`/;
-const templateLiteralEnd = /`/;
-
-const dynamicSegmentStart = /\${/;
-const blockStart = /{/;
-const dynamicSegmentEnd = /}/;
-
-function isEscaped(template: string, _offset: number | undefined) {
-  let offset = expect(_offset, 'Expected an index to check escaping');
-
-  let count = 0;
-
-  while (template[offset - 1] === escapeChar) {
-    count++;
-    offset--;
-  }
-
-  return count % 2 === 1;
+function minify(htmlContent: string) {
+  let newHtmlContent = htmlContent;
+  const replaceList: { start: number; end: number; content: string }[] = [];
+  const htmlParser = new htmlparser2.Parser({
+    ontext(data: string) {
+      replaceList.push({
+        start: htmlParser.startIndex,
+        end: htmlParser.endIndex + 1,
+        content: data.replace(/ {2,}/g, ' ').replace(/[\r\n\t\f\v]/g, ''),
+      });
+    },
+  });
+  htmlParser.write(htmlContent);
+  htmlParser.end();
+  replaceList.reverse().forEach((r) => {
+    newHtmlContent = replaceRange(newHtmlContent, r.start, r.end, r.content);
+  });
+  return newHtmlContent;
 }
 
 export const DEFAULT_PARSE_TEMPLATES_OPTIONS = {
@@ -149,281 +163,216 @@ export function parseTemplates(
   const templateTag = options?.templateTag;
   const templateLiteralConfig = options?.templateLiteral;
 
-  const templateTagStart = new RegExp(`<${templateTag}[^<]*>`);
-  const templateTagEnd = new RegExp(`</${templateTag}>`);
-  const argumentsMatchRegex = new RegExp(`<${templateTag}[^<]*\\S[^<]*>`);
-
   let importedNames = new Map<string, StaticImportConfig>();
   if (templateLiteralConfig) {
     importedNames = findImportedNames(template, templateLiteralConfig);
   }
 
-  const allTokens = new RegExp(
-    [
-      singleLineCommentStart.source,
-      newLine.source,
-      multiLineCommentStart.source,
-      multiLineCommentEnd.source,
-      stringDelimiter.source,
-      templateLiteralStart.source,
-      templateLiteralEnd.source,
-      dynamicSegmentStart.source,
-      dynamicSegmentEnd.source,
-      blockStart.source,
-      templateTagStart.source,
-      templateTagEnd.source,
-    ].join('|'),
-    'g'
-  );
+  type EmberNode = Node & {
+    tagName: string;
+    content: string;
+    tagProperties: Record<string, string | undefined>;
+    startRange: [number, number];
+    endRange: [number, number];
+    contentRange: [number, number];
+  };
 
-  const tokens = Array.from(matchAll(template, allTokens));
-
-  while (tokens.length > 0) {
-    const currentToken = tokens.shift()!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
-
-    parseToken(results, template, currentToken, tokens, true);
-  }
-
-  /**
-   * Parse the current token. If top level, then template tags can be parsed.
-   * Else, we are nested within a dynamic segment, which is currently unsupported.
-   */
-  function parseToken(
-    results: TemplateMatch[],
-    template: string,
-    token: RegExpMatchArray,
-    tokens: RegExpMatchArray[],
-    isTopLevel = false
-  ) {
-    if (token[0].match(multiLineCommentStart)) {
-      parseMultiLineComment(results, template, token, tokens);
-    } else if (token[0].match(singleLineCommentStart)) {
-      parseSingleLineComment(results, template, token, tokens);
-    } else if (token[0].match(templateLiteralStart)) {
-      parseTemplateLiteral(
-        results,
-        template,
-        token,
-        tokens,
-        isTopLevel,
-        importedNames
-      );
-    } else if (
-      isTopLevel &&
-      templateTag !== undefined &&
-      templateTagStart &&
-      token[0].match(templateTagStart)
-    ) {
-      parseTemplateTag(results, template, token, tokens, templateTag);
-    } else if (token[0].match(stringDelimiter)) {
-      parseString(results, template, token, tokens);
-    }
-  }
-
-  /**
-   * Parse a string. All tokens within a string are ignored
-   * since there are no dynamic segments within these.
-   */
-  function parseString(
-    _results: TemplateMatch[],
-    template: string,
-    startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[]
-  ) {
-    while (tokens.length > 0) {
-      const currentToken = expect(tokens.shift(), 'expected token');
-
+  class TemplateParser extends Parser {
+    isInsideTemplate = false;
+    parseEmberTemplate(...args: any) {
+      let openTemplates = 0;
+      const contentRange = [0, 0] as [number, number];
       if (
-        currentToken[0] === startToken[0] &&
-        !isEscaped(template, currentToken.index)
+        templateTag &&
+        this.state.value === '<' &&
+        this.input.slice(this.state.pos).startsWith(templateTag)
       ) {
-        return;
-      }
-    }
-  }
-
-  /**
-   * Parse a single-line comment. All tokens within a single-line comment are ignored
-   * since there are no dynamic segments within them.
-   */
-  function parseSingleLineComment(
-    _results: TemplateMatch[],
-    _template: string,
-    _startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[]
-  ) {
-    while (tokens.length > 0) {
-      const currentToken = expect(tokens.shift(), 'expected token');
-
-      if (currentToken[0] === '\n') {
-        return;
-      }
-    }
-  }
-
-  /**
-   * Parse a multi-line comment. All tokens within a multi-line comment are ignored
-   * since there are no dynamic segments within them.
-   */
-  function parseMultiLineComment(
-    _results: TemplateMatch[],
-    _template: string,
-    _startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[]
-  ) {
-    while (tokens.length > 0) {
-      const currentToken = expect(tokens.shift(), 'expected token');
-
-      if (currentToken[0] === '*/') {
-        return;
-      }
-    }
-  }
-
-  /**
-   * Parse a template literal. If a dynamic segment is found, enters the dynamic
-   * segment and parses it recursively. If no dynamic segments are found and the
-   * literal is top level (e.g. not nested within a dynamic segment) and has a
-   * tag, pushes it into the list of results.
-   */
-  function parseTemplateLiteral(
-    results: TemplateMatch[],
-    template: string,
-    startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[],
-    isTopLevel = false,
-    importedNames: Map<string, StaticImportConfig>
-  ) {
-    let hasDynamicSegment = false;
-
-    while (tokens.length > 0) {
-      let currentToken = expect(tokens.shift(), 'expected token');
-
-      if (isEscaped(template, currentToken.index)) continue;
-
-      if (currentToken[0].match(dynamicSegmentStart)) {
-        hasDynamicSegment = true;
-
-        parseDynamicSegment(results, template, currentToken, tokens);
-      } else if (currentToken[0].match(templateLiteralEnd)) {
-        if (isTopLevel && !hasDynamicSegment && startToken[1]?.length > 0) {
-          // Handle the case where a tag-like was matched, e.g. hbs`hello`
-          if (currentToken[0].length > 1) {
-            const tokenStr = currentToken[0];
-            const index = expect(currentToken.index, 'expected index');
-
-            currentToken = ['`'];
-            currentToken.index = index + tokenStr.length - 1;
-          }
-          const tagName = startToken[1];
-          const importConfig = importedNames.get(tagName);
-
-          if (importConfig !== undefined) {
-            let contents = '';
-
-            if (startToken.index !== undefined) {
-              const templateStart = startToken.index + startToken[0].length;
-
-              contents = template.slice(templateStart, currentToken.index);
-            }
-
-            results.push({
-              type: 'template-literal',
-              tagName,
-              contents: contents,
-              start: startToken,
-              end: currentToken,
-              importPath: importConfig.importPath,
-              importIdentifier: importConfig.importIdentifier,
-            });
-          }
+        const node = this.startNode() as EmberNode;
+        this.isInsideTemplate = true;
+        node.tagName = templateTag;
+        openTemplates += 1;
+        node.startRange = [this.state.pos - 1, this.state.pos];
+        let value = this.state.value;
+        while (value !== '>') {
+          this.next();
+          value = this.state.value;
         }
-
-        return;
-      }
-    }
-  }
-
-  /**
-   * Parses a dynamic segment within a template literal. Continues parsing until
-   * the dynamic segment has been exited, ignoring all tokens within it.
-   * Accounts for nested block statements, strings, and template literals.
-   */
-  function parseDynamicSegment(
-    results: TemplateMatch[],
-    template: string,
-    _startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[]
-  ) {
-    let stack = 1;
-
-    while (tokens.length > 0) {
-      const currentToken = expect(tokens.shift(), 'expected token');
-
-      if (currentToken[0].match(blockStart)) {
-        stack++;
-      } else if (currentToken[0].match(dynamicSegmentEnd)) {
-        stack--;
-      } else {
-        parseToken(results, template, currentToken, tokens);
-      }
-
-      if (stack === 0) {
-        return;
-      }
-    }
-  }
-
-  /**
-   * Parses a template tag. Continues parsing until the template tag has closed,
-   * accounting for nested template tags.
-   */
-  function parseTemplateTag(
-    results: TemplateMatch[],
-    _template: string,
-    startToken: RegExpMatchArray,
-    tokens: RegExpMatchArray[],
-    templateTag: string
-  ) {
-    let stack = 1;
-
-    if (argumentsMatchRegex && startToken[0].match(argumentsMatchRegex)) {
-      throw new Error(
-        `embedded template preprocessing currently does not support passing arguments, found args in: ${relativePath}`
-      );
-    }
-
-    while (tokens.length > 0) {
-      const currentToken = expect(tokens.shift(), 'expected token');
-
-      if (currentToken[0].match(templateTagStart)) {
-        stack++;
-      } else if (currentToken[0].match(templateTagEnd)) {
-        stack--;
-      }
-
-      if (stack === 0) {
-        let contents = '';
-
-        if (startToken.index !== undefined) {
-          const templateStart = startToken.index + startToken[0].length;
-
-          contents = template.slice(templateStart, currentToken.index);
-        }
-
-        results.push({
-          type: 'template-tag',
-          tagName: templateTag,
-          contents: contents,
-          start: startToken,
-          end: currentToken,
+        const properties = template
+          .slice(node.startRange[0], this.state.pos - 1)
+          .split(' ')
+          .slice(1)
+          .filter((x) => !!x)
+          .map((p) => p.split('='));
+        node.tagProperties = {};
+        properties.forEach((p) => {
+          node.tagProperties[p[0]] = p.slice(1).length
+            ? p.slice(1).join('=')
+            : undefined;
         });
+        node.startRange[1] = this.state.pos;
+        contentRange[0] = this.state.pos;
+        while (openTemplates) {
+          if (
+            this.state.value === '<' &&
+            this.input.slice(this.state.pos).startsWith(templateTag)
+          ) {
+            openTemplates += 1;
+          }
 
-        return;
+          if (
+            this.state.value === '<' &&
+            this.input.slice(this.state.pos).startsWith(`/${templateTag}>`)
+          ) {
+            node.endRange = [this.state.pos - 1, this.state.pos];
+            openTemplates -= 1;
+            if (openTemplates === 0) {
+              contentRange[1] = this.state.pos - 1;
+              value = this.state.value;
+              while (value !== '>') {
+                this.next();
+                value = this.state.value;
+              }
+              node.endRange[1] = this.state.pos;
+              node.content = this.input.slice(...contentRange);
+              node.contentRange = contentRange;
+              this.isInsideTemplate = false;
+              this.next();
+              return this.finishNode(node, 'EmberTemplate');
+            }
+          }
+          this.next();
+        }
       }
+      return null;
+    }
+
+    isAlphaNumeric(code: number) {
+      if (
+        !(code > 47 && code < 58) && // numeric (0-9)
+        !(code > 64 && code < 91) && // upper alpha (A-Z)
+        !(code > 96 && code < 123)
+      ) {
+        // lower alpha (a-z)
+        return false;
+      }
+      return true;
+    }
+
+    getTokenFromCode(code: number) {
+      if (this.isInsideTemplate) {
+        if (!this.isAlphaNumeric(code)) {
+          ++this.state.pos;
+          this.finishToken(code.toString(), String.fromCharCode(code));
+          return;
+        }
+      }
+      return super.getTokenFromCode(code);
+    }
+
+    parseStatementLike(...args: any) {
+      return this.parseEmberTemplate() ?? super.parseStatementLike(...args);
+    }
+
+    parseMaybeAssign(...args: any) {
+      return this.parseEmberTemplate() ?? super.parseMaybeAssign(...args);
+    }
+
+    parseClassMember(
+      classBody: ClassBody,
+      member: MemberExpression,
+      state: any
+    ) {
+      const node = this.parseEmberTemplate();
+      if (node) {
+        classBody.body.push(node as any);
+        return node;
+      }
+      return super.parseClassMember(classBody, member, state);
     }
   }
+  const templateParser = new TemplateParser(
+    {
+      ranges: true,
+      allowImportExportEverywhere: true,
+      errorRecovery: true,
+      plugins: ['typescript', 'decorators'],
+    },
+    template
+  );
+  const ast = templateParser.parse();
 
+  traverse(ast, {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    _verified: true,
+    EmberTemplate(path: NodePath<EmberNode>) {
+      const node = path.node;
+
+      const originalContent = node.content;
+      let content = originalContent;
+      if ('trim' in node.tagProperties) {
+        content = content.trim();
+      }
+
+      if ('minify' in node.tagProperties) {
+        content = minify(content);
+      }
+
+      results.push({
+        type: 'template-tag',
+        tagName: node.tagName,
+        contents: content,
+        contentRange: node.contentRange,
+        range: node.range!,
+        start: {
+          index: node.range![0],
+          0: originalContent,
+        } as unknown as RegExpMatchArray,
+        end: {
+          index: node.endRange[0],
+          0: template.slice(...node.endRange),
+        } as unknown as RegExpMatchArray,
+        startRange: {
+          start: node.startRange[0],
+          end: node.startRange[1],
+        },
+        endRange: { start: node.endRange[0], end: node.endRange[1] },
+      });
+    },
+    TaggedTemplateExpression(path) {
+      const node = path.node;
+      const tagName = (node.tag as Identifier).name;
+      const importConfig = importedNames.get(tagName);
+      if (importConfig && node.quasi.quasis.length === 1) {
+        const contents = template.slice(
+          node.quasi.quasis[0].start!,
+          node.quasi.quasis[0].end!
+        );
+        results.push({
+          type: 'template-literal',
+          tagName,
+          contents,
+          start: {
+            index: node.tag.range![0],
+            0: contents,
+          } as unknown as RegExpMatchArray,
+          end: {
+            index: node.range![1] - 1,
+            0: '`',
+          } as unknown as RegExpMatchArray,
+          startRange: {
+            start: node.tag.range![0],
+            end: node.tag.range![1] + 1,
+          },
+          endRange: { start: node.range![1] - 1, end: node.range![1] },
+          range: node.range!,
+          contentRange: [node.tag.range![1], node.range![1] - 1],
+          importPath: importConfig.importPath,
+          importIdentifier: importConfig.importIdentifier,
+        });
+      }
+    },
+  });
   return results;
 }
 
