@@ -4726,6 +4726,11 @@ content-disposition@0.5.4:
   dependencies:
     safe-buffer "5.2.1"
 
+content-tag@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/content-tag/-/content-tag-1.0.0.tgz#451cee26353abde3a7982ff2e4698f75e2225774"
+  integrity sha512-M1EcjnwPN/CWtgXHO3YgUGEe/oqxdtBtbeWdvlht9EZ0JinVaMTuNU6V1XV7BMe2GdPxD9sNXl+NMbpojfviIQ==
+
 content-type@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
