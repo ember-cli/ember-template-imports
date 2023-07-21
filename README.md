@@ -69,6 +69,17 @@ include `@glint/environment-ember-template-imports`!)
 [glint]: https://typed-ember.gitbook.io/glint
 [glint-setup]: https://typed-ember.gitbook.io/glint/environments/ember/installation
 
+Make sure also to add support for `.gts` files into your `.eslintrc.js` configuration.
+
+```js
+// .eslintrc.js
+  parser: '@typescript-eslint/parser',
+  files: [
+    // ...
+    'app/**/*.gts',
+    'tests/**/*.gts',
+  ],
+```
 
 ## Compatibility
 
