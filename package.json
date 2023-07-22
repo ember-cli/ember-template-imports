@@ -31,7 +31,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
-    "@babel/parser": "^7.19.6",
+    "@babel/parser": "7.19.6",
     "@babel/traverse": "^7.19.6",
     "babel-import-util": "^0.2.0",
     "broccoli-stew": "^3.0.0",
