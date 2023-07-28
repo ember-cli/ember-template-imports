@@ -62,6 +62,16 @@ linting tools will work correctly.
 [etl]: https://github.com/ember-template-lint/ember-template-lint
 [epe]: https://github.com/ember-cli/eslint-plugin-ember
 
+For eslint, update the file extensions that eslint
+checks for your test files in the `.eslintrc` file
+```js
+{
+  // test files
+  files: ['tests/**/*-test.{js,ts,gjs,gts}'],
+  extends: ['plugin:qunit/recommended'],
+},
+```
+
 Additionally, if you are using TypeScript, you will also want to set up
 [Glint][glint], following [its setup instructions][glint-setup]. (Make sure you
 include `@glint/environment-ember-template-imports`!)
