@@ -73,8 +73,8 @@ include `@glint/environment-ember-template-imports`!)
 ## Compatibility
 
 * Ember.js v3.27 or above
-* Ember CLI v2.13 or above
-* `ember-cli-htmlbars` 6.0 or above
+* Ember CLI v3.27 or above
+* `ember-cli-htmlbars` 6.3.0 or above
 * Node.js v12 or above
 
 
@@ -297,7 +297,7 @@ huge thanks to @patricklx for his contributions here!
 
 [first-repo]: https://github.com/patricklx/ember-template-imports
 
-As of [RFC 0779][rfc-0779], we decided on `<template>` over `hbs`; see the RFC for the full rationale. The `hbs` format is still technically supported by this repo for transition purposes for the early adopters who helped us get here, but will be removed at some point in the near future!
+As of [RFC 0779][rfc-0779], we decided on `<template>` over `hbs`; see the RFC for the full rationale. ~~The `hbs` format is still technically supported by this repo for transition purposes for the early adopters who helped us get here, but will be removed at some point in the near future!~~ `hbs` has been removed -- if you rely on this feature, please use `ember-template-imports @ < v4`, until migrated to `<template>`
 
 
 ## Contributing
