@@ -15,14 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: install dependencies
         run: yarn install
-      - name: build
-        run: yarn build
       - name: lint:js
         run: yarn lint:js
       - name: lint:hbs
@@ -35,17 +33,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: install dependencies
         # Dependency fetching in Windows Actions runners can be slow
         run: yarn install --network-timeout 60000
-      - name: build
-        run: yarn build
-      - name: jest
-        run: yarn test:jest
       - name: ember test
         run: yarn test:ember
 
@@ -62,17 +56,13 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: install dependencies
         # Dependency fetching in Windows Actions runners can be slow
         run: yarn install --network-timeout 60000
-      - name: build
-        run: yarn build
-      - name: jest
-        run: yarn test:jest
       - name: ember test
         run: yarn test:ember
 
@@ -88,17 +78,13 @@ jobs:
         os: [macos, windows]
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: install dependencies
         # Dependency fetching in Windows Actions runners can be slow
         run: yarn install --network-timeout 60000
-      - name: build
-        run: yarn build
-      - name: jest
-        run: yarn test:jest
       - name: ember test
         run: yarn test:ember
 
@@ -110,16 +96,12 @@ jobs:
     needs: [test, lint]
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: install dependencies
         run: yarn install --ignore-lockfile
-      - name: build
-        run: yarn build
-      - name: jest
-        run: yarn test:jest
       - name: ember test
         run: yarn test:ember
 
@@ -135,21 +117,22 @@ jobs:
       matrix:
         ember-try-scenario:
           - ember-3.27
+          - ember-4.12
           - ember-release
           - ember-beta
           - ember-canary
-          - embroider-safe
-          - embroider-optimized
+          - embroider-safe-min-supported
+          - embroider-optimized-min-supported
+          - embroider-safe-release
+          - embroider-optimized-release
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: install dependencies
         run: yarn install
-      - name: build
-        run: yarn build
       - name: test
         env:
           EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
