@@ -234,7 +234,7 @@ import { tracked } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
 
 // components/hello.gjs
-export default class Hello {
+export default class Hello extends Component {
   @tracked count = 0;
 
   increment = () => {
