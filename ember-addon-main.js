@@ -1,5 +1,5 @@
 'use strict';
-require('validate-peer-dependencies')(__dirname);
+
 let VersionChecker = require('ember-cli-version-checker');
 
 module.exports = {

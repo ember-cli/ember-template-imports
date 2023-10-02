@@ -30,9 +30,7 @@
   "dependencies": {
     "broccoli-stew": "^3.0.0",
     "content-tag": "^1.1.1",
-    "ember-cli-babel-plugin-helpers": "^1.1.1",
-    "ember-cli-version-checker": "^5.1.2",
-    "validate-peer-dependencies": "^1.1.0"
+    "ember-cli-version-checker": "^5.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.22.20",
