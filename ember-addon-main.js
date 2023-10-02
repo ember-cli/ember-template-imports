@@ -12,6 +12,7 @@ module.exports = {
     let emberCliHtmlBars = new VersionChecker(this.project).for(
       'ember-cli-htmlbars'
     );
+    let emberCliBabel = new VersionChecker(this.project).for('ember-cli-babel');
 
     let errors = [];
 
@@ -21,6 +22,10 @@ module.exports = {
 
     if (!emberCliHtmlBars.gte('6.3.0')) {
       errors.push('ember-cli-htmlbars 6.3.0 or higher');
+    }
+
+    if (!emberCliBabel.gte('8.2.0')) {
+      errors.push('ember-cli-babel 8.2.0 or higher');
     }
 
     if (errors.length > 0) {

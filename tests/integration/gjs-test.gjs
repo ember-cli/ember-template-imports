@@ -43,7 +43,7 @@ module('tests/integration/components/gjs', function (hooks) {
     class Foo extends Component {
       greeting = 'Hello';
 
-      <template>{{this.greeting}}, `lifeform!`</template>
+      <template>{{this.greeting}}, `lifeform`!</template>
     }
 
     await render(
