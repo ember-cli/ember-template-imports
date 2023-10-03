@@ -56,7 +56,7 @@ Install this package and [the supporting Prettier plugin][prettier-plugin]:
 
 Then configure the Prettier plugin following [the instructions from its
 README][prettier-plugin]. Additionally, make sure you are using at least v5.8.0
-of [ember-template-lint][etl] and v of [eslint-plugin-ember][epe], so your
+of [ember-template-lint][etl] and v11.6.0 of [eslint-plugin-ember][epe], so your
 linting tools will work correctly.
 
 [etl]: https://github.com/ember-template-lint/ember-template-lint
