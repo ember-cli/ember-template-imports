@@ -2,26 +2,7 @@ import type { ImportUtil } from 'babel-import-util';
 
 import type { NodePath } from '@babel/traverse';
 import type * as babelTypes from '@babel/types';
-import { isTemplateLiteralMatch, TemplateMatch } from './parse-templates';
-
-// import { hbs } from 'ember-template-imports';
-// const Greeting = hbs`Hello!`;
-export const TEMPLATE_LITERAL_IDENTIFIER = 'hbs';
-export const TEMPLATE_LITERAL_MODULE_SPECIFIER = 'ember-template-imports';
-
-export function isTemplateLiteral(
-  callExpressionPath: NodePath<babelTypes.CallExpression>
-) {
-  const callee = callExpressionPath.get('callee');
-
-  return (
-    callee.isIdentifier() &&
-    callee.referencesImport(
-      exports.TEMPLATE_LITERAL_MODULE_SPECIFIER,
-      exports.TEMPLATE_LITERAL_IDENTIFIER
-    )
-  );
-}
+import { TemplateMatch } from './parse-templates';
 
 // const Greeting = <template>Hello</template>
 export const TEMPLATE_TAG_NAME = 'template';
@@ -94,10 +75,5 @@ export function isSupportedScriptFileExtension(filePath: string) {
 }
 
 export function isStrictMode(templateInfo: TemplateMatch): boolean {
-  return (
-    (isTemplateLiteralMatch(templateInfo) &&
-      templateInfo.importIdentifier === TEMPLATE_LITERAL_IDENTIFIER &&
-      templateInfo.importPath === TEMPLATE_LITERAL_MODULE_SPECIFIER) ||
-    templateInfo.type === 'template-tag'
-  );
+  return templateInfo.type === 'template-tag';
 }

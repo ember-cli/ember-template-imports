@@ -11,8 +11,6 @@ import {
 interface PreprocessOptionsEager {
   getTemplateLocals: GetTemplateLocals;
 
-  importIdentifier?: string;
-  importPath?: string;
   templateTag?: string;
   templateTagReplacement?: string;
 
@@ -25,8 +23,6 @@ interface PreprocessOptionsLazy {
   getTemplateLocalsRequirePath: string;
   getTemplateLocalsExportPath: string;
 
-  importIdentifier?: string;
-  importPath?: string;
   templateTag?: string;
   templateTagReplacement?: string;
 
@@ -167,16 +163,6 @@ function replaceMatch(
  * Output:
  *
  *   [GLIMMER_TEMPLATE(`<MyComponent/>`, { scope() { return {MyComponent}; } })];
- *
- * It can also be used with template literals to provide the in scope values:
- *
- * Input:
- *
- *   hbs`<MyComponent/>`;
- *
- * Output
- *
- *   hbs(`<MyComponent/>`, { scope() { return {MyComponent}; } });
  */
 export function preprocessEmbeddedTemplates(
   template: string,
@@ -185,15 +171,12 @@ export function preprocessEmbeddedTemplates(
   let getTemplateLocals: GetTemplateLocals;
 
   const {
-    importPath,
     templateTag,
     templateTagReplacement,
     includeSourceMaps,
     includeTemplateTokens,
     relativePath,
   } = options;
-
-  const { importIdentifier } = options;
 
   if ('getTemplateLocals' in options) {
     getTemplateLocals = options.getTemplateLocals;
@@ -208,36 +191,12 @@ export function preprocessEmbeddedTemplates(
     templateTag,
   };
 
-  if (importPath && importIdentifier) {
-    parseTemplatesOptions.templateLiteral = [
-      {
-        importPath,
-        importIdentifier,
-      },
-    ];
-  }
-
   const matches = parseTemplates(template, relativePath, parseTemplatesOptions);
   const replacements: Replacement[] = [];
   const s = new MagicString(template);
 
   for (const match of matches) {
-    if (
-      match.type === 'template-literal' &&
-      match.tagName === importIdentifier
-    ) {
-      replacements.push(
-        ...replaceMatch(
-          s,
-          match,
-          `${match.tagName}(`,
-          ')',
-          template,
-          getTemplateLocals,
-          includeTemplateTokens
-        )
-      );
-    } else if (match.type === 'template-tag') {
+    if (match.type === 'template-tag') {
       replacements.push(
         ...replaceMatch(
           s,
@@ -275,6 +234,7 @@ export function preprocessEmbeddedTemplates(
 }
 
 function ensureBackticksEscaped(s: MagicString, start: number, end: number) {
+  if (start >= end) return;
   let content = s.slice(start, end);
   content = content.replace(/(?<!\\)`/g, '\\`');
   s.overwrite(start, end, content, false);
