@@ -85,7 +85,7 @@ file extension, you may need to configure your editor.
 
 ### Visual Studio Code
 
-The [vscode-glimmer](https://marketplace.visualstudio.com/items?itemName=chiragpat.vscode-glimmer) plugin handles syntax highlighting for both proposed formats.
+The [Ember.js extension pack](https://marketplace.visualstudio.com/items?itemName=EmberTooling.emberjs) bundles everything you need to get started.
 
 
 ### Neovim
