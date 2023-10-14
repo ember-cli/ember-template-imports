@@ -4,19 +4,19 @@
 
 * `git clone <repository-url>`
 * `cd ember-template-imports`
-* `yarn install`
+* `pnpm install`
 
 ## Building
 
-* `yarn build`
+* `pnpm build`
 
 ## Linting
 
-* `yarn lint:hbs`
-* `yarn lint:js`
-* `yarn lint:js -- --fix`
+* `pnpm lint:hbs`
+* `pnpm lint:js`
+* `pnpm lint:js -- --fix`
 
 ## Running tests
 
-* `yarn test:jest` – Runs jest tests
-* `yarn test:ember` – Runs ember tests
+* `pnpm test:jest` – Runs jest tests
+* `pnpm test:ember` – Runs ember tests

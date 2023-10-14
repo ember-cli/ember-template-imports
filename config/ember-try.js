@@ -17,7 +17,7 @@ module.exports = async function () {
   const release = await getChannelURL('release');
 
   return {
-    useYarn: true,
+    usePnpm: true,
     scenarios: [
       {
         name: 'ember-3.27',
