@@ -64,12 +64,18 @@ devDependencies:
   '@release-it-plugins/lerna-changelog':
     specifier: ^6.0.0
     version: 6.0.0(release-it@16.2.1)
+  '@types/babel__traverse':
+    specifier: ^7.20.2
+    version: 7.20.2
   '@types/jest':
     specifier: ^27.4.1
     version: 27.5.2
   '@types/line-column':
     specifier: ^1.0.0
     version: 1.0.0
+  '@types/node':
+    specifier: ^20.8.6
+    version: 20.8.6
   '@types/string.prototype.matchall':
     specifier: ^4.0.1
     version: 4.0.1
