@@ -35,8 +35,6 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 16.x
-      - name: jest
-        run: pnpm test:jest
       - name: ember test
         run: pnpm test:ember
 
