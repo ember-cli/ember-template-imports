@@ -52,6 +52,10 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+      rules: {
+        // this rule is broken
+        'node/no-missing-require': 'off',
+      },
     },
     {
       files: ['*.ts'],

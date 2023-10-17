@@ -18,5 +18,4 @@
 
 ## Running tests
 
-* `pnpm test:jest` – Runs jest tests
 * `pnpm test:ember` – Runs ember tests

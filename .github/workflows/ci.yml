@@ -19,8 +19,6 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 16.x
-      - name: build
-        run: pnpm build
       - name: lint:js
         run: pnpm lint:js
       - name: lint:hbs
@@ -37,10 +35,6 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 16.x
-      - name: build
-        run: pnpm build
-      - name: jest
-        run: pnpm test:jest
       - name: ember test
         run: pnpm test:ember
 
@@ -54,17 +48,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [16.x, 18.18.1]
 
     steps:
       - uses: actions/checkout@v3
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: build
-        run: pnpm build
-      - name: jest
-        run: pnpm test:jest
       - name: ember test
         run: pnpm test:ember
 
@@ -84,10 +74,6 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 16.x
-      - name: build
-        run: pnpm build
-      - name: jest
-        run: pnpm test:jest
       - name: ember test
         run: pnpm test:ember
 
@@ -103,10 +89,6 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 16.x
-      - name: build
-        run: pnpm build
-      - name: jest
-        run: pnpm test:jest
       - name: ember test
         run: pnpm test:ember
 
@@ -136,8 +118,6 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 16.x
-      - name: build
-        run: pnpm build
       - name: test
         env:
           EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}

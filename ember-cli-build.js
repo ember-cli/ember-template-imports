@@ -8,6 +8,11 @@ module.exports = function (defaults) {
     babel: {
       sourceMaps: 'inline',
     },
+    'ember-cli-babel': {
+      enableTypeScriptTransform: true,
+      // useBabelConfig: true,
+      // ember-cli-babel related options
+    },
   });
 
   /*
