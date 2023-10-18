@@ -2,6 +2,48 @@
 
 
 
+
+## v4.0.0 (2023-10-18)
+
+#### :boom: Breaking Change
+* [#187](https://github.com/ember-template-imports/ember-template-imports/pull/187) Use content-tag, which fixes *all the bugs* ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  Additionally,
+  - for tooling authors, all exports have been removed. Use [`content-tag`](https://github.com/embroider-build/content-tag/) for your `<template>` parsing / location mapping needs.
+  - for v1 addon and app users, this change fixes parsing bugs but otherwise should not be noticeable.
+  - for v2 addon users, you're already using `content-tag` if you're using `addon.gjs()` from `@embroider/addon-dev`, and this change doesn't affect v2 addons.
+* [#146](https://github.com/ember-template-imports/ember-template-imports/pull/146) [Cleanup] Remove all traces of hbs ([@NullVoxPopuli](https://github.com/NullVoxPopuli))  
+  The only supported strict-mode syntax is now `<template>`. See https://github.com/emberjs/rfcs/pull/779
+* [#138](https://github.com/ember-template-imports/ember-template-imports/pull/138) Update to support only Node 16 and 18 ([@chriskrycho](https://github.com/chriskrycho))
+
+#### :rocket: Enhancement
+* [#187](https://github.com/ember-template-imports/ember-template-imports/pull/187) Use content-tag, which fixes *all the bugs* ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* [#190](https://github.com/ember-template-imports/ember-template-imports/pull/190) Add explicit support for Ember 4.12 and 5.x ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :bug: Bug Fix
+* [#191](https://github.com/ember-template-imports/ember-template-imports/pull/191) Remove `ie 11` from browser targets in `dummy` app ([@bertdeblock](https://github.com/bertdeblock))
+* [#136](https://github.com/ember-template-imports/ember-template-imports/pull/136) bump glimmer/syntax to latest ([@hmajoros](https://github.com/hmajoros))
+
+#### :memo: Documentation
+* [#179](https://github.com/ember-template-imports/ember-template-imports/pull/179) Fix(docs): add missing `extends Component` in readme example ([@StephanH90](https://github.com/StephanH90))
+* [#176](https://github.com/ember-template-imports/ember-template-imports/pull/176) fix: add eslint-plugin-ember support version ([@IgnaceMaes](https://github.com/IgnaceMaes))
+* [#169](https://github.com/ember-template-imports/ember-template-imports/pull/169) docs: prepare for stabilization ([@chriskrycho](https://github.com/chriskrycho))
+
+#### :house: Internal
+* [#191](https://github.com/ember-template-imports/ember-template-imports/pull/191) Remove `ie 11` from browser targets in `dummy` app ([@bertdeblock](https://github.com/bertdeblock))
+* [#140](https://github.com/ember-template-imports/ember-template-imports/pull/140) Fix build against Ember v5 ([@chriskrycho](https://github.com/chriskrycho))
+
+#### Committers: 9
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Charles Fries ([@charlesfries](https://github.com/charlesfries))
+- Chris Krycho ([@chriskrycho](https://github.com/chriskrycho))
+- Ewan McDougall ([@mrloop](https://github.com/mrloop))
+- Hank Majoros ([@hmajoros](https://github.com/hmajoros))
+- Ignace Maes ([@IgnaceMaes](https://github.com/IgnaceMaes))
+- Sam Van Campenhout ([@Windvis](https://github.com/Windvis))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [@StephanH90](https://github.com/StephanH90)
+
+
 ## v3.4.1 (2023-01-30)
 
 #### :bug: Bug Fix
