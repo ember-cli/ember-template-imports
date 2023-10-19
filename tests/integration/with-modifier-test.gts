@@ -45,11 +45,12 @@ module('tests/integration/components/gjs', function (hooks) {
     assert.equal(this.element.textContent.trim(), 'Click me');
   })
 
-  test('it renders a compoentn with a modifer with precompileTemplate', async function (assert) {
+  test('it renders a component with a modifer with precompileTemplate', async function (assert) {
     await render(precompileTemplate(`<WithModifier />`, {
       strictMode: true,
       scope: () => ({WithModifier, on})
     }));
+    assert.equal(this.element.textContent.trim(), 'Click me');
   })
 
   test('it renders a component with a helper', async function (assert) {
