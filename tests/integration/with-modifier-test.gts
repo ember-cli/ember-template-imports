@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 import { precompileTemplate } from '@ember/template-compilation';
 import {JustAPlainClass} from 'dummy/utils/just-a-plain-class';
 import { WithModifier } from 'dummy/components/with-modifier';
+import { eq } from 'ember-truth-helpers'
 
 class WithHelper extends Component {
   trueCondition = 'true';
