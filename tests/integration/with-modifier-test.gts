@@ -4,6 +4,7 @@ import { render } from '@ember/test-helpers';
 import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import { precompileTemplate } from '@ember/template-compilation';
+import {JustAPlainClass} from 'dummy/utils/just-a-plain-class';
 
 class WithModifier extends Component {
   click = () => {};
@@ -20,6 +21,14 @@ class WithHelper extends Component {
     {{#if (eq this.trueCondition 'true')}}
       <div>TRUE</div>
     {{/if}}
+  </template>
+}
+
+class WithAnotherClass extends Component {
+  plainClass = new JustAPlainClass();
+
+  <template>
+    <div>{{this.plainClass.someState}}</div>
   </template>
 }
 
@@ -50,5 +59,14 @@ module('tests/integration/components/gjs', function (hooks) {
       </template>
     );
     assert.equal(this.element.textContent.trim(), 'TRUE');
+  })
+
+  test('it renders a component that consumes another class', async function (assert) {
+    await render(
+      <template>
+        <WithAnotherClass />
+      </template>
+    );
+    assert.equal(this.element.textContent.trim(), 'someState');
   })
 });
