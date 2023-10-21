@@ -10,7 +10,7 @@ module.exports = {
 
     let emberChecker = new VersionChecker(this.project).for('ember-source');
     let emberCliHtmlBars = new VersionChecker(this.project).for(
-      'ember-cli-htmlbars'
+      'ember-cli-htmlbars',
     );
     let emberCliBabel = new VersionChecker(this.project).for('ember-cli-babel');
 
@@ -30,7 +30,7 @@ module.exports = {
 
     if (errors.length > 0) {
       throw new Error(
-        'ember-template-imports requires' + '\n\t' + errors.join('\n\t')
+        'ember-template-imports requires' + '\n\t' + errors.join('\n\t'),
       );
     }
   },
