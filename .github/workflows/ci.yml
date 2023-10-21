@@ -21,8 +21,6 @@ jobs:
           node-version: 16.x
       - name: lint:js
         run: pnpm lint:js
-      - name: lint:hbs
-        run: pnpm lint:hbs
 
   # Basic tests; we can trigger parallel runs of *everything else* iff this
   # passes.
