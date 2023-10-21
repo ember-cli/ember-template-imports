@@ -2,7 +2,7 @@
 /blueprints/*/files/
 /vendor/
 
-# to use these, we require prettier-plugin-ember-template-tag to use content-tag
+# to use these, we require eslint-plugin-ember to use content-tag
 *.gjs
 *.gts
 
