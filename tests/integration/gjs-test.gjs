@@ -100,4 +100,9 @@ module('tests/integration/components/gjs', function (hooks) {
 
     assert.equal(this.element.textContent.trim(), 'Hello, world!');
   });
+
+  test('it is not confused by a template-tag-like regex', async function (assert) {
+    let pattern = /<template\s*>/;
+    assert.ok(pattern);
+  });
 });
