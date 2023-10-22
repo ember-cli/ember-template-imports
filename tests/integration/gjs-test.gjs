@@ -55,7 +55,23 @@ module('tests/integration/components/gjs', function (hooks) {
     assert.equal(this.element.textContent.trim(), 'Hello, `lifeform`!');
   });
 
-test('it works with classes with a slash character somewhere before the template', async function (assert) {
+  test('it works with classes with a missing semi in class attributes', async function (assert) {
+    class Foo extends Component {
+      greeting = 'Hello'
+
+      <template>{{this.greeting}}, `lifeform`!</template>
+    }
+
+    await render(
+      precompileTemplate(`<Foo />`, {
+        strictMode: true,
+        scope: () => ({ Foo }),
+      })
+    );
+    assert.equal(this.element.textContent.trim(), 'Hello, `lifeform`!');
+  });
+
+  test('it works with classes with a slash character somewhere before the template', async function (assert) {
     class Foo extends Component {
       greeting = 'Hello';
       get age() {
