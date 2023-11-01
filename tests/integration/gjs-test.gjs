@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { precompileTemplate } from '@ember/template-compilation';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
