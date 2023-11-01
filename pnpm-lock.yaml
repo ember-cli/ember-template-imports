@@ -52,8 +52,8 @@ devDependencies:
     specifier: ^2.6.3
     version: 2.6.3(webpack@5.64.4)
   ember-cli:
-    specifier: ~4.12.1
-    version: 4.12.1
+    specifier: ~4.12.2
+    version: 4.12.2
   ember-cli-babel:
     specifier: ^8.2.0
     version: 8.2.0(@babel/core@7.22.20)
@@ -5130,8 +5130,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /ember-cli@4.12.1:
-    resolution: {integrity: sha512-O4QqvbvyyAvIC5SlYNOOocEhX/co7wKOSEGf8M+ipU/zgzA5ElyKMAQly9wf1QJ/RbSD1j2cFVUBIdVH/OuJHg==}
+  /ember-cli@4.12.2:
+    resolution: {integrity: sha512-990UglceEsB3nd/pTI08wL+hbApICrd6P4BO88486rSf9r3XjZ7LBcD318N8I1AGe5IUDkbccMrOQxoHge6zNg==}
     engines: {node: '>= 14'}
     hasBin: true
     dependencies:
