@@ -6,12 +6,11 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 module.exports = async function () {
   const ember5Deps = {
     '@ember/string': '^3.1.1',
-    '@ember/test-helpers': '^3.2.0',
-    'ember-qunit': '^7.0.0',
     'ember-resolver': '^11.0.0',
     'ember-auto-import': '^2.3.0',
     'ember-cli': '^5.1.0',
     'ember-maybe-import-regenerator': null,
+    'ember-cli-dependency-checker': null,
   };
 
   const release = await getChannelURL('release');

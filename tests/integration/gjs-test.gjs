@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { precompileTemplate } from '@ember/template-compilation';
 import Component from '@glimmer/component';
+import { on } from '@ember/modifier';
 
 import GjsTest from 'dummy/components/gjs-test';
 
@@ -20,6 +21,22 @@ module('tests/integration/components/gjs', function (hooks) {
     );
 
     assert.equal(this.element.textContent.trim(), 'Hello, world!');
+  });
+
+  test('it works with imports', async function (assert) {
+    let didIt = () => assert.step('did it');
+
+    await render(
+      <template>
+        <button {{on 'click' didIt}}>
+          step
+        </button>
+      </template>
+    );
+
+    await click('button')
+
+    assert.verifySteps(['did it']);
   });
 
   test('it works with classes', async function (assert) {
