@@ -253,6 +253,29 @@ export default class Hello extends Component {
 }
 ```
 
+Template tag components can also be used for writing tests. In fact, this aligned syntax between app code and test code is one of the big advantages of the new authoring format.
+
+Just like in app code, the template tag has access to the outer scope. This means you can reference variables directly in your tests:
+
+```js
+// tests/integration/components/hello-test.gjs
+import Hello from 'example-app/components/hello';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+
+module('Integration | Component | hello', function (hooks) {
+  setupRenderingTest(hooks);
+
+  test('renders name argument', async function (assert) {
+    const name = 'world';
+    await render(<template><Hello @name={{name}} /></template>);
+    assert.dom('[data-test-id="some-selector"]').hasText(name);
+  });
+});
+
+```
+
 ## Reference: built-in helpers, modifiers, components
 
 As implemented as part of the [Strict Mode Templates RFC][rfc-496], the built in
