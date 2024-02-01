@@ -276,6 +276,20 @@ module('Integration | Component | hello', function (hooks) {
 
 ```
 
+## Sourcemap Generation
+
+This can be useful for development and test purposes, it should be disabled for production
+
+```js
+// ember-cli-build.js
+module.exports = function (defaults) {
+  let app = new EmberAddon(defaults, {
+    'ember-template-imports': {
+      inline_source_map: true
+    }
+  });
+```
+
 ## Reference: built-in helpers, modifiers, components
 
 As implemented as part of the [Strict Mode Templates RFC][rfc-496], the built in
