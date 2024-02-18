@@ -38,7 +38,19 @@ module.exports = {
   setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
       let TemplateImportPreprocessor = require('./src/preprocessor-plugin');
-      registry.add('js', new TemplateImportPreprocessor());
+      registry.add(
+        'js',
+        new TemplateImportPreprocessor(this._getAddonOptions()),
+      );
     }
+  },
+
+  _getAddonOptions() {
+    let parentOptions = this.parent && this.parent.options;
+    let appOptions = this.app && this.app.options;
+
+    const options = parentOptions || appOptions || {};
+
+    return options['ember-template-imports'] || { inline_source_map: false };
   },
 };

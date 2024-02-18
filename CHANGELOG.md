@@ -3,6 +3,31 @@
 
 
 
+
+## v4.1.0 (2024-02-05)
+
+#### :rocket: Enhancement
+* [#230](https://github.com/ember-template-imports/ember-template-imports/pull/230) Bump content-tag and add inline_source_map option ([@vstefanovic97](https://github.com/vstefanovic97))
+
+#### :memo: Documentation
+* [#231](https://github.com/ember-template-imports/ember-template-imports/pull/231) add import guide for components, helpers, modifiers  ([@Parrryy](https://github.com/Parrryy))
+
+#### :house: Internal
+* [#211](https://github.com/ember-template-imports/ember-template-imports/pull/211) Add failing test for v4 / content-tag not respecting imports, demonstrate fix by rolling for a new lockfile and cleaning up resulting peer errors ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* [#155](https://github.com/ember-template-imports/ember-template-imports/pull/155) Incorrectly parses some regular expressions ([@ef4](https://github.com/ef4))
+* [#174](https://github.com/ember-template-imports/ember-template-imports/pull/174) add failing test for #171 ([@patricklx](https://github.com/patricklx))
+* [#210](https://github.com/ember-template-imports/ember-template-imports/pull/210) Upgrade and fix lint deps ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* [#209](https://github.com/ember-template-imports/ember-template-imports/pull/209) Remove unused dependencies as well as template-lint ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* [#208](https://github.com/ember-template-imports/ember-template-imports/pull/208) upgrade test dependencies ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 6
+- Chris Parry ([@Parrryy](https://github.com/Parrryy))
+- Edward Faulkner ([@ef4](https://github.com/ef4))
+- Ignace Maes ([@IgnaceMaes](https://github.com/IgnaceMaes))
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+- Vuk ([@vstefanovic97](https://github.com/vstefanovic97))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## v4.0.0 (2023-10-18)
 
 #### :boom: Breaking Change

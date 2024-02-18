@@ -276,6 +276,20 @@ module('Integration | Component | hello', function (hooks) {
 
 ```
 
+## Sourcemap Generation
+
+This can be useful for development and test purposes, it should be disabled for production
+
+```js
+// ember-cli-build.js
+module.exports = function (defaults) {
+  let app = new EmberAddon(defaults, {
+    'ember-template-imports': {
+      inline_source_map: true
+    }
+  });
+```
+
 ## Reference: built-in helpers, modifiers, components
 
 As implemented as part of the [Strict Mode Templates RFC][rfc-496], the built in
@@ -293,6 +307,31 @@ helpers, modifiers and components are available for import:
 
 [rfc-496]: https://github.com/emberjs/rfcs/pull/496
 
+## Reference: import external helpers, modifiers, components
+
+You can import non `.gjs/.gts` helpers, modifiers and components from apps/addons
+you may already be using when migrating your own components. To determine 
+the import path:
+
+1. Check the app
+   1. If found, import that
+   2. If not found,
+        1. Check all addon's app folders
+            1. When found, look in the matching file to see what the re-export is -- this is what you can use in your app
+        2. Check all v2-addon's ember-addon#app-js configs in package.json
+            1. When found, look in the matching file to see what the re-export is -- this is what you can use in
+
+For example:
+
+```js
+import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
+
+<template>
+  <BasicDropdown>
+   <!-- Your component implementation here -->
+  </BasicDropdown>
+</template>
+```
 
 ## History
 
