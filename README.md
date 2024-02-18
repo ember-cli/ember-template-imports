@@ -323,7 +323,7 @@ the import path:
 
 For example:
 
-```js
+```gjs
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
 <template>
