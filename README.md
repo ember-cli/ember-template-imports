@@ -3,7 +3,7 @@ ember-template-imports
 
 This addon provides the build tooling required to support Ember's next-gen component authoring format:
 
-```js
+```gjs
 import { on } from '@ember/modifier';
 import FancyButton from './fancy-button';
 
@@ -143,7 +143,7 @@ syntax, templates are defined in JavaScript files directly.
 This example defines a template-only component, which is the default export of
 `hello.gjs`:
 
-```js
+```gjs
 // components/hello.gjs
 <template>
   <span>Hello, {{@name}}!</span>
@@ -152,7 +152,7 @@ This example defines a template-only component, which is the default export of
 
 You would be able to use this component in another component like so:
 
-```js
+```gjs
 // components/hello-world.gjs
 import Hello from './hello';
 
@@ -163,7 +163,7 @@ import Hello from './hello';
 
 You can also export the component explicitly:
 
-```js
+```gjs
 // components/hello.gjs
 export default <template>
   <span>Hello, {{@name}}!</span>
@@ -174,7 +174,7 @@ Omitting the `export default` is just syntactic sugar. In addition, you can
 define template-only components and assign them to variables, allowing you to
 export components with named exports:
 
-```js
+```gjs
 export const First = <template>First</template>;
 
 export const Second = <template>Second</template>;
@@ -185,7 +185,7 @@ export const Third = <template>Third</template>;
 This also allows you to create components that are only used locally, in the
 same file:
 
-```js
+```gjs
 const Option = <template>
   <option selected={{@selected}} value={{@value}}>
     {{or @title @value}}
@@ -207,7 +207,7 @@ export const CustomSelect = <template>
 Helpers and modifiers can also be defined in the same file as your components,
 making them very flexible:
 
-```js
+```gjs
 import { modifier } from 'ember-modifier';
 
 const plusOne = (num) => num + 1;
@@ -228,7 +228,7 @@ const setScrollPosition = modifier((element, [position]) => {
 Finally, to associate a template with a class-based component, you can use the
 template syntax directly in the class body:
 
-```js
+```gjs
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
@@ -257,7 +257,7 @@ Template tag components can also be used for writing tests. In fact, this aligne
 
 Just like in app code, the template tag has access to the outer scope. This means you can reference variables directly in your tests:
 
-```js
+```gjs
 // tests/integration/components/hello-test.gjs
 import Hello from 'example-app/components/hello';
 import { module, test } from 'qunit';
@@ -323,7 +323,7 @@ the import path:
 
 For example:
 
-```js
+```gjs
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
 <template>
@@ -345,7 +345,7 @@ solutions, and work together as a community as we explored the design space.
 The main alternative explored in a previous version was template literals,
 similar to the existing `hbs` helper in tests:
 
-```js
+```gjs
 import { hbs } from 'ember-template-imports';
 import MyComponent from './my-component';
 
