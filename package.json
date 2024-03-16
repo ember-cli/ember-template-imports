@@ -1,7 +1,7 @@
 {
   "name": "ember-template-imports",
   "version": "4.1.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Tooling support for gjs and gts component authoring",
   "keywords": [
     "ember-addon"
   ],
