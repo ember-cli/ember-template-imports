@@ -283,7 +283,7 @@ This can be useful for development and test purposes, it should be disabled for 
 ```js
 // ember-cli-build.js
 module.exports = function (defaults) {
-  let app = new EmberAddon(defaults, {
+  let app = new EmberApp(defaults, {
     'ember-template-imports': {
       inline_source_map: true
     }
