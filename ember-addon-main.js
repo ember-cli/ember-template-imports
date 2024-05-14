@@ -9,10 +9,10 @@ module.exports = {
     this._super.included.apply(this, arguments);
 
     let emberChecker = new VersionChecker(this.project).for('ember-source');
-    let emberCliHtmlBars = new VersionChecker(this.project).for(
+    let emberCliHtmlBars = new VersionChecker(this.parent).for(
       'ember-cli-htmlbars',
     );
-    let emberCliBabel = new VersionChecker(this.project).for('ember-cli-babel');
+    let emberCliBabel = new VersionChecker(this.parent).for('ember-cli-babel');
 
     let errors = [];
 
