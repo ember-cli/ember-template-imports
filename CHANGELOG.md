@@ -4,6 +4,21 @@
 
 
 
+
+## v4.1.1 (2024-05-14)
+
+#### :bug: Bug Fix
+* [#236](https://github.com/ember-template-imports/ember-template-imports/pull/236) Use `this.parent` instead of `this.project` when version checking ([@Windvis](https://github.com/Windvis))
+* [#234](https://github.com/ember-template-imports/ember-template-imports/pull/234) Add project description for intellisense ([@runspired](https://github.com/runspired))
+
+#### :memo: Documentation
+* [#232](https://github.com/ember-template-imports/ember-template-imports/pull/232) docs: use gjs as language for syntax highlighting ([@IgnaceMaes](https://github.com/IgnaceMaes))
+
+#### Committers: 3
+- Chris Thoburn ([@runspired](https://github.com/runspired))
+- Ignace Maes ([@IgnaceMaes](https://github.com/IgnaceMaes))
+- Sam Van Campenhout ([@Windvis](https://github.com/Windvis))
+
 ## v4.1.0 (2024-02-05)
 
 #### :rocket: Enhancement
