@@ -109,5 +109,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "ember-template-imports": "workspace:^"
   }
 }

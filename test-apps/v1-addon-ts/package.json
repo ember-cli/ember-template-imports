@@ -48,7 +48,8 @@
   "dependencies": {
     "@babel/core": "^7.24.4",
     "ember-cli-babel": "^8.2.0",
-    "ember-cli-htmlbars": "^6.3.0"
+    "ember-cli-htmlbars": "^6.3.0",
+    "ember-template-imports": "workspace:^"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.1.0",

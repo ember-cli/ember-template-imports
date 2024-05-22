@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "ember-cli-babel": "^7.26.11",
-    "ember-cli-htmlbars": "^6.2.0"
+    "ember-cli-htmlbars": "^6.2.0",
+    "ember-template-imports": "workspace:^"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.21.3",
