@@ -1,6 +1,6 @@
 const { basename, extname } = require('path');
 
-module.exports = function hotReplaceAst({ types: t }) {
+module.exports = function addTOCNames({ types: t }) {
   return {
     name: 'add-template-only-names-for-inspector',
     visitor: {
