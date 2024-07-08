@@ -21,6 +21,7 @@ module('tests/integration/components/gjs', function (hooks) {
     );
 
     assert.equal(this.element.textContent.trim(), 'Hello, world!');
+    assert.equal(Foo.name, 'gjs-test:Foo');
   });
 
   test('it works with imports', async function (assert) {
