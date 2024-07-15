@@ -18,7 +18,7 @@ module.exports = {
   addBabelPlugin() {
     this._getBabelOptions().plugins.push([
       require.resolve('./src/babel-plugin.js'),
-      { v: 1 },
+      { v: 1, root: this.project.root },
     ]);
   },
 
