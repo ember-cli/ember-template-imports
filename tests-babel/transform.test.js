@@ -51,7 +51,7 @@ describe('convert templates', () => {
         "block": "[[[1,\\"some content\\"]],[],false,[]]",
         "moduleName": "/rewritten-app/a.hbs",
         "isStrictMode": true
-      }), templateOnly("rewritten-app/a.hbs", "a:toc"));"
+      }), templateOnly("a.hbs", "a:toc"));"
     `);
   });
 });

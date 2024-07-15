@@ -21,10 +21,16 @@ module.exports = function addTOCNames({ types: t }) {
           let assignment = path.parentPath.parentPath.node;
           let filename = state.filename
             .replace(state.opts.root, '')
+            .replace(/\\/g, '/')
+            .split('/')
+            .slice(2)
+            .join('/')
+            .split('/rewritten-app/')
+            .slice(-1)[0]
             .replace(/template.hbs$/, '')
             .replace(/component\.(js|ts)$/, '')
             .replace(/index\.(js|ts)$/, '')
-            .replace(/(\\|\/)$/, '');
+            .replace(/\/$/, '');
           let rootName = basename(filename).slice(
             0,
             -extname(state.filename).length || undefined, // undefined -> same as slice(0)
