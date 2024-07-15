@@ -1,7 +1,7 @@
 import babel from '@babel/core';
 import { describe, expect, it } from 'vitest';
 import { Preprocessor } from 'content-tag';
-import plugin from '../src/babel-plugin';
+import plugin from '../src/babel-plugin.js';
 import emberBabel from 'babel-plugin-ember-template-compilation';
 
 describe('convert templates', () => {
@@ -9,10 +9,7 @@ describe('convert templates', () => {
 
   it('should set explicit name for template only components', () => {
     const code = `
-      const toc = <template>
-        some content
-      </template>;
-    `;
+      const toc = <template>some content</template>;`;
     const preTransformed = p.process(code);
 
     const result = babel.transform(preTransformed, {
@@ -47,13 +44,11 @@ describe('convert templates', () => {
       import templateOnly from "@ember/component/template-only";
       const toc = setComponentTemplate(createTemplateFactory(
       /*
-
-              some content
-
+        some content
       */
       {
-        "id": "+DK2I1fM",
-        "block": "[[[1,\\"\\\\n        some content\\\\n      \\"]],[],false,[]]",
+        "id": "xn207nfA",
+        "block": "[[[1,\\"some content\\"]],[],false,[]]",
         "moduleName": "/rewritten-app/a.hbs",
         "isStrictMode": true
       }), templateOnly("rewritten-app/a.hbs", "a:toc"));"
