@@ -57,7 +57,7 @@ describe('convert templates', () => {
     // classic receives relative paths
     result = babel.transform(preTransformed, {
       ...opts,
-      filename: '/my-app/components/a.hbs'
+      filename: '/my-app/components/a.hbs',
     });
     expect(result.code).toMatchInlineSnapshot(`
       "import { setComponentTemplate } from "@ember/component";
@@ -77,7 +77,7 @@ describe('convert templates', () => {
 
     result = babel.transform(preTransformed, {
       ...opts,
-      filename: '/my-app/components/a/template.hbs'
+      filename: '/my-app/components/a/template.hbs',
     });
     expect(result.code).toMatchInlineSnapshot(`
       "import { setComponentTemplate } from "@ember/component";
@@ -97,7 +97,7 @@ describe('convert templates', () => {
 
     result = babel.transform(preTransformed, {
       ...opts,
-      filename: '/my-app/components/a/component.gjs'
+      filename: '/my-app/components/a/component.gjs',
     });
     expect(result.code).toMatchInlineSnapshot(`
       "import { setComponentTemplate } from "@ember/component";
@@ -117,7 +117,7 @@ describe('convert templates', () => {
 
     result = babel.transform(preTransformed, {
       ...opts,
-      filename: '/my-app/components/a/index.gjs'
+      filename: '/my-app/components/a/index.gjs',
     });
     expect(result.code).toMatchInlineSnapshot(`
       "import { setComponentTemplate } from "@ember/component";
