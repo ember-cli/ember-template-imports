@@ -12,13 +12,13 @@ describe('convert templates', () => {
       const toc = <template>some content</template>;`;
     const preTransformed = p.process(code);
 
-    const result = babel.transform(preTransformed, {
-      filename: '/rewritten-app/a.hbs',
+    const opts = {
+      filename: '/tmp/path/my-app/node_modules/rewritten-app/components/a.hbs',
       plugins: [
         [
           plugin,
           {
-            root: '/',
+            root: '/tmp/path/my-app',
           },
         ],
         ['@babel/plugin-proposal-decorators', { version: '2022-03' }],
@@ -36,8 +36,89 @@ describe('convert templates', () => {
           },
         ],
       ],
-    });
+    };
+    let result = babel.transform(preTransformed, opts);
+    expect(result.code).toMatchInlineSnapshot(`
+      "import { setComponentTemplate } from "@ember/component";
+      import { createTemplateFactory } from "@ember/template-factory";
+      import templateOnly from "@ember/component/template-only";
+      const toc = setComponentTemplate(createTemplateFactory(
+      /*
+        some content
+      */
+      {
+        "id": "xn207nfA",
+        "block": "[[[1,\\"some content\\"]],[],false,[]]",
+        "moduleName": "/rewritten-app/a.hbs",
+        "isStrictMode": true
+      }), templateOnly("a.hbs", "a:toc"));"
+    `);
 
+    // classic receives relative paths
+    result = babel.transform(preTransformed, {
+      ...opts,
+      filename: '/my-app/components/a.hbs'
+    });
+    expect(result.code).toMatchInlineSnapshot(`
+      "import { setComponentTemplate } from "@ember/component";
+      import { createTemplateFactory } from "@ember/template-factory";
+      import templateOnly from "@ember/component/template-only";
+      const toc = setComponentTemplate(createTemplateFactory(
+      /*
+        some content
+      */
+      {
+        "id": "xn207nfA",
+        "block": "[[[1,\\"some content\\"]],[],false,[]]",
+        "moduleName": "/rewritten-app/a.hbs",
+        "isStrictMode": true
+      }), templateOnly("a.hbs", "a:toc"));"
+    `);
+
+    result = babel.transform(preTransformed, {
+      ...opts,
+      filename: '/my-app/components/a/template.hbs'
+    });
+    expect(result.code).toMatchInlineSnapshot(`
+      "import { setComponentTemplate } from "@ember/component";
+      import { createTemplateFactory } from "@ember/template-factory";
+      import templateOnly from "@ember/component/template-only";
+      const toc = setComponentTemplate(createTemplateFactory(
+      /*
+        some content
+      */
+      {
+        "id": "xn207nfA",
+        "block": "[[[1,\\"some content\\"]],[],false,[]]",
+        "moduleName": "/rewritten-app/a.hbs",
+        "isStrictMode": true
+      }), templateOnly("a.hbs", "a:toc"));"
+    `);
+
+    result = babel.transform(preTransformed, {
+      ...opts,
+      filename: '/my-app/components/a/component.gjs'
+    });
+    expect(result.code).toMatchInlineSnapshot(`
+      "import { setComponentTemplate } from "@ember/component";
+      import { createTemplateFactory } from "@ember/template-factory";
+      import templateOnly from "@ember/component/template-only";
+      const toc = setComponentTemplate(createTemplateFactory(
+      /*
+        some content
+      */
+      {
+        "id": "xn207nfA",
+        "block": "[[[1,\\"some content\\"]],[],false,[]]",
+        "moduleName": "/rewritten-app/a.hbs",
+        "isStrictMode": true
+      }), templateOnly("a.hbs", "a:toc"));"
+    `);
+
+    result = babel.transform(preTransformed, {
+      ...opts,
+      filename: '/my-app/components/a/index.gjs'
+    });
     expect(result.code).toMatchInlineSnapshot(`
       "import { setComponentTemplate } from "@ember/component";
       import { createTemplateFactory } from "@ember/template-factory";
