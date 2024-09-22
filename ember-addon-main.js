@@ -5,6 +5,23 @@ let VersionChecker = require('ember-cli-version-checker');
 module.exports = {
   name: require('./package').name,
 
+  _getBabelOptions() {
+    const parentOptions = this.parent && this.parent.options;
+    const appOptions = this.app && this.app.options;
+    const addonOptions = parentOptions || appOptions || {};
+
+    addonOptions.babel = addonOptions.babel || {};
+    addonOptions.babel.plugins = addonOptions.babel.plugins || [];
+    return addonOptions.babel;
+  },
+
+  addBabelPlugin() {
+    this._getBabelOptions().plugins.push([
+      require.resolve('./src/babel-plugin.js'),
+      { v: 1, root: this.parent.root || this.project.root },
+    ]);
+  },
+
   included() {
     this._super.included.apply(this, arguments);
 
@@ -33,6 +50,8 @@ module.exports = {
         'ember-template-imports requires' + '\n\t' + errors.join('\n\t'),
       );
     }
+
+    this.addBabelPlugin();
   },
 
   setupPreprocessorRegistry(type, registry) {

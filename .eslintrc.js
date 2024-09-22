@@ -39,6 +39,7 @@ module.exports = {
         'tests/dummy/config/**/*.js',
         'lib/**/*.js',
         'src/**/*.js',
+        'tests-babel/**/*.js',
       ],
       excludedFiles: [
         'addon/**',
@@ -55,6 +56,12 @@ module.exports = {
       },
       plugins: ['n'],
       extends: ['plugin:n/recommended'],
+    },
+    {
+      files: ['tests-babel/**/*.js'],
+      parserOptions: {
+        sourceType: 'module',
+      },
     },
     {
       files: ['*.ts'],
