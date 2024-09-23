@@ -1,5 +1,6 @@
 name: CI
 
+
 on:
   push:
     branches:
@@ -35,6 +36,8 @@ jobs:
           node-version: 16.x
       - name: ember test
         run: pnpm test:ember
+      - name: babel test
+        run: pnpm test:babel
 
   # For example: don't bother with *other* Node version tests unless the base
   # case passes!
