@@ -108,8 +108,9 @@
       "tokenRef": "GITHUB_AUTH"
     }
   },
+  "packageManager": "pnpm@9.11.0",
   "volta": {
-    "node": "16.20.2",
-    "pnpm": "8.15.9"
+    "node": "18.20.4",
+    "pnpm": "9.11.0"
   }
 }
