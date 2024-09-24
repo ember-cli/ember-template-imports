@@ -22,7 +22,6 @@ module('tests/integration/components/gjs', function (hooks) {
 
     assert.equal(this.element.textContent.trim(), 'Hello, world!');
     assert.equal(Foo.name, 'gjs-test:Foo');
-    assert.equal(Foo.moduleName, 'tests/integration/gjs-test.js');
     console.log(Foo);
   });
 

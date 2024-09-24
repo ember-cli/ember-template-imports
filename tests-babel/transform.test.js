@@ -13,7 +13,8 @@ describe('convert templates', () => {
     const preTransformed = p.process(code);
 
     const opts = {
-      filename: '/tmp/path/my-app/node_modules/rewritten-app/components/a.hbs',
+      filename:
+        '/tmp/path/my-app/node_modules/.embroider/rewritten-app/components/a.hbs',
       plugins: [
         [
           plugin,
@@ -47,11 +48,11 @@ describe('convert templates', () => {
         some content
       */
       {
-        "id": "xn207nfA",
+        "id": "R0DE3v6/",
         "block": "[[[1,\\"some content\\"]],[],false,[]]",
-        "moduleName": "/rewritten-app/a.hbs",
+        "moduleName": "/tmp/path/my-app/node_modules/.embroider/rewritten-app/components/a.hbs",
         "isStrictMode": true
-      }), templateOnly("a.hbs", "a:toc"));"
+      }), templateOnly(undefined, "a:toc"));"
     `);
 
     // classic receives relative paths
@@ -68,11 +69,11 @@ describe('convert templates', () => {
         some content
       */
       {
-        "id": "xn207nfA",
+        "id": "RkleawBf",
         "block": "[[[1,\\"some content\\"]],[],false,[]]",
-        "moduleName": "/rewritten-app/a.hbs",
+        "moduleName": "/my-app/components/a.hbs",
         "isStrictMode": true
-      }), templateOnly("a.hbs", "a:toc"));"
+      }), templateOnly(undefined, "a:toc"));"
     `);
 
     result = babel.transform(preTransformed, {
@@ -88,11 +89,11 @@ describe('convert templates', () => {
         some content
       */
       {
-        "id": "xn207nfA",
+        "id": "BETxWhDA",
         "block": "[[[1,\\"some content\\"]],[],false,[]]",
-        "moduleName": "/rewritten-app/a.hbs",
+        "moduleName": "/my-app/components/a/template.hbs",
         "isStrictMode": true
-      }), templateOnly("a.hbs", "a:toc"));"
+      }), templateOnly(undefined, "a:toc"));"
     `);
 
     result = babel.transform(preTransformed, {
@@ -108,11 +109,11 @@ describe('convert templates', () => {
         some content
       */
       {
-        "id": "xn207nfA",
+        "id": "g+fScEK3",
         "block": "[[[1,\\"some content\\"]],[],false,[]]",
-        "moduleName": "/rewritten-app/a.hbs",
+        "moduleName": "/my-app/components/a/component.gjs",
         "isStrictMode": true
-      }), templateOnly("a.hbs", "a:toc"));"
+      }), templateOnly(undefined, "component:toc"));"
     `);
 
     result = babel.transform(preTransformed, {
@@ -128,11 +129,11 @@ describe('convert templates', () => {
         some content
       */
       {
-        "id": "xn207nfA",
+        "id": "fbPvCNHK",
         "block": "[[[1,\\"some content\\"]],[],false,[]]",
-        "moduleName": "/rewritten-app/a.hbs",
+        "moduleName": "/my-app/components/a/index.gjs",
         "isStrictMode": true
-      }), templateOnly("a.hbs", "a:toc"));"
+      }), templateOnly(undefined, "index:toc"));"
     `);
   });
 });

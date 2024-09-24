@@ -22,18 +22,13 @@ module.exports = function addTOCNames({ types: t }) {
           let filename = state.filename
             .replace(state.opts.root, '')
             .replace(/\\/g, '/')
-            .split('/')
-            .slice(2)
-            .join('/')
-            .split('/rewritten-app/')
-            .slice(-1)[0]
             .replace(/template.hbs$/, '')
             .replace(/component\.(js|ts)$/, '')
             .replace(/index\.(js|ts)$/, '')
             .replace(/\/$/, '');
           let rootName = basename(filename).slice(
             0,
-            -extname(state.filename).length || undefined, // undefined -> same as slice(0)
+            -extname(filename).length || undefined, // undefined -> same as slice(0)
           );
           let assignmentName = t.identifier('undefined');
           if (
@@ -57,7 +52,7 @@ module.exports = function addTOCNames({ types: t }) {
           }
 
           params.length = 0;
-          params.push(t.stringLiteral(filename), assignmentName);
+          params.push(t.identifier('undefined'), assignmentName);
         }
       },
     },
