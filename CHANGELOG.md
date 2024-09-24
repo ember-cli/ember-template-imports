@@ -1,5 +1,25 @@
 # Changelog
 
+## Release (2024-09-24)
+
+ember-template-imports 4.1.2 (patch)
+
+#### :bug: Bug Fix
+* `ember-template-imports`
+  * [#244](https://github.com/ember-template-imports/ember-template-imports/pull/244) run babel tests in ci & rm module name ([@patricklx](https://github.com/patricklx))
+  * [#241](https://github.com/ember-template-imports/ember-template-imports/pull/241) add back toc names for inspector ([@patricklx](https://github.com/patricklx))
+
+#### :house: Internal
+* `ember-template-imports`
+  * [#246](https://github.com/ember-template-imports/ember-template-imports/pull/246) Add release plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#247](https://github.com/ember-template-imports/ember-template-imports/pull/247) Move local tooling to pnpm 9 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#245](https://github.com/ember-template-imports/ember-template-imports/pull/245) Pin volta toolchain for local usage ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#244](https://github.com/ember-template-imports/ember-template-imports/pull/244) run babel tests in ci & rm module name ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 2
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 
 
 
