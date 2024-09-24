@@ -11,6 +11,8 @@
   },
   "license": "MIT",
   "author": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -42,7 +44,6 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/syntax": "0.84.3",
     "@glimmer/tracking": "^1.1.2",
-    "@release-it-plugins/lerna-changelog": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "babel-plugin-ember-template-compilation": "^2.2.5",
@@ -69,13 +70,18 @@
     "prettier": "^3.0.3",
     "qunit": "^2.14.0",
     "qunit-dom": "^3.0.0",
-    "release-it": "^16.2.1",
+    "release-plan": "^0.9.0",
     "typescript": "^4.9.5",
     "vitest": "^2.0.2",
     "webpack": "^5.64.4"
   },
+  "packageManager": "pnpm@9.11.0",
   "engines": {
     "node": "16.* || >= 18"
+  },
+  "volta": {
+    "node": "18.20.4",
+    "pnpm": "9.11.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -90,27 +96,5 @@
       "ember-cli-htmlbars",
       "ember-cli-babel"
     ]
-  },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "release-it": {
-    "plugins": {
-      "@release-it-plugins/lerna-changelog": {
-        "infile": "CHANGELOG.md",
-        "launchEditor": true
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    }
-  },
-  "packageManager": "pnpm@9.11.0",
-  "volta": {
-    "node": "18.20.4",
-    "pnpm": "9.11.0"
   }
 }
