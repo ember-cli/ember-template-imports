@@ -300,6 +300,7 @@ helpers, modifiers and components are available for import:
 * `fn` (`import { fn } from '@ember/helper';`)
 * `get` (`import { get } from '@ember/helper';`)
 * `hash` (`import { hash } from '@ember/helper';`)
+* `unique-id` (`import { uniqueId } from '@ember/helper';`, needs Ember v5.2+)
 * `on` (`import { on } from '@ember/modifier';`)
 * `Input` (`import { Input } from '@ember/component';`)
 * `LinkTo` (`import { LinkTo } from '@ember/routing';`)
