@@ -18,7 +18,9 @@
 /.eslintignore
 /.eslintrc.js
 /.git/
+/.github/
 /.gitignore
+/.release-plan.json
 /.template-lintrc.js
 /.travis.yml
 /.watchmanconfig
@@ -26,6 +28,7 @@
 /config/ember-try.js
 /CONTRIBUTING.md
 /ember-cli-build.js
+/RELEASE.md
 /testem.js
 /tests/
 /tests-babel/
