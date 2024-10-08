@@ -20,6 +20,8 @@
 /.git/
 /.github/
 /.gitignore
+/.prettierignore
+/.prettierrc.js
 /.release-plan.json
 /.template-lintrc.js
 /.travis.yml
@@ -32,6 +34,7 @@
 /testem.js
 /tests/
 /tests-babel/
+/tsconfig.json
 /yarn.lock
 .gitkeep
 
