@@ -2,12 +2,16 @@
   "solution": {
     "ember-template-imports": {
       "impact": "patch",
-      "oldVersion": "4.1.1",
-      "newVersion": "4.1.2",
+      "oldVersion": "4.1.2",
+      "newVersion": "4.1.3",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :memo: Documentation"
         },
         {
           "impact": "patch",
@@ -17,5 +21,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-09-24)\n\nember-template-imports 4.1.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-template-imports`\n  * [#244](https://github.com/ember-template-imports/ember-template-imports/pull/244) run babel tests in ci & rm module name ([@patricklx](https://github.com/patricklx))\n  * [#241](https://github.com/ember-template-imports/ember-template-imports/pull/241) add back toc names for inspector ([@patricklx](https://github.com/patricklx))\n\n#### :house: Internal\n* `ember-template-imports`\n  * [#246](https://github.com/ember-template-imports/ember-template-imports/pull/246) Add release plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#247](https://github.com/ember-template-imports/ember-template-imports/pull/247) Move local tooling to pnpm 9 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#245](https://github.com/ember-template-imports/ember-template-imports/pull/245) Pin volta toolchain for local usage ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#244](https://github.com/ember-template-imports/ember-template-imports/pull/244) run babel tests in ci & rm module name ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 2\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-10-09)\n\nember-template-imports 4.1.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-template-imports`\n  * [#261](https://github.com/ember-cli/ember-template-imports/pull/261) Avoid registering babel plugin multiple times. ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### :memo: Documentation\n* `ember-template-imports`\n  * [#251](https://github.com/ember-cli/ember-template-imports/pull/251) Add import path for uniqueId helper ([@simonihmig](https://github.com/simonihmig))\n\n#### :house: Internal\n* `ember-template-imports`\n  * [#260](https://github.com/ember-cli/ember-template-imports/pull/260) Update .npmignore to exclude more unnecessary files ([@SergeAstapov](https://github.com/SergeAstapov))\n  * [#258](https://github.com/ember-cli/ember-template-imports/pull/258) Update .npmignore to exclude unnecessary files ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 2\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))\n"
 }
