@@ -1,5 +1,26 @@
 # Changelog
 
+## Release (2024-10-09)
+
+ember-template-imports 4.1.3 (patch)
+
+#### :bug: Bug Fix
+* `ember-template-imports`
+  * [#261](https://github.com/ember-cli/ember-template-imports/pull/261) Avoid registering babel plugin multiple times. ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### :memo: Documentation
+* `ember-template-imports`
+  * [#251](https://github.com/ember-cli/ember-template-imports/pull/251) Add import path for uniqueId helper ([@simonihmig](https://github.com/simonihmig))
+
+#### :house: Internal
+* `ember-template-imports`
+  * [#260](https://github.com/ember-cli/ember-template-imports/pull/260) Update .npmignore to exclude more unnecessary files ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#258](https://github.com/ember-cli/ember-template-imports/pull/258) Update .npmignore to exclude unnecessary files ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 2
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))
+
 ## Release (2024-09-24)
 
 ember-template-imports 4.1.2 (patch)
