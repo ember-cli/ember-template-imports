@@ -1,6 +1,23 @@
 'use strict';
 
 let VersionChecker = require('ember-cli-version-checker');
+let babelPluginPath = require.resolve('./src/babel-plugin.js');
+
+function isBabelPluginRegistered(plugins, root) {
+  return plugins.some((plugin) => {
+    if (Array.isArray(plugin)) {
+      const [pluginPathOrInstance, options] = plugin;
+      return (
+        pluginPathOrInstance === babelPluginPath &&
+        typeof options === 'object' &&
+        options !== null &&
+        options.root === root
+      );
+    } else {
+      return false;
+    }
+  });
+}
 
 module.exports = {
   name: require('./package').name,
@@ -16,10 +33,12 @@ module.exports = {
   },
 
   addBabelPlugin() {
-    this._getBabelOptions().plugins.push([
-      require.resolve('./src/babel-plugin.js'),
-      { v: 1, root: this.parent.root || this.project.root },
-    ]);
+    const babelPlugins = this._getBabelOptions().plugins;
+    const root = this.parent.root || this.project.root;
+
+    if (!isBabelPluginRegistered(babelPlugins, root)) {
+      babelPlugins.push([babelPluginPath, { v: 1, root }]);
+    }
   },
 
   included() {
