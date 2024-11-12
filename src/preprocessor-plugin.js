@@ -14,7 +14,7 @@ module.exports = class TemplateImportPreprocessor {
 
   toTree(tree) {
     let compiled = stew.map(tree, `**/*.{gjs,gts}`, (string, relativePath) => {
-      let transformed = this.#processor.process(string, {
+      let { code: transformed } = this.#processor.process(string, {
         filename: relativePath,
         inline_source_map: this.#inline_source_map,
       });
