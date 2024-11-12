@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2024-11-12)
+
+ember-template-imports 4.2.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-template-imports`
+  * [#264](https://github.com/ember-cli/ember-template-imports/pull/264) Upgrade content-tag to v3 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-10-09)
 
 ember-template-imports 4.1.3 (patch)
