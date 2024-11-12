@@ -10,7 +10,7 @@ describe('convert templates', () => {
   it('should set explicit name for template only components', () => {
     const code = `
       const toc = <template>some content</template>;`;
-    const preTransformed = p.process(code);
+    const { code: preTransformed } = p.process(code);
 
     const opts = {
       filename:
