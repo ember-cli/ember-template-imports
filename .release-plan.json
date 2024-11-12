@@ -1,25 +1,17 @@
 {
   "solution": {
     "ember-template-imports": {
-      "impact": "patch",
-      "oldVersion": "4.1.2",
-      "newVersion": "4.1.3",
+      "impact": "minor",
+      "oldVersion": "4.1.3",
+      "newVersion": "4.2.0",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-10-09)\n\nember-template-imports 4.1.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-template-imports`\n  * [#261](https://github.com/ember-cli/ember-template-imports/pull/261) Avoid registering babel plugin multiple times. ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### :memo: Documentation\n* `ember-template-imports`\n  * [#251](https://github.com/ember-cli/ember-template-imports/pull/251) Add import path for uniqueId helper ([@simonihmig](https://github.com/simonihmig))\n\n#### :house: Internal\n* `ember-template-imports`\n  * [#260](https://github.com/ember-cli/ember-template-imports/pull/260) Update .npmignore to exclude more unnecessary files ([@SergeAstapov](https://github.com/SergeAstapov))\n  * [#258](https://github.com/ember-cli/ember-template-imports/pull/258) Update .npmignore to exclude unnecessary files ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 2\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))\n"
+  "description": "## Release (2024-11-12)\n\nember-template-imports 4.2.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-template-imports`\n  * [#264](https://github.com/ember-cli/ember-template-imports/pull/264) Upgrade content-tag to v3 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }

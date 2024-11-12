@@ -1,6 +1,6 @@
 {
   "name": "ember-template-imports",
-  "version": "4.1.3",
+  "version": "4.2.0",
   "description": "Tooling support for gjs and gts component authoring",
   "keywords": [
     "ember-addon"
