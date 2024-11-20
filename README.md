@@ -93,7 +93,9 @@ The [Ember.js extension pack](https://marketplace.visualstudio.com/items?itemNam
 [Example Neovim Config](https://github.com/NullVoxPopuli/dotfiles/blob/main/home/.config/nvim/lua/plugins/syntax.lua#L52) with support for good highlighting of embedded templates in JS and TS, using:
 
 - https://github.com/nvim-treesitter/nvim-treesitter
-- https://github.com/alexlafroscia/tree-sitter-glimmer
+- https://github.com/ember-tooling/tree-sitter-glimmer
+- https://github.com/NullVoxPopuli/tree-sitter-glimmer-javascript/
+- https://github.com/NullVoxPopuli/tree-sitter-glimmer-typescript/
 
 Additionally, when using the eslint-lsp, you'll need to tell ESLint to activate when `javascript.glimmer` and `typescript.glimmer` files are loaded. [Example](https://github.com/NullVoxPopuli/dotfiles/blob/main/home/.config/nvim/lua/plugin-config/lsp/init.lua#L147).
 
@@ -130,7 +132,10 @@ eslint.setup({
 For other editors, you may be able to get support using one of these other syntax definitions:
 
 - [TextMate](https://github.com/IgnaceMaes/glimmer-textmate-grammar)
-- [TreeSitter](https://github.com/alexlafroscia/tree-sitter-glimmer)
+- TreeSitter
+  - [Glimmer / hbs](https://github.com/alexlafroscia/tree-sitter-glimmer)
+  - gjs: https://github.com/NullVoxPopuli/tree-sitter-glimmer-javascript/
+  - gts: https://github.com/NullVoxPopuli/tree-sitter-glimmer-typescript/
 
 
 ## Using Template Tags and `.gjs`/`.gts` Files
