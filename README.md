@@ -73,7 +73,7 @@ include `@glint/environment-ember-template-imports`!)
 ## Compatibility
 
 * Ember.js v4.12 or above
-* Ember CLI v4.12 or above
+* Ember CLI v3.27 or above
 * `ember-cli-htmlbars` 6.3.0 or above
 * Node.js v16 or above
 
