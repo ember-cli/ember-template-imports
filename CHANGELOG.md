@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2024-12-01)
+
+ember-template-imports 4.2.1 (patch)
+
+#### :memo: Documentation
+* `ember-template-imports`
+  * [#273](https://github.com/ember-cli/ember-template-imports/pull/273) Update readme compatibility ([@BwehaaFox](https://github.com/BwehaaFox))
+  * [#269](https://github.com/ember-cli/ember-template-imports/pull/269) Update treesitter links ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- BwehaaFox ([@BwehaaFox](https://github.com/BwehaaFox))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-11-12)
 
 ember-template-imports 4.2.0 (minor)
