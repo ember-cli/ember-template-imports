@@ -89,6 +89,11 @@ module.exports = {
 
     const options = parentOptions || appOptions || {};
 
-    return options['ember-template-imports'] || { inline_source_map: false };
+    const defaults = { inline_source_map: true };
+
+    return {
+      ...defaults,
+      ...options['ember-template-imports'],
+    };
   },
 };
