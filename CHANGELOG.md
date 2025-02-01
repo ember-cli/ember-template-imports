@@ -1,5 +1,23 @@
 # Changelog
 
+## Release (2025-02-01)
+
+ember-template-imports 4.3.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-template-imports`
+  * [#277](https://github.com/ember-cli/ember-template-imports/pull/277) Enable `inline_source_map` by default ([@davidtaylorhq](https://github.com/davidtaylorhq))
+
+#### :memo: Documentation
+* `ember-template-imports`
+  * [#273](https://github.com/ember-cli/ember-template-imports/pull/273) Update readme compatibility ([@BwehaaFox](https://github.com/BwehaaFox))
+  * [#269](https://github.com/ember-cli/ember-template-imports/pull/269) Update treesitter links ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 3
+- BwehaaFox ([@BwehaaFox](https://github.com/BwehaaFox))
+- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-11-12)
 
 ember-template-imports 4.2.0 (minor)
