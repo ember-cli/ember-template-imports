@@ -283,14 +283,14 @@ module('Integration | Component | hello', function (hooks) {
 
 ## Sourcemap Generation
 
-This can be useful for development and test purposes, it should be disabled for production
+Inline sourcemaps are inserted automatically, which downstream build tooling may extract or remove. To disable this sourcemap injection, set the `inline_source_map` flag to `false`:
 
 ```js
 // ember-cli-build.js
 module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
     'ember-template-imports': {
-      inline_source_map: true
+      inline_source_map: false
     }
   });
 ```
