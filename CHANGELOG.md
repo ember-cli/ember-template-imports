@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-02-28)
+
+ember-template-imports 4.3.1 (patch)
+
+#### :memo: Documentation
+* `ember-template-imports`
+  * [#280](https://github.com/ember-cli/ember-template-imports/pull/280) Add `htmlSafe` helper import path to list of built-in template helpers ([@balinterdi](https://github.com/balinterdi))
+
+#### Committers: 1
+- Balint Erdi ([@balinterdi](https://github.com/balinterdi))
+
 ## Release (2025-02-01)
 
 ember-template-imports 4.3.0 (minor)
