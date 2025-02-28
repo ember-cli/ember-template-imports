@@ -307,6 +307,7 @@ helpers, modifiers and components are available for import:
 * `hash` (`import { hash } from '@ember/helper';`)
 * `unique-id` (`import { uniqueId } from '@ember/helper';`, needs Ember v5.2+)
 * `on` (`import { on } from '@ember/modifier';`)
+* `htmlSafe` (`import { htmlSafe } from '@ember/template';`)
 * `Input` (`import { Input } from '@ember/component';`)
 * `LinkTo` (`import { LinkTo } from '@ember/routing';`)
 * `Textarea` (`import { Textarea } from '@ember/component';`)
