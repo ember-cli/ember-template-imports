@@ -1,5 +1,21 @@
 # Changelog
 
+## Release (2025-12-24)
+
+ember-template-imports 4.4.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-template-imports`
+  * [#282](https://github.com/ember-cli/ember-template-imports/pull/282) chore: bump `content-tag` ([@aklkv](https://github.com/aklkv))
+
+#### :memo: Documentation
+* `ember-template-imports`
+  * [#280](https://github.com/ember-cli/ember-template-imports/pull/280) Add `htmlSafe` helper import path to list of built-in template helpers ([@balinterdi](https://github.com/balinterdi))
+
+#### Committers: 2
+- Alexey Kulakov ([@aklkv](https://github.com/aklkv))
+- Balint Erdi ([@balinterdi](https://github.com/balinterdi))
+
 ## Release (2025-02-01)
 
 ember-template-imports 4.3.0 (minor)

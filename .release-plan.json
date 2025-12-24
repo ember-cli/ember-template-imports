@@ -2,8 +2,8 @@
   "solution": {
     "ember-template-imports": {
       "impact": "minor",
-      "oldVersion": "4.2.0",
-      "newVersion": "4.3.0",
+      "oldVersion": "4.3.0",
+      "newVersion": "4.4.0",
       "constraints": [
         {
           "impact": "minor",
@@ -17,5 +17,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-02-01)\n\nember-template-imports 4.3.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-template-imports`\n  * [#277](https://github.com/ember-cli/ember-template-imports/pull/277) Enable `inline_source_map` by default ([@davidtaylorhq](https://github.com/davidtaylorhq))\n\n#### :memo: Documentation\n* `ember-template-imports`\n  * [#273](https://github.com/ember-cli/ember-template-imports/pull/273) Update readme compatibility ([@BwehaaFox](https://github.com/BwehaaFox))\n  * [#269](https://github.com/ember-cli/ember-template-imports/pull/269) Update treesitter links ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 3\n- BwehaaFox ([@BwehaaFox](https://github.com/BwehaaFox))\n- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-12-24)\n\nember-template-imports 4.4.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-template-imports`\n  * [#282](https://github.com/ember-cli/ember-template-imports/pull/282) chore: bump `content-tag` ([@aklkv](https://github.com/aklkv))\n\n#### :memo: Documentation\n* `ember-template-imports`\n  * [#280](https://github.com/ember-cli/ember-template-imports/pull/280) Add `htmlSafe` helper import path to list of built-in template helpers ([@balinterdi](https://github.com/balinterdi))\n\n#### Committers: 2\n- Alexey Kulakov ([@aklkv](https://github.com/aklkv))\n- Balint Erdi ([@balinterdi](https://github.com/balinterdi))\n"
 }
